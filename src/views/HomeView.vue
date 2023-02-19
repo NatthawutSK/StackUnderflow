@@ -1,9 +1,18 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import { storeToRefs } from "pinia";
+import { useUserStore } from "../stores/user";
+
+const {user} = storeToRefs(useUserStore())
+
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <v-main>
+    <v-container fluid>
+      <h1 v-if="!user">welcome guest</h1>
+      <h1 v-else>welcome {{ user.fname }}</h1>
+    </v-container>
+  </v-main>
 </template>
+
+<style></style>

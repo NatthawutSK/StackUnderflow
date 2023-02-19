@@ -1,15 +1,18 @@
+<script setup>
+import { storeToRefs } from "pinia";
+import { useUserStore } from "../stores/user";
+
+const {user} = storeToRefs(useUserStore())
+
+</script>
+
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <v-main>
+    <v-container fluid>
+      <h1 v-if="!user">u are guest</h1>
+      <h1 v-else>u are {{ user.fname }}</h1>
+    </v-container>
+  </v-main>
 </template>
 
-<style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}
-</style>
+<style></style>
