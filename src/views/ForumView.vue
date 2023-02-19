@@ -9,8 +9,9 @@ const {user} = storeToRefs(useUserStore())
 <template>
   <v-main>
     <v-container fluid>
-      <h1 v-if="!user">u are guest</h1>
-      <h1 v-else>u are {{ user.fname }}</h1>
+        <h1> forum page</h1>
+      <h1 v-if="!user">welcome guest</h1>
+      <h1 v-else>welcome {{ user.fname }}</h1>
     </v-container>
   </v-main>
 </template>
