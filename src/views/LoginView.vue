@@ -36,7 +36,7 @@
                           
                           />
                             
-                          <v-btn @click="store.checkUser(loginData)" color="blue" dark block tile>Log in</v-btn>
+                          <v-btn @click="store.login(loginData)" color="blue" dark block tile>Log in</v-btn>
                      
                          
                           </v-col>
@@ -145,9 +145,9 @@
             </v-card>
           </v-col>
       </v-row>
-      <p>user loging name : {{ store.user.fname }}</p>
-      <p>user loging last name : {{ store.user.lname }}</p>
-      <p>user loging email : {{ store.user.email }}</p>
+      <p v-if="store.logingUser">user loging name : {{ store.logingUser.fname }}</p>
+      <p v-if="store.logingUser">user loging last name : {{ store.logingUser.lname }}</p>
+      <p v-if="store.logingUser">user loging email : {{ store.logingUser.email }}</p>
   </v-container>
 </template>
 

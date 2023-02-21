@@ -5,6 +5,7 @@ import { ref } from "vue";
 export const useUserStore = defineStore('user', () =>{
     const theme = useLocalStorage('theme', 'light')
     const allUser = useLocalStorage('allUser', [])
+    const logingUser = useLocalStorage('loging', {})
     const user = ref({
         fname: '',
         lname: '',
@@ -14,23 +15,23 @@ export const useUserStore = defineStore('user', () =>{
     })
     function toggleTheme(){
         theme.value = theme.value === 'light' ? 'dark' : 'light'
-    }
-    function login(id){
-        console.log();
+        console.log(logingUser.value);
     }
     function keepLocal(info){
-        console.log(info)
+        // console.log(info)
         allUser.value.push(info)
         
     }
-    function checkUser(data){
+    function login(data){
        allUser.value.map((item) => {
            if(item.userName === data.userName && item.password === data.password){
-                user.value = item;
+                logingUser.value = item
+                location.reload();
                 console.log("u are loging in")
            }
         })
-        console.log(user.value)
+        
+        // console.log(user.value)
     }
     // async function login(id){
     //     const res = await fetch(`https://www.melivecode.com/api/users/${id}`)
@@ -40,10 +41,11 @@ export const useUserStore = defineStore('user', () =>{
     // }
 
     function logout(){
-        user.value = null
+        logingUser.value = null
+        location.reload();
     }
 
 
 
-    return { toggleTheme, theme , user, login, logout, keepLocal, checkUser}
+    return { toggleTheme, theme , user, login, logout, keepLocal, logingUser}
 })
