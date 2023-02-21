@@ -60,13 +60,6 @@
                   autocomplete="false"
                   class="mt-4"
                 />
-                <v-text-field
-                  label="Password"
-                  outlined
-                  dense
-                  autocomplete="false"
-                  class="mt-4"
-                />
           </v-card-text>
           <v-card-action class="d-flex justify-center">
             <v-btn class="mb-5 w-50" color="primary">Save</v-btn>
