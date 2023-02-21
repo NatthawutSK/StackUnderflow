@@ -12,8 +12,6 @@ const {user} = storeToRefs(useUserStore())
     <v-container>
         <v-main >
           <v-card>
-            <v-card-media src="" height="200px">
-            </v-card-media>
             <v-card-title primary-title>
               <v-row >
                 <v-col>

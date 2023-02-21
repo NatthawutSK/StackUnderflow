@@ -61,9 +61,9 @@
                   class="mt-4"
                 />
           </v-card-text>
-          <v-card-action class="d-flex justify-center">
-            <v-btn class="mb-5 w-50" color="primary">Save</v-btn>
-          </v-card-action>
+          <div class="d-flex justify-center">
+            <v-btn class="mb-5 w-50" color="primary"  >Save</v-btn>
+        </div>
         </v-card>
       </v-form>
     </v-main>

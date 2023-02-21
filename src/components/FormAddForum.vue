@@ -1,6 +1,5 @@
 <script></script>
 <template>
-  <v-container>
     <v-main>
       <v-form>
         <v-card>
@@ -25,11 +24,10 @@
               :items="['JavaScript', 'Java', 'Vue.js', 'Node.js']"
             ></v-select>
           </v-card-text>
-          <v-card-action class="d-flex justify-center">
+          <div class="d-flex justify-center">
             <v-btn class="mb-5 w-50" color="primary"  >Create Post</v-btn>
-          </v-card-action>
+          </div>
         </v-card>
       </v-form>
     </v-main>
-  </v-container>
 </template>
