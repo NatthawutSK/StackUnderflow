@@ -20,6 +20,7 @@
                             dense
                             color="blue"
                             autocomplete="false"
+                            v-model="loginData.userName"
                            class="mt-16"
                           />
                           <v-text-field
@@ -28,13 +29,14 @@
                             dense
                             color="blue"
                           autocomplete="false"
+                          v-model="loginData.password"
                           :type="show ?'text': 'password'"
                           :append-icon="show ?'mdi-eye':'mdi-eye-off'"   
                           @click:append="show=!show"
                           
                           />
                             
-                          <v-btn color="blue" dark block tile>Log in</v-btn>
+                          <v-btn @click="store.login(loginData)" color="blue" dark block tile>Log in</v-btn>
                      
                          
                           </v-col>
@@ -87,6 +89,7 @@
                             dense
                             color="blue"
                             autocomplete="false"
+                            v-model="regData.fname"
                            class="mt-4"
                           />
                            </v-col>
@@ -97,6 +100,7 @@
                             dense
                             color="blue"
                             autocomplete="false"
+                            v-model="regData.lname"
                            class="mt-4"
                           />
                            </v-col>
@@ -107,6 +111,7 @@
                             dense
                             color="blue"
                             autocomplete="false"
+                            v-model="regData.userName"
                           />
                           <v-text-field
                             label="Email"
@@ -114,6 +119,7 @@
                             dense
                             color="blue"
                             autocomplete="false"
+                            v-model="regData.email"
                           />
                           <v-text-field
                             label="Password"
@@ -121,12 +127,13 @@
                             dense
                             color="blue"
                           autocomplete="false"
+                          v-model="regData.password"
                           :type="show ?'text': 'password'"
                           :append-icon="show ?'mdi-eye':'mdi-eye-off'"   
                           @click:append="show=!show"
                           
                           />
-                          <v-btn color="blue" dark block tile>Sign up</v-btn>
+                          <v-btn @click="store.keepLocal(regData)" color="blue" dark block tile>Sign up</v-btn>
                      
                           </v-col>
                         </v-row>  
@@ -138,23 +145,30 @@
             </v-card>
           </v-col>
       </v-row>
+      <p v-if="store.logingUser">user loging name : {{ store.logingUser.fname }}</p>
+      <p v-if="store.logingUser">user loging last name : {{ store.logingUser.lname }}</p>
+      <p v-if="store.logingUser">user loging email : {{ store.logingUser.email }}</p>
   </v-container>
 </template>
 
-<script>
-  
+<script setup>
+import { ref } from "vue";
+import { useUserStore } from "../stores/user";
+  const store = useUserStore();
+  const step = ref(1);
+  const show = ref(false);
+  const regData = ref({
+      fname: '',
+      lname: '',
+      userName: '',
+      email: '',
+      password: ''
+  })
+  const loginData = ref({
+      userName: '',
+      password: ''
+  })
 
-  export default {
-   data: () => ({
-    step: 1,
-    show:false
-  }),
-  props: {
-    source: String
-  } 
-
-    
-  }
 </script>
 <style scoped>
 .v-application .rounded-bl-xl {

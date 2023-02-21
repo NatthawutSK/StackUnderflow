@@ -5,7 +5,7 @@
   <v-card class="pa-2 my-4" >
     <v-card-title primary-title >
       <div>
-        <v-row>
+        <v-row class="my-1">
           <v-col>
             <h3>
           headline 
