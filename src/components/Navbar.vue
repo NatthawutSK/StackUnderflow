@@ -24,7 +24,7 @@ const {toggleTheme, login, logout} = useUserStore()
         />
         <v-btn v-if="!user" @click="login(2)" icon="mdi-login" />
         <v-btn v-if="user" @click="logout()" icon="mdi-logout" />
-        <v-btn >
+        <v-btn icon>
           <v-avatar>
             <v-img :src="user  ? user.avatar: 'https://www.pngitem.com/pimgs/m/279-2799324_transparent-guest-png-become-a-member-svg-icon.png'"/>
           </v-avatar>
