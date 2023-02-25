@@ -5,7 +5,7 @@ import { ref } from "vue";
 export const useUserStore = defineStore('user', () =>{
     const theme = useLocalStorage('theme', 'light')
     const allUser = useLocalStorage('allUser', [])
-    const logingUser = useLocalStorage('loging', {})
+    const logingUser = useLocalStorage('loging', [])
     const user = ref({
         fname: '',
         lname: '',
@@ -15,7 +15,7 @@ export const useUserStore = defineStore('user', () =>{
     })
     function toggleTheme(){
         theme.value = theme.value === 'light' ? 'dark' : 'light'
-        console.log(logingUser.value);
+        // console.log(logingUser.value);
     }
     function keepLocal(info){
         // console.log(info)
@@ -25,8 +25,9 @@ export const useUserStore = defineStore('user', () =>{
     function login(data){
        allUser.value.map((item) => {
            if(item.userName === data.userName && item.password === data.password){
-                logingUser.value = item
-                location.reload();
+                logingUser.value.push(item)
+                // console.log(item);
+                // location.reload();
                 console.log("u are loging in")
            }
         })
