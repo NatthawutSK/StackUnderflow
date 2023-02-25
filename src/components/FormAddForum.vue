@@ -5,7 +5,7 @@ import { RouterLink } from "vue-router";
 import { useUserStore } from "../stores/user";
 import {useForumStore} from "../stores/forum"
 const { theme, user } = storeToRefs(useUserStore());
-const { toggleTheme, login, logout, logingUser } = useUserStore();
+const {  logingUser } = useUserStore();
 const { addForum} = useForumStore()
 const forum = ref({
   title: "",

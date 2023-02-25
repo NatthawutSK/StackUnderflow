@@ -1,21 +1,39 @@
 <script setup>
+import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../stores/user";
 import Comment from "../components/Comment.vue";
+import { ref,onBeforeMount } from "vue";
+import { useForumStore } from '../stores/forum';
+ const {forum, allForum, addForum, addComment} = useForumStore()
+const route = useRoute()
+const {id} = route.params
+const s_forum = ref(null)
 const {theme, user} = storeToRefs(useUserStore())
 const {toggleTheme, login, logout, logingUser} = useUserStore()
+const comment = ref({
+  desc: "",
+  user:logingUser,
+  index:parseInt(id)
+});
+onBeforeMount(()=>{
+  s_forum.value = allForum.find((f, index) => index === parseInt(id))
+  
+})
+
+
 </script>
 
 <template>
   <v-main>
-    <v-container>
+    <v-container class="mt-5">
       <div>
         <v-card>
           <v-card-title primary-title>
             <v-row>
               <v-col>
                 <div>
-                  <h3 class="headline pa-6 text-h3">headline</h3>
+                  <h3 class="headline pa-6 text-h3">{{s_forum.title}}</h3>
                 </div>
               </v-col>
               <v-col cols="1">
@@ -41,25 +59,13 @@ const {toggleTheme, login, logout, logingUser} = useUserStore()
           <v-card-text>
             <div class="text-h5 pa-5">
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Aspernatur numquam saepe maiores eos, recusandae labore eaque
-                quasi inventore nihil animi nobis corrupti voluptates quisquam
-                autem quo, excepturi aperiam perferendis assumenda consequuntur
-                adipisci tempore nostrum architecto dolore! Deserunt et odit
-                repellat, officiis sed natus cumque qui magnam corporis,
-                doloribus itaque! Quasi ipsum eaque est sunt quia sit
-                exercitationem veniam porro explicabo cum! Culpa saepe
-                blanditiis laboriosam. Error atque impedit, non magni ab
-                voluptas aliquid explicabo repellendus tempora delectus
-                similique eum maxime neque cum ad ullam blanditiis doloremque
-                dolorem perspiciatis voluptate cupiditate. Dolore recusandae
-                nemo voluptate, dignissimos vero corrupti maxime perferendis
-                enim.
+               {{ s_forum.desc }}
               </p>
             </div>
           </v-card-text>
           <v-card-actions>
             <v-list-item class="w-100 pa-4">
+              
               <template v-slot:prepend>
                 <v-avatar
                   color="grey-darken-3"
@@ -68,12 +74,10 @@ const {toggleTheme, login, logout, logingUser} = useUserStore()
               </template>
 
               <v-list-item-title class="text-h6 my-1"
-                >Evan You</v-list-item-title
+                >{{s_forum.user.userName}}</v-list-item-title
               >
 
-              <v-list-item-subtitle class="text-h6"
-                >Vue Creator</v-list-item-subtitle
-              >
+              <v-chip>{{ s_forum.tag }}</v-chip>
 
               <template v-slot:append>
                 <div class="justify-self-end">
@@ -94,20 +98,20 @@ const {toggleTheme, login, logout, logingUser} = useUserStore()
             Write Comment
           </v-card-title>
           <v-card-text>
-        <v-textarea ></v-textarea>
+        <v-textarea v-model="comment.desc"></v-textarea>
       </v-card-text>
       <div class="d-flex justify-end">
-        <v-btn color="success">Comment</v-btn>
+        <v-btn @click="addComment(comment)" color="success">Comment</v-btn>
       </div>
         </v-card>
       </div>
-      <div>{{logingUser.userName}}</div>
       <div>
-        <h1>Comments</h1>
-        <Comment></Comment>
-        <Comment></Comment>
-        <Comment></Comment>
-        <Comment></Comment>
+        <h1>Comments({{ s_forum.comment.length }})</h1>
+
+        <Comment v-for="comment in s_forum.comment"
+        :desc="comment.desc"
+        :user="comment.user"></Comment>
+        
       </div>
     </v-container>
   </v-main>

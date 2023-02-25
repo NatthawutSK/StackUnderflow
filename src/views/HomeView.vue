@@ -10,7 +10,7 @@ const {allforum} = storeToRefs(useForumStore())
 <template>
   <v-main>
     <v-container>
-
+      <CardForum></CardForum>
     </v-container>
   </v-main>
 </template>

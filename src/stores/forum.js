@@ -14,6 +14,10 @@ export const useForumStore = defineStore('forum', ()=>{
     function addForum(forum){
         allForum.value.push(forum)
     }
-
-    return {forum, allForum, addForum}
+    function addComment(comment){
+        
+        allForum.value[comment.index].comment.push({'desc':comment.desc, 'user':comment.user})
+        console.log(allForum.value[comment.index])
+    }
+    return {forum, allForum, addForum, addComment}
 })
