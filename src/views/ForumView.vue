@@ -2,8 +2,8 @@
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../stores/user";
 import Comment from "../components/Comment.vue";
-
-const { user } = storeToRefs(useUserStore());
+const {theme, user} = storeToRefs(useUserStore())
+const {toggleTheme, login, logout, logingUser} = useUserStore()
 </script>
 
 <template>
@@ -101,6 +101,7 @@ const { user } = storeToRefs(useUserStore());
       </div>
         </v-card>
       </div>
+      <div>{{logingUser.userName}}</div>
       <div>
         <h1>Comments</h1>
         <Comment></Comment>
