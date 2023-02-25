@@ -11,9 +11,8 @@ defineProps({
       <div>
         <v-row>
           <v-col>
-            <h3>
-          headline 
-        </h3>
+            <div class="text-truncate"
+        style="max-width: 80%">{{ desc }}</div>
         </v-col>
       <v-col cols="1">
             <v-menu location="end">
@@ -32,8 +31,7 @@ defineProps({
           </v-row>
         
         
-        <div class="text-truncate"
-        style="max-width: 80%">{{ desc }}</div>
+        
       </div>
     </v-card-title>
     <v-card-actions>
