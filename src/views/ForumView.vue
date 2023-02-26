@@ -9,12 +9,11 @@ import { useUserStore } from "../stores/user";
 import Comment from "../components/Comment.vue";
 import { ref,onBeforeMount,reactive, onUpdated } from "vue";
 import { useForumStore } from '../stores/forum';
- const {forum, allForum, allComment, addForum, addComment, fcomment} = useForumStore()
+ const {forum, allForum, allComment, addForum, addComment, fcomment, deleteForum} = useForumStore()
 const route = useRoute()
 const {id} = route.params
 const s_forum = ref(null)
-
-
+let isDel = false
 const {theme} = storeToRefs(useUserStore())
 const {toggleTheme, login, logout, logingUser} = useUserStore()
 const comment = ref({
@@ -25,7 +24,6 @@ const comment = ref({
 onBeforeMount(()=>{
    s_forum.value = allForum.find((f, index) => index === parseInt(id))
 })
-console.log(s_forum.value);
 </script>
 
 <template>
@@ -35,24 +33,27 @@ console.log(s_forum.value);
         <v-card >
           <v-card-title >
             <v-row>
-              <v-col>
-                <div class="pa-6 text-h4" style="white-space: normal;">
+              <v-col  >
+                <div class="pa-6 text-h4" style="white-space: normal">
                   <p>{{s_forum.title}}</p>
                 </div>
               </v-col>
               <v-col cols="1">
-                <v-menu location="end"  v-if="logingUser.userName === s_forum.user.userName">
+                <v-menu location="end">
                   <template v-slot:activator="{ props }">
                     <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>
                   </template>
 
                   <v-list>
                     <v-list-item>
-                      <v-list-item-title class="text-h6 pa-1"
-                        >Delete</v-list-item-title
+                      <v-list-item-title class="text-h6 pa-1"  v-if="logingUser.userName === s_forum.user.userName"
+                        ><v-btn @click="$router.back();deleteForum(parseInt(id)); isDel = !isDel">Delete</v-btn></v-list-item-title
                       >
-                      <v-list-item-title class="text-h6 pa-1"
+                      <v-list-item-title class="text-h6 pa-1" v-if="logingUser.userName === s_forum.user.userName"
                         >Edit</v-list-item-title
+                      >
+                      <v-list-item-title class="text-h6 pa-1" v-if="logingUser.userName === s_forum.user.userName"
+                        >Report</v-list-item-title
                       >
                     </v-list-item>
                   </v-list>
@@ -96,7 +97,7 @@ console.log(s_forum.value);
           </v-card-actions>
         </v-card>
       </div>
-      <div class="mt-5 pa-5" v-if="logingUser.user">
+      <div class="mt-5 pa-5" v-if="!logingUser.user">
         <v-card class="pa-5">
           <v-card-title>
           </v-card-title>
@@ -109,11 +110,10 @@ console.log(s_forum.value);
         </v-card>
       </div>
       <div class="mt-5">
-        <h1>Comments({{ fcomment(parseInt(id)).length }})</h1>
-         <Comment v-for="comment in fcomment(parseInt(id))"
+        <!-- <h1>Comments({{ fcomment(parseInt(id)).length }})</h1> -->
+         <Comment v-for="comment in (isDel === true ? s_forum.comment : fcomment(parseInt(id)))"
         :desc="comment.desc"
         :user="comment.user"></Comment>
-        
        </div>
     </v-container>
   </v-main>
