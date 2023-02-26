@@ -15,7 +15,7 @@ const router = createRouter({
       component: () => import('../views/LoginView.vue')
     },
     {
-      path: '/forum',
+      path: '/forum/:id',
       name: 'forum',
       component: () => import('../views/ForumView.vue')
     },
@@ -28,6 +28,11 @@ const router = createRouter({
       path: '/addforum',
       name: 'addforum',
       component: () => import('../views/AddForumView.vue')
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: () => import('../views/testForum.vue')
     }
   ]
 })

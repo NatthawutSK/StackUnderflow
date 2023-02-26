@@ -145,9 +145,6 @@
             </v-card>
           </v-col>
       </v-row>
-      <p v-if="store.logingUser">user loging name : {{ store.logingUser.fname }}</p>
-      <p v-if="store.logingUser">user loging last name : {{ store.logingUser.lname }}</p>
-      <p v-if="store.logingUser">user loging email : {{ store.logingUser.email }}</p>
   </v-container>
 </template>
 

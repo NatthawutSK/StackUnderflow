@@ -1,17 +1,13 @@
 <script setup>
-import { storeToRefs } from "pinia";
-import { useUserStore } from "../stores/user";
+import FormAddForum from "../components/FormAddForum.vue"
 
-const {user} = storeToRefs(useUserStore())
 
 </script>
 
 <template>
   <v-main>
-    <v-container fluid>
-        <h1>Add forum page</h1>
-      <h1 v-if="!user">welcome guest</h1>
-      <h1 v-else>welcome {{ user.fname }}</h1>
+    <v-container>
+        <FormAddForum></FormAddForum>
     </v-container>
   </v-main>
 </template>
