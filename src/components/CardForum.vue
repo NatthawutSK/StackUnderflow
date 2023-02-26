@@ -1,11 +1,13 @@
 <script setup>
  import { useForumStore } from '../stores/forum';
- const {forum, allForum, addForum} = useForumStore()
  
+ defineProps({
+  forum:Object
+ })
 </script>
 <template>
 
-  <v-card :to="`/forum/${index}`"  v-for="forum, index in allForum" class="pa-2 my-4" >
+  <v-card class="pa-2 my-4" >
     <v-card-title primary-title >
       <div>
         <v-row class="my-1">

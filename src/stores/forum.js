@@ -21,13 +21,6 @@ export const useForumStore = defineStore('forum', ()=>{
     function addForum(forum){
         allForum.value.push(forum)
     }
-//     const com = computed(()=>{
-//         return allComment.filter((val) =>{
-//           console.log(val.id, id)
-//           return val.id === parseInt(id)
-//         })
-//   })
-
     return {allForum, addForum, addComment, allComment, fcomment}
 
 })
