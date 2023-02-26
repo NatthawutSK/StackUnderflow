@@ -15,7 +15,6 @@ export const useUserStore = defineStore('user', () =>{
     })
     function toggleTheme(){
         theme.value = theme.value === 'light' ? 'dark' : 'light'
-        // console.log(logingUser.value);
     }
     function keepLocal(info){
         // console.log(info)
@@ -25,7 +24,7 @@ export const useUserStore = defineStore('user', () =>{
     function login(data){
        allUser.value.map((item) => {
            if(item.userName === data.userName && item.password === data.password){
-                logingUser.value = (item)
+                logingUser.value = item
                 // console.log(item);
                 // location.reload();
                 console.log("u are loging in")
@@ -45,5 +44,6 @@ export const useUserStore = defineStore('user', () =>{
         logingUser.value = null
         location.reload();
     }
+
     return { toggleTheme, theme , user, login, logout, keepLocal, logingUser}
 })

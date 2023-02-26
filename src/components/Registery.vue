@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <v-container>
       <v-row align="center" justify="center" >
           <v-col cols="12" sm="10">
@@ -20,7 +20,6 @@
                             dense
                             color="blue"
                             autocomplete="false"
-                            v-model="loginData.userName"
                            class="mt-16"
                           />
                           <v-text-field
@@ -29,14 +28,13 @@
                             dense
                             color="blue"
                           autocomplete="false"
-                          v-model="loginData.password"
                           :type="show ?'text': 'password'"
                           :append-icon="show ?'mdi-eye':'mdi-eye-off'"   
                           @click:append="show=!show"
                           
                           />
                             
-                          <v-btn @click="store.login(loginData)" color="blue" dark block tile>Log in</v-btn>
+                          <v-btn color="blue" dark block tile>Log in</v-btn>
                      
                          
                           </v-col>
@@ -133,7 +131,7 @@
                           @click:append="show=!show"
                           
                           />
-                          <v-btn @click="store.keepLocal(regData)" color="blue" dark block tile>Sign up</v-btn>
+                          <v-btn color="blue" dark block tile>Sign up</v-btn>
                      
                           </v-col>
                         </v-row>  
@@ -148,24 +146,27 @@
   </v-container>
 </template>
 
-<script setup>
-import { ref } from "vue";
-import { useUserStore } from "../stores/user";
-  const store = useUserStore();
-  const step = ref(1);
-  const show = ref(false);
-  const regData = ref({
+<script>
+  
+
+  export default {
+   data: () => ({
+    step: 1,
+    show:false,
+    regData:{
       fname: '',
       lname: '',
       userName: '',
       email: '',
       password: ''
-  })
-  const loginData = ref({
-      userName: '',
-      password: ''
-  })
+    }
+  }),
+  props: {
+    source: String
+  } 
 
+    
+  }
 </script>
 <style scoped>
 .v-application .rounded-bl-xl {
@@ -174,4 +175,4 @@ import { useUserStore } from "../stores/user";
 .v-application .rounded-br-xl {
     border-bottom-right-radius: 300px !important;
 }
-</style>
+</style> -->
