@@ -12,10 +12,10 @@ import { useForumStore } from '../stores/forum';
  const {forum, allForum, allComment, addForum, addComment, fcomment} = useForumStore()
 const route = useRoute()
 const {id} = route.params
-let s_forum;
+const s_forum = ref(null)
 
 
-const {theme, user} = storeToRefs(useUserStore())
+const {theme} = storeToRefs(useUserStore())
 const {toggleTheme, login, logout, logingUser} = useUserStore()
 const comment = ref({
   desc: "",
@@ -23,9 +23,9 @@ const comment = ref({
   index:parseInt(id)
 });
 onBeforeMount(()=>{
-  s_forum = reactive(allForum.find((f, index) => index === parseInt(id)))
+   s_forum.value = allForum.find((f, index) => index === parseInt(id))
 })
-
+console.log(s_forum.value);
 </script>
 
 <template>
@@ -33,15 +33,15 @@ onBeforeMount(()=>{
     <v-container class="mt-5 pa-10">
       <div>
         <v-card >
-          <v-card-title primary-title>
+          <v-card-title >
             <v-row>
               <v-col>
-                <div class="text-h4">
+                <div class="pa-6 text-h4" style="white-space: normal;">
                   <p>{{s_forum.title}}</p>
                 </div>
               </v-col>
               <v-col cols="1">
-                <v-menu location="end"  v-if="logingUser.userName === user.userName">
+                <v-menu location="end"  v-if="logingUser.userName === s_forum.user.userName">
                   <template v-slot:activator="{ props }">
                     <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>
                   </template>

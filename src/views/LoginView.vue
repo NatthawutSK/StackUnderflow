@@ -145,13 +145,6 @@
             </v-card>
           </v-col>
       </v-row>
-      <ul>
-        <li v-for="item in store.logingUser" >{{ item.fname }}</li>
-        <!-- <li>{{ store.logingUser }}</li> -->
-      </ul>
-      <!-- <p v-if="store.logingUser">user loging name : {{ store.logingUser.fname }}</p>
-      <p v-if="store.logingUser">user loging last name : {{ store.logingUser.lname }}</p>
-      <p v-if="store.logingUser">user loging email : {{ store.logingUser.email }}</p> -->
   </v-container>
 </template>
 
