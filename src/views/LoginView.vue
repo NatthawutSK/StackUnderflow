@@ -133,7 +133,7 @@
                           @click:append="show=!show"
                           
                           />
-                          <v-btn @click="store.keepLocal(regData)" color="blue" dark block tile>Sign up</v-btn>
+                          <v-btn @click="store.keepLocal(regData),step--" color="blue" dark block tile>Sign up</v-btn>
                      
                           </v-col>
                         </v-row>  

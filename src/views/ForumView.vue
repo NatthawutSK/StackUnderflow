@@ -47,7 +47,7 @@ onBeforeMount(()=>{
                   <v-list>
                     <v-list-item>
                       <v-list-item-title class="text-h6 pa-1"  v-if="logingUser.userName === s_forum.user.userName"
-                        ><v-btn @click="$router.back();deleteForum(parseInt(id)); isDel = !isDel">Delete</v-btn></v-list-item-title
+                        ><v-btn href="/" @click="deleteForum(parseInt(id)); isDel = !isDel">Delete</v-btn></v-list-item-title
                       >
                       <v-list-item-title class="text-h6 pa-1" v-if="logingUser.userName === s_forum.user.userName"
                         >Edit</v-list-item-title
@@ -110,7 +110,7 @@ onBeforeMount(()=>{
         </v-card>
       </div>
       <div class="mt-5">
-        <!-- <h1>Comments({{ fcomment(parseInt(id)).length }})</h1> -->
+        <h1>Comments({{ (isDel === true ? s_forum.comment : fcomment(parseInt(id))).length }})</h1>
          <Comment v-for="comment in (isDel === true ? s_forum.comment : fcomment(parseInt(id)))"
         :desc="comment.desc"
         :user="comment.user"></Comment>
