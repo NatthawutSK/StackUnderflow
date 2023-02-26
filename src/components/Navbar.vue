@@ -1,10 +1,8 @@
 <script setup>
 import { storeToRefs } from "pinia";
-import { RouterLink } from "vue-router";
 import { useUserStore } from "../stores/user";
-const {theme, user} = storeToRefs(useUserStore())
-const {toggleTheme, login, logout, logingUser} = useUserStore()
-
+const {theme} = storeToRefs(useUserStore())
+const {toggleTheme, logout, logingUser} = useUserStore()
 
 </script>
 
@@ -14,20 +12,20 @@ const {toggleTheme, login, logout, logingUser} = useUserStore()
           <v-app-bar-title>StackUnderflow</v-app-bar-title>
         </v-btn>
         <v-spacer></v-spacer>
-        <p>{{ logingUser.userName }}</p>
-        <v-btn  href="/profile">Profile</v-btn>
-        <v-btn  href="/forum">Forum</v-btn>
-        <v-btn  href="/login">Login</v-btn>
-        <v-btn  href="/addforum">ADdForum</v-btn>
+        <h3 v-if="JSON.stringify(logingUser) !== '{}'" class="pr-5">Welcome User : {{ logingUser.userName }}</h3>
+        <!-- <v-btn  href="/profile">Profile</v-btn> -->
+        <!-- <v-btn  href="/forum">Forum</v-btn> -->
+        <v-btn  href="/addforum">Create Forum</v-btn>
         <v-btn :icon="theme === 'light' ?
          'mdi-weather-sunny' : 'mdi-weather-night'"
           @click="toggleTheme()"
         />
-        <v-btn v-if="JSON.stringify(logingUser) === '{}'"  href="/login" icon="mdi-login" />
-        <v-btn v-else  @click="logout()" icon="mdi-logout" />
-        <v-btn >
-          <v-avatar>
-            <v-img src="https://www.pngitem.com/pimgs/m/279-2799324_transparent-guest-png-become-a-member-svg-icon.png"/>
+        <!-- <v-btn  href="/login">Login</v-btn> -->
+        <v-btn v-if="JSON.stringify(logingUser) === '{}'" variant="tonal"  href="/login"  >log in</v-btn>
+        <v-btn v-else  @click="logout()" variant="tonal"  >log out</v-btn>
+        <v-btn href="/profile">
+          <v-avatar >
+            <v-img  src="https://www.pngitem.com/pimgs/m/279-2799324_transparent-guest-png-become-a-member-svg-icon.png"/>
           </v-avatar>
         </v-btn>
       </v-app-bar>

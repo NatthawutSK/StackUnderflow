@@ -1,4 +1,6 @@
 <script setup>
+import { useUserStore } from '../stores/user';
+const {logingUser} = useUserStore()
 defineProps({
   desc: String,
   user: Object
@@ -15,7 +17,7 @@ defineProps({
         style="max-width: 80%">{{ desc }}</div>
         </v-col>
       <v-col cols="1">
-            <v-menu location="end">
+            <v-menu location="end"  v-if="logingUser.userName === user.userName">
               <template v-slot:activator="{ props }">
                 <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>
               </template>
@@ -44,8 +46,6 @@ defineProps({
         </template>
 
         <v-list-item-title class="text-h6 my-1">{{user.userName}}</v-list-item-title>
-
-        <v-list-item-subtitle class="text-h6">Vue Creator</v-list-item-subtitle>
 
         <template v-slot:append>
           <div class="justify-self-end">

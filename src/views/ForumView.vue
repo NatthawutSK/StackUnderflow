@@ -26,23 +26,22 @@ onBeforeMount(()=>{
   s_forum = reactive(allForum.find((f, index) => index === parseInt(id)))
 })
 
-
 </script>
 
 <template>
   <v-main>
-    <v-container class="mt-5">
+    <v-container class="mt-5 pa-10">
       <div>
-        <v-card>
+        <v-card >
           <v-card-title primary-title>
             <v-row>
               <v-col>
-                <div>
-                  <h3 class="headline pa-6 text-h3">{{s_forum.title}}</h3>
+                <div class="text-h4">
+                  <p>{{s_forum.title}}</p>
                 </div>
               </v-col>
               <v-col cols="1">
-                <v-menu location="end">
+                <v-menu location="end"  v-if="logingUser.userName === user.userName">
                   <template v-slot:activator="{ props }">
                     <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>
                   </template>
@@ -97,10 +96,9 @@ onBeforeMount(()=>{
           </v-card-actions>
         </v-card>
       </div>
-      <div class="mt-5 pa-5">
+      <div class="mt-5 pa-5" v-if="logingUser.user">
         <v-card class="pa-5">
           <v-card-title>
-            Write Comment
           </v-card-title>
           <v-card-text>
         <v-textarea v-model="comment.desc"></v-textarea>
@@ -110,7 +108,7 @@ onBeforeMount(()=>{
       </div>
         </v-card>
       </div>
-      <div>
+      <div class="mt-5">
         <h1>Comments({{ fcomment(parseInt(id)).length }})</h1>
          <Comment v-for="comment in fcomment(parseInt(id))"
         :desc="comment.desc"
