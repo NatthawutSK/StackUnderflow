@@ -26,11 +26,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="item in allUser" >
+                                <tr v-for="item in delUser" >
                                     <td class="text-center" >{{ item.userName }}</td>
                                     <td class="text-center">{{ item.email }}</td>
                                     <td class="text-center">
-                                        <v-btn @click="delUser(item)">
+                                        <v-btn @click="clickDel(item)">
                                             delete
                                         </v-btn>
                                     </td>
@@ -52,7 +52,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useUserStore } from "../stores/user";
-const {allUser, delUser} = useUserStore();
+const {allUser, delUser, clickDel} = useUserStore();
 const tab = ref(null);
 
 // export default {
