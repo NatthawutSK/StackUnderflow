@@ -1,6 +1,6 @@
 import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref,computed } from "vue";
 
 export const useForumStore = defineStore('forum', ()=>{
     const allForum = useLocalStorage('allForum', [])
@@ -12,19 +12,22 @@ export const useForumStore = defineStore('forum', ()=>{
     //     user:{},
     //     comment:[],
     // })
-    function addComment(com){
-        allComment.value.push(com)
+    function addComment(comment){
+            allForum.value[comment.index].comment.push(comment)
     }
+    const fcomment = (id) => {return computed(() =>{
+            return allForum.value[id].comment
+    }).value}
     function addForum(forum){
         allForum.value.push(forum)
     }
-    // function addComment(comment){
-    //     allForum.value[comment.index].comment.push(comment)
-    //     // console.log(allForum.value[comment.index])
-    //     // console.log(comment.comment[0].desc);
-    //     // allForum.value.push(comment)
-    //     // console.log(comment);
-    //     // location.reload();
-    // }
-    return {allForum, addForum, addComment, allComment}
+//     const com = computed(()=>{
+//         return allComment.filter((val) =>{
+//           console.log(val.id, id)
+//           return val.id === parseInt(id)
+//         })
+//   })
+
+    return {allForum, addForum, addComment, allComment, fcomment}
+
 })

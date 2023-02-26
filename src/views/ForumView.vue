@@ -1,17 +1,20 @@
-<template></template>
+<!-- <template></template> -->
 
 
-<!-- <script setup>
+<script setup>
+import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../stores/user";
 import Comment from "../components/Comment.vue";
-import { ref,onBeforeMount,reactive } from "vue";
+import { ref,onBeforeMount,reactive, onUpdated } from "vue";
 import { useForumStore } from '../stores/forum';
- const {forum, allForum, addForum, addComment} = useForumStore()
+ const {forum, allForum, allComment, addForum, addComment, fcomment} = useForumStore()
 const route = useRoute()
 const {id} = route.params
 let s_forum;
+
+
 const {theme, user} = storeToRefs(useUserStore())
 const {toggleTheme, login, logout, logingUser} = useUserStore()
 const comment = ref({
@@ -104,23 +107,18 @@ onBeforeMount(()=>{
       </v-card-text>
       <div class="d-flex justify-end">
         <v-btn @click="addComment(comment)" color="success">Comment</v-btn>
-        
       </div>
-      <ul>
-          <li v-for="com in s_forum.comment"> {{ com.desc }}</li>
-        </ul>
         </v-card>
       </div>
-      <div> -->
-        <!-- <h1>Comments({{ s_forum.comment.length }})</h1> -->
-        
-        <!-- <Comment v-for="comment in s_forum.comment"
+      <div>
+        <h1>Comments({{ fcomment(parseInt(id)).length }})</h1>
+         <Comment v-for="comment in fcomment(parseInt(id))"
         :desc="comment.desc"
-        :user="comment.user"></Comment> -->
+        :user="comment.user"></Comment>
         
-      <!-- </div>
+       </div>
     </v-container>
   </v-main>
 </template>
 
-<style></style> -->
+<style></style>
