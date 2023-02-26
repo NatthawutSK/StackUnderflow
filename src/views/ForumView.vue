@@ -96,7 +96,7 @@ console.log(s_forum.value);
           </v-card-actions>
         </v-card>
       </div>
-      <div class="mt-5 pa-5" v-if="logingUser.user">
+      <div class="mt-5 pa-5" v-if="!logingUser.user">
         <v-card class="pa-5">
           <v-card-title>
           </v-card-title>

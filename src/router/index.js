@@ -27,6 +27,11 @@ const router = createRouter({
       path: '/addforum',
       name: 'addforum',
       component: () => import('../views/AddForumView.vue')
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: () => import('../views/AdminView.vue')
     }
   ]
 })
