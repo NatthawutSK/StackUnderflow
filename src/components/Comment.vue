@@ -1,9 +1,12 @@
 <script setup>
 import { useUserStore } from '../stores/user';
+import {useForumStore} from '../stores/forum'
 const {logingUser} = useUserStore()
+const {deleteComment} = useForumStore()
 defineProps({
   desc: String,
-  user: Object
+  user: Object,
+  comment:Object
 })
 </script>
 
@@ -14,17 +17,17 @@ defineProps({
         <v-row>
           <v-col>
             <div class="text-truncate"
-        style="max-width: 80%">{{ desc }}</div>
+        style="max-width: 80%">{{ comment.desc }}</div>
         </v-col>
       <v-col cols="1">
-            <v-menu location="end"  v-if="logingUser.userName === user.userName">
+            <v-menu location="end"  v-if="logingUser.userName === comment.user.userName">
               <template v-slot:activator="{ props }">
                 <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>
               </template>
         
               <v-list>
                 <v-list-item>
-                  <v-list-item-title class="text-h6 pa-1">Delete</v-list-item-title>
+                  <v-list-item-title class="text-h6 pa-1" ><v-btn @click="deleteComment(comment, comment.index)">Delete</v-btn></v-list-item-title>
                   <v-list-item-title class="text-h6 pa-1">Edit</v-list-item-title>
                 </v-list-item>
               </v-list>

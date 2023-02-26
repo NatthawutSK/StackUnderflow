@@ -50,10 +50,10 @@ onBeforeMount(()=>{
                         ><v-btn href="/" @click="deleteForum(parseInt(id)); isDel = !isDel">Delete</v-btn></v-list-item-title
                       >
                       <v-list-item-title class="text-h6 pa-1" v-if="logingUser.userName === s_forum.user.userName"
-                        >Edit</v-list-item-title
+                        ><v-btn>Edit</v-btn></v-list-item-title
                       >
-                      <v-list-item-title class="text-h6 pa-1" v-if="logingUser.userName === s_forum.user.userName"
-                        >Report</v-list-item-title
+                      <v-list-item-title class="text-h6 pa-1" v-if="logingUser.userName"
+                        ><v-btn>Report</v-btn></v-list-item-title
                       >
                     </v-list-item>
                   </v-list>
@@ -113,7 +113,8 @@ onBeforeMount(()=>{
         <h1>Comments({{ (isDel === true ? s_forum.comment : fcomment(parseInt(id))).length }})</h1>
          <Comment v-for="comment in (isDel === true ? s_forum.comment : fcomment(parseInt(id)))"
         :desc="comment.desc"
-        :user="comment.user"></Comment>
+        :user="comment.user"
+        :comment="comment"></Comment>
        </div>
     </v-container>
   </v-main>

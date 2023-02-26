@@ -19,5 +19,10 @@ export const useForumStore = defineStore('forum', ()=>{
     function deleteForum(index){
         allForum.value.splice(index,1)
     }
-    return {allForum, addForum, addComment, fcomment, deleteForum}
+    function deleteComment(comment, id){
+        allForum.value[id].comment.splice(allForum.value[id].comment.findIndex((com) =>{
+           return com.user === comment.user && com.desc === comment.desc
+        }),1)
+    }
+    return {allForum, addForum, addComment, fcomment, deleteForum, deleteComment}
 })
