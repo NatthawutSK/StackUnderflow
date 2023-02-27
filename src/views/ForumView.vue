@@ -16,6 +16,7 @@ const {
   addComment,
   fcomment,
   deleteForum,
+  addReport
 } = useForumStore();
 const route = useRoute();
 const { id } = route.params;
@@ -124,7 +125,7 @@ onBeforeMount(() => {
                               <v-btn
                                 color="blue-darken-1"
                                 variant="text"
-                                @click="dialog = false"
+                                @click="dialog = false,  addReport(report, id)"
                               >
                                 Send
                               </v-btn>

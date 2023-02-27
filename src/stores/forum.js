@@ -5,6 +5,7 @@ import { computed } from "vue";
 
 export const useForumStore = defineStore('forum', ()=>{
     const allForum = useLocalStorage('allForum', [])
+    const allReport = useLocalStorage('report', [])
     function addComment(comment){
             allForum.value[comment.index].comment.push(comment)
     }
@@ -24,5 +25,8 @@ export const useForumStore = defineStore('forum', ()=>{
            return com.user === comment.user && com.desc === comment.desc
         }),1)
     }
-    return {allForum, addForum, addComment, fcomment, deleteForum, deleteComment}
+    function addReport(report,id){
+        allReport.value.push({report : report, post: id})
+    }
+    return {allForum, addForum, addComment, fcomment, deleteForum, deleteComment,addReport}
 })

@@ -42,63 +42,6 @@ const report = ref([])
                   <v-list-item-title class="text-h6 pa-1"
                     >Edit</v-list-item-title
                   >
-                  <v-list-item-title class="text-h6 pa-1"
-                    ><v-dialog
-                      v-model="dialog"
-                      width="auto"
-                      transition="dialog-bottom-transition"
-                    >
-                      <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props">Report</v-btn>
-                      </template>
-                      <v-card>
-                        <v-card-title>
-                          <span class="text-h6">Report</span>
-                        </v-card-title>
-                        <v-card-text>
-                          <v-container>
-                            <v-checkbox
-                              v-model="report"
-                              label="Harassment"
-                              value="Harassment"
-                            ></v-checkbox>
-                            <v-checkbox
-                              v-model="report"
-                              label="Threatening violence"
-                              value="Threatening violence"
-                            ></v-checkbox>
-                            <v-checkbox
-                              v-model="report"
-                              label="break rule"
-                              value="break rule"
-                            ></v-checkbox>
-                            <v-checkbox
-                              v-model="report"
-                              label="Spam"
-                              value="Spam"
-                            ></v-checkbox>
-                          </v-container>
-                        </v-card-text>
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn
-                            color="blue-darken-1"
-                            variant="text"
-                            @click="dialog = false"
-                          >
-                            Close
-                          </v-btn>
-                          <v-btn
-                            color="blue-darken-1"
-                            variant="text"
-                            @click="dialog = false"
-                          >
-                            Send
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog></v-list-item-title
-                  >
                 </v-list-item>
               </v-list>
             </v-menu>
