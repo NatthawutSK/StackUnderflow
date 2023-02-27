@@ -18,7 +18,7 @@ const report = ref([])
     <v-card-title primary-title>
       <div>
         <v-row>
-          <v-col>
+          <v-col cols="11">
             <div class="text-truncate" style="max-width: 80%">
               {{ comment.desc }}
             </div>

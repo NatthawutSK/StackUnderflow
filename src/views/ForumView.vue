@@ -43,7 +43,7 @@ onBeforeMount(() => {
         <v-card>
           <v-card-title>
             <v-row>
-              <v-col>
+              <v-col cols="11">
                 <div class="pa-6 text-h4" style="white-space: normal">
                   <p>{{ s_forum.title }}</p>
                 </div>
