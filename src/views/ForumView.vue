@@ -75,7 +75,6 @@ onBeforeMount(() => {
                       >
                       <v-list-item-title
                         class="text-h6 pa-1"
-                        v-if="logingUser.userName"
                       >
                         <v-dialog
                           v-model="dialog"
