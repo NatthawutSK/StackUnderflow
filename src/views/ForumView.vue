@@ -15,7 +15,7 @@ const { id } = route.params;
 const s_forum = ref(null);
 const dialog = ref(false);
 const report = ref([]);
-
+const checkedit = ref(false)
 const { theme } = storeToRefs(useUserStore());
 const { toggleTheme, login, logout, logingUser } = useUserStore();
 const comment = ref({
@@ -36,8 +36,11 @@ onBeforeMount(() => {
           <v-card-title >
             <v-row>
               <v-col cols="11">
-                <div class="pa-6 text-h4" style="white-space: normal">
+                <div class="pa-6 text-h4" style="white-space: normal" v-if="!checkedit">
                   <p>{{ s_forum.title }}</p>
+                </div>
+                <div class="pa-6 text-h4" style="white-space: normal" v-else>
+                  <v-text-field :value="s_forum.title" v-model="s_forum.title"></v-text-field>
                 </div>
               </v-col>
               <v-col cols="1">
@@ -63,7 +66,7 @@ onBeforeMount(() => {
                       <v-list-item-title
                         class="text-h6 pa-1"
                         v-if="logingUser.userName === s_forum.user.userName"
-                        ><v-btn>Edit</v-btn></v-list-item-title
+                        ><v-btn @click="checkedit=!checkedit">Edit</v-btn></v-list-item-title
                       >
                       <v-list-item-title
                         class="text-h6 pa-1"
@@ -131,9 +134,14 @@ onBeforeMount(() => {
             </v-row>
           </v-card-title>
           <v-card-text>
-            <div class="text-h5 pa-5">
+            <div class="text-h5 pa-5" v-if="!checkedit">
               <p>
                 {{ s_forum.desc }}
+              </p>
+            </div>
+            <div class="text-h5 pa-5" v-else>
+              <p>
+                <v-text-field :value="s_forum.desc" v-model="s_forum.desc"></v-text-field>
               </p>
             </div>
           </v-card-text>
@@ -168,7 +176,7 @@ onBeforeMount(() => {
         <v-card class="pa-5">
           <v-card-title>Write Comment </v-card-title>
           <v-card-text>
-            <v-textarea @keyup.enter="addComment(comment)" variant="outlined" v-model="comment.desc" ></v-textarea>
+            <v-textarea @keyup.enter="store.addComment(comment)" variant="outlined" v-model="comment.desc" ></v-textarea>
           </v-card-text>
           <div class="d-flex justify-end">
             <v-btn @click="store.addComment(comment)" color="success">Comment</v-btn>

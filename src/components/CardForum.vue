@@ -34,7 +34,7 @@
 
         <v-list-item-title class="text-h6 my-1">{{forum.user.userName}}</v-list-item-title>
 
-        
+        <v-chip>{{ forum.tag }}</v-chip>
 
         <template v-slot:append>
           <div class="justify-self-end">
