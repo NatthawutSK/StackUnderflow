@@ -1,6 +1,6 @@
 import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { computed} from "vue";
 export const useUserStore = defineStore('user', () =>{
     const theme = useLocalStorage('theme', 'light')
     const allUser = useLocalStorage('allUser', [])
@@ -29,17 +29,16 @@ export const useUserStore = defineStore('user', () =>{
         location.reload();
     }
     function clickDel(user){
-        // console.log(allUser.value.findIndex(arrayItem => arrayItem.userName === user.userName));
-        // console.log(user.userName);
+        // allUser.value.push(user)
         allUser.value.splice(allUser.value.findIndex(arrayItem => arrayItem.userName === user.userName),1)
         // user_del.value = user
-        // console.log(user_del.value.userName);
+        // console.log(user.userName);
         // console.log(allUser.value[0].userName);
 
     }
-    const delUser =  computed(() =>{
-            return allUser.value
-    })
+    // const delUser =  computed(() =>{
+    //         return allUser.value
+    // })
     // function delUser(user){
     //     // console.log(user);
     //     this.allUser = this.allUser.filter((item) =>{
@@ -47,5 +46,6 @@ export const useUserStore = defineStore('user', () =>{
     //     })
 
     // }
-    return { toggleTheme, theme, login, logout, keepLocal, logingUser, allUser, delUser, clickDel}
+    
+    return { toggleTheme, theme, login, logout, keepLocal, logingUser, allUser, clickDel}
 })

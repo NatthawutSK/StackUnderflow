@@ -36,7 +36,7 @@
                           
                           />
                             
-                          <v-btn @click="store.login(loginData)" color="blue" dark block tile>Log in</v-btn>
+                          <v-btn href="/"  @click="store.login(loginData)" color="blue" dark block tile>Log in</v-btn>
                      
                          
                           </v-col>
@@ -69,7 +69,7 @@
                         >Log in to your account so you can continue building and<br>  editing your onboarding flows</h6>
                       </v-card-text>
                       <div class="text-center">
-                        <v-btn tile outlined dark @click="step--">Log in</v-btn>
+                        <v-btn  tile outlined dark @click="step--">Log in</v-btn>
                       </div>
                       </div>
                     </v-col>

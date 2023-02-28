@@ -21,7 +21,7 @@ const {
 const route = useRoute();
 const { id } = route.params;
 const s_forum = ref(null);
-let isDel = false;
+// let isDel = false;
 const dialog = ref(false);
 const report = ref([]);
 const { theme } = storeToRefs(useUserStore());
@@ -31,6 +31,7 @@ const comment = ref({
   user: logingUser,
   index: parseInt(id),
 });
+// const idReport = ref(0);
 onBeforeMount(() => {
   s_forum.value = allForum.find((f, index) => index === parseInt(id));
 });
@@ -63,7 +64,7 @@ onBeforeMount(() => {
                           href="/"
                           @click="
                             deleteForum(parseInt(id));
-                            isDel = !isDel;
+                           
                           "
                           >Delete</v-btn
                         ></v-list-item-title
@@ -186,13 +187,11 @@ onBeforeMount(() => {
       <div class="mt-5">
         <h1>
           Comments({{
-            (isDel === true ? s_forum.comment : fcomment(parseInt(id))).length
+            fcomment(parseInt(id)).length
           }})
         </h1>
         <Comment
-          v-for="comment in isDel === true
-            ? s_forum.comment
-            : fcomment(parseInt(id))"
+          v-for="comment in fcomment(parseInt(id))"
           :desc="comment.desc"
           :user="comment.user"
           :comment="comment"
