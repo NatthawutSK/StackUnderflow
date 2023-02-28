@@ -25,7 +25,7 @@ export const useUserStore = defineStore('user', () =>{
 
     function logout(){
         logingUser.value = null
-        location.reload();
+        // location.reload();
     }
     function clickDel(user){
         // allUser.value.push(user)

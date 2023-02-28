@@ -1,7 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../stores/user";
-const {theme} = storeToRefs(useUserStore())
+const {theme, logingUser} = storeToRefs(useUserStore())
 const userStore = useUserStore()
 
 </script>
@@ -12,7 +12,7 @@ const userStore = useUserStore()
           <v-app-bar-title>StackUnderflow</v-app-bar-title>
         </v-btn>
         <v-spacer></v-spacer>
-        <h3 v-if="JSON.stringify(userStore.logingUser) !== '{}'" class="pr-5">Welcome User : {{ userStore.logingUser.userName }}</h3>
+        <h3 v-if="JSON.stringify(logingUser) !== '{}'" class="pr-5">Welcome User : {{ logingUser.userName }}</h3>
         <!-- <v-btn  href="/profile">Profile</v-btn> -->
         <!-- <v-btn  href="/forum">Forum</v-btn> -->
         <v-btn  href="/addforum">Create Forum</v-btn>
@@ -21,7 +21,7 @@ const userStore = useUserStore()
           @click="userStore.toggleTheme()"
         />
         <!-- <v-btn  href="/login">Login</v-btn> -->
-        <v-btn v-if="JSON.stringify(userStore.logingUser) === '{}'" variant="tonal"  href="/login"  >log in</v-btn>
+        <v-btn v-if="JSON.stringify(logingUser) === '{}'" variant="tonal"  href="/login"  >log in</v-btn>
         <v-btn v-else  @click="userStore.logout()" variant="tonal"  >log out</v-btn>
         <v-btn href="/profile">
           <v-avatar >
