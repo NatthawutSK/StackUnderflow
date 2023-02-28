@@ -21,9 +21,9 @@ const {
 const route = useRoute();
 const { id } = route.params;
 const s_forum = ref(null);
-// let isDel = false;
 const dialog = ref(false);
 const report = ref([]);
+
 const { theme } = storeToRefs(useUserStore());
 const { toggleTheme, login, logout, logingUser } = useUserStore();
 const comment = ref({
@@ -31,7 +31,6 @@ const comment = ref({
   user: logingUser,
   index: parseInt(id),
 });
-// const idReport = ref(0);
 onBeforeMount(() => {
   s_forum.value = allForum.find((f, index) => index === parseInt(id));
 });
