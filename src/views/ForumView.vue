@@ -8,18 +8,10 @@ import { useUserStore } from "../stores/user";
 import Comment from "../components/Comment.vue";
 import { ref, onBeforeMount, reactive, onUpdated } from "vue";
 import { useForumStore } from "../stores/forum";
-const {
-  forum,
-  allForum,
-  allComment,
-  addForum,
-  addComment,
-  fcomment,
-  deleteForum,
-  addReport
-} = useForumStore();
+const store = useForumStore();
 const route = useRoute();
 const { id } = route.params;
+
 const s_forum = ref(null);
 // let isDel = false;
 const dialog = ref(false);
@@ -33,7 +25,7 @@ const comment = ref({
 });
 // const idReport = ref(0);
 onBeforeMount(() => {
-  s_forum.value = allForum.find((f, index) => index === parseInt(id));
+  s_forum.value = store.allForum.find((f, index) => index === parseInt(id));
 });
 </script>
 
@@ -63,7 +55,7 @@ onBeforeMount(() => {
                         ><v-btn
                           href="/"
                           @click="
-                            deleteForum(parseInt(id));
+                            store.deleteForum(parseInt(id));
                            
                           "
                           >Delete</v-btn
@@ -125,7 +117,7 @@ onBeforeMount(() => {
                               <v-btn
                                 color="blue-darken-1"
                                 variant="text"
-                                @click="dialog = false,  addReport(report, id)"
+                                @click="dialog = false,  store.addReport(report, id)"
                               >
                                 Send
                               </v-btn>
@@ -173,25 +165,25 @@ onBeforeMount(() => {
           </v-card-actions>
         </v-card>
       </div>
-      <div class="mt-5 pa-5" v-if="!logingUser.user">
+      <div class="mt-5 pa-5" v-if="logingUser.userName">
         <v-card class="pa-5">
-          <v-card-title> </v-card-title>
+          <v-card-title>Write Comment </v-card-title>
           <v-card-text>
-            <v-textarea v-model="comment.desc"></v-textarea>
+            <v-textarea v-model="comment.desc" ></v-textarea>
           </v-card-text>
           <div class="d-flex justify-end">
-            <v-btn @click="addComment(comment)" color="success">Comment</v-btn>
+            <v-btn @click="store.addComment(comment)" color="success">Comment</v-btn>
           </div>
         </v-card>
       </div>
       <div class="mt-5">
         <h1>
           Comments({{
-            fcomment(parseInt(id)).length
+            store.fcomment(parseInt(id)).length
           }})
         </h1>
         <Comment
-          v-for="comment in fcomment(parseInt(id))"
+          v-for="comment in store.fcomment(parseInt(id))"
           :desc="comment.desc"
           :user="comment.user"
           :comment="comment"

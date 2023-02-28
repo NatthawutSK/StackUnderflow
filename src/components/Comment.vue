@@ -4,13 +4,12 @@ import { useForumStore } from "../stores/forum";
 import { ref } from "vue";
 const { logingUser } = useUserStore();
 const { deleteComment } = useForumStore();
+const checkedit = ref(false)
 defineProps({
   desc: String,
   user: Object,
   comment: Object,
 });
-const dialog = ref(false)
-const report = ref([])
 </script>
 
 <template>
@@ -19,8 +18,14 @@ const report = ref([])
       <div>
         <v-row>
           <v-col cols="11">
-            <div class="text-truncate" style="max-width: 80%">
+            <div class="text-truncate" style="max-width: 80%" v-if="!checkedit">
               {{ comment.desc }}
+            </div>
+            <div class="text-truncate d-flex " style="max-width: 80%" v-else>
+              
+              <v-text-field  v-model="comment.desc"></v-text-field>
+            <v-btn class=" ms-4 mt-2" @click="checkedit = !checkedit">Save</v-btn>
+            
             </div>
           </v-col>
           <v-col cols="1">
@@ -40,7 +45,7 @@ const report = ref([])
                     ></v-list-item-title
                   >
                   <v-list-item-title class="text-h6 pa-1"
-                    >Edit</v-list-item-title
+                    ><v-btn @click="checkedit = !checkedit">Edit</v-btn></v-list-item-title
                   >
                 </v-list-item>
               </v-list>

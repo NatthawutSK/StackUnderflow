@@ -11,7 +11,7 @@
     <v-card-title primary-title >
       <div>
         <v-row class="my-1">
-          <v-col>
+          <v-col cols="11" style="white-space: normal">
             <h3>
          {{ forum.title }}
         </h3>
