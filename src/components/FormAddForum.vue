@@ -21,7 +21,7 @@ const forum = ref({
     <v-form>
       <v-card>
         <v-card-title class="text-h5 ma-3 px-5"> Create Forum </v-card-title>
-        <v-card-text>
+        <v-card-text @keyup.enter="addForum(forum), $router.back()">
           <v-text-field
           variant="outlined"
             class="mx-2"

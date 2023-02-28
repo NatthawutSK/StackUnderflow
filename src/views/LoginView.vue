@@ -13,7 +13,7 @@
                           class="text-center"
                         >Login in to Your Account</h4>
                         <v-row align="center" justify="center">
-                          <v-col cols="12" sm="8">
+                          <v-col cols="12" sm="8" @keyup.enter="store.login(loginData), $router.back()">
                            
                           <v-text-field
                           variant="outlined"
@@ -83,7 +83,7 @@
                           class="text-center mb-3"
                         >Sign Up for an Account</h4>
                         <v-row align="center" justify="center">
-                          <v-col cols="12" sm="8">
+                          <v-col cols="12" sm="8" @keyup.enter="store.keepLocal(regData),step--">
                            <v-row>
                            <v-col cols="12" sm="6">
                             <v-text-field

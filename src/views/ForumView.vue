@@ -176,7 +176,7 @@ onBeforeMount(() => {
         <v-card variant="outlined" class="pa-5">
           <v-card-title> </v-card-title>
           <v-card-text>
-            <v-textarea variant="outlined" v-model="comment.desc"></v-textarea>
+            <v-textarea @keyup.enter="addComment(comment)" variant="outlined" v-model="comment.desc"></v-textarea>
           </v-card-text>
           <div class="d-flex justify-end">
             <v-btn @click="addComment(comment)" color="success">Comment</v-btn>
