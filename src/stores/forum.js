@@ -35,6 +35,12 @@ export const useForumStore = defineStore('forum', ()=>{
         allReport.value.splice(index,1)
         allForum.value.splice(post,1)
     }
+
+    function editForum(title, desc, post){
+        allForum.value[post].desc = desc;
+        allForum.value[post].title = title;
+        // console.log(post);
+    }
     
-    return {allForum, addForum, addComment, fcomment, deleteForum, deleteComment,addReport, delReport, allReport}
+    return {allForum, addForum, addComment, fcomment, deleteForum, deleteComment,addReport, delReport, allReport,editForum}
 })

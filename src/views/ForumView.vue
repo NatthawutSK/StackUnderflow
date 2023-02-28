@@ -66,7 +66,7 @@ onBeforeMount(() => {
                       <v-list-item-title
                         class="text-h6 pa-1"
                         v-if="logingUser.userName === s_forum.user.userName"
-                        ><v-btn @click="checkedit=!checkedit">Edit</v-btn></v-list-item-title
+                        ><v-btn @click="checkedit=true">Edit</v-btn></v-list-item-title
                       >
                       <v-list-item-title
                         class="text-h6 pa-1"
@@ -144,6 +144,11 @@ onBeforeMount(() => {
                 <v-text-field :value="s_forum.desc" v-model="s_forum.desc"></v-text-field>
               </p>
             </div>
+
+            <v-btn v-if="checkedit" @click="store.editForum(s_forum.title, s_forum.desc, id) , checkedit=false">
+              save
+            </v-btn>
+
           </v-card-text>
           <v-card-actions>
             <v-list-item class="w-100 pa-4">
