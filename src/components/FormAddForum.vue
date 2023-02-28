@@ -23,12 +23,14 @@ const forum = ref({
         <v-card-title class="text-h5 ma-3 px-5"> Create Forum </v-card-title>
         <v-card-text>
           <v-text-field
+          variant="outlined"
             class="mx-2"
             prepend-icon="mdi-account-circle"
             label="Title"
             v-model="forum.title"
           ></v-text-field>
           <v-textarea
+          variant="outlined"
             class="mx-2"
             label="Description"
             v-model="forum.desc"
@@ -36,6 +38,7 @@ const forum = ref({
             prepend-icon="mdi-comment"
           ></v-textarea>
           <v-select
+          variant="outlined"
             chips
             prepend-icon="mdi-tag"
             class="mx-2"
