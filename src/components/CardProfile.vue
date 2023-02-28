@@ -40,7 +40,7 @@ const edited = ref({
       <v-form>
         <v-card>
           <v-card-title class="text-h5 ma-3 px-5"> Edit Profile </v-card-title>
-          <v-card-text @keyup.enter="userStore.editUser(edited), $router.back()">
+          <v-card-text @keyup.enter="userStore.editUser(edited)">
             <v-row>
               <v-col cols="12" sm="6">
                 <v-text-field
