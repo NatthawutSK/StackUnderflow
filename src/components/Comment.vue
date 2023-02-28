@@ -13,7 +13,7 @@ defineProps({
 </script>
 
 <template>
-  <v-card class="pa-2 my-4">
+  <v-card variant="outlined" class="pa-2 my-4">
     <v-card-title primary-title>
       <div>
         <v-row>

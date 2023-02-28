@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <v-main>
       <v-row align="center" justify="center" >
           <v-col cols="12" sm="10">
             <v-card class="elevation-6 mt-16"  >
@@ -12,9 +13,10 @@
                           class="text-center"
                         >Login in to Your Account</h4>
                         <v-row align="center" justify="center">
-                          <v-col cols="12" sm="8">
+                          <v-col cols="12" sm="8" @keyup.enter="store.login(loginData), $router.back()">
                            
                           <v-text-field
+                          variant="outlined"
                             label="Username"
                             outlined
                             dense
@@ -24,6 +26,7 @@
                            class="mt-16"
                           />
                           <v-text-field
+                          variant="outlined"
                             label="Password"
                             outlined
                             dense
@@ -49,7 +52,7 @@
                         <h3 class="text-center ">Don't Have an Account Yet?</h3>
                         <h6
                           class="text-center"
-                        >Let's get you all set up so you can start creating your your first<br>  onboarding experience</h6>
+                        >Let's get you all set up so you can start creating your your first</h6>
                       </v-card-text>
                       <div class="text-center">
                         <v-btn tile outlined dark @click="step++">SIGN UP</v-btn>
@@ -66,7 +69,7 @@
                         <h3 class="text-center ">Alredy Signed up?</h3>
                         <h6
                           class="text-center"
-                        >Log in to your account so you can continue building and<br>  editing your onboarding flows</h6>
+                        >Log in to your account so you can continue<br> building and  editing your Forum</h6>
                       </v-card-text>
                       <div class="text-center">
                         <v-btn  tile outlined dark @click="step--">Log in</v-btn>
@@ -80,10 +83,11 @@
                           class="text-center mb-3"
                         >Sign Up for an Account</h4>
                         <v-row align="center" justify="center">
-                          <v-col cols="12" sm="8">
+                          <v-col cols="12" sm="8" @keyup.enter="store.keepLocal(regData),step--">
                            <v-row>
                            <v-col cols="12" sm="6">
                             <v-text-field
+                            variant="outlined"
                             label="First Name"
                             outlined
                             dense
@@ -95,6 +99,7 @@
                            </v-col>
                            <v-col cols="12" sm="6">
                             <v-text-field
+                            variant="outlined"
                             label="Last Name"
                             outlined
                             dense
@@ -106,6 +111,7 @@
                            </v-col>
                            </v-row>
                            <v-text-field
+                           variant="outlined"
                             label="Username"
                             outlined
                             dense
@@ -114,6 +120,7 @@
                             v-model="regData.userName"
                           />
                           <v-text-field
+                          variant="outlined"
                             label="Email"
                             outlined
                             dense
@@ -122,6 +129,7 @@
                             v-model="regData.email"
                           />
                           <v-text-field
+                          variant="outlined"
                             label="Password"
                             outlined
                             dense
@@ -145,6 +153,7 @@
             </v-card>
           </v-col>
       </v-row>
+    </v-main>
   </v-container>
 </template>
 

@@ -5,7 +5,6 @@ export const useUserStore = defineStore('user', () =>{
     const theme = useLocalStorage('theme', 'light')
     const allUser = useLocalStorage('allUser', [])
     const logingUser = useLocalStorage('loging', {})
-    // const user_del = ref('')
     function toggleTheme(){
         theme.value = theme.value === 'light' ? 'dark' : 'light'
     }
@@ -36,16 +35,17 @@ export const useUserStore = defineStore('user', () =>{
         // console.log(allUser.value[0].userName);
 
     }
-    // const delUser =  computed(() =>{
-    //         return allUser.value
-    // })
-    // function delUser(user){
-    //     // console.log(user);
-    //     this.allUser = this.allUser.filter((item) =>{
-    //         return item.userName !== user.userName
-    //     })
 
-    // }
+    function editUser(edited){
+        logingUser.value.fname = edited.fname
+        logingUser.value.lname = edited.lname
+        logingUser.value.userName = edited.userName
+        logingUser.value.email = edited.email
+        logingUser.value.password = edited.password
+        // console.log(logingUser.value.fname);
+        
+    }
     
-    return { toggleTheme, theme, login, logout, keepLocal, logingUser, allUser, clickDel}
+    
+    return { toggleTheme, theme, login, logout, keepLocal, logingUser, allUser, clickDel, editUser}
 })

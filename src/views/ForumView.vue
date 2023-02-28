@@ -13,9 +13,9 @@ const route = useRoute();
 const { id } = route.params;
 
 const s_forum = ref(null);
-// let isDel = false;
 const dialog = ref(false);
 const report = ref([]);
+
 const { theme } = storeToRefs(useUserStore());
 const { toggleTheme, login, logout, logingUser } = useUserStore();
 const comment = ref({
@@ -23,7 +23,6 @@ const comment = ref({
   user: logingUser,
   index: parseInt(id),
 });
-// const idReport = ref(0);
 onBeforeMount(() => {
   s_forum.value = store.allForum.find((f, index) => index === parseInt(id));
 });
@@ -33,8 +32,8 @@ onBeforeMount(() => {
   <v-main>
     <v-container class="mt-5 pa-10">
       <div>
-        <v-card>
-          <v-card-title>
+        <v-card variant="outlined">
+          <v-card-title >
             <v-row>
               <v-col cols="11">
                 <div class="pa-6 text-h4" style="white-space: normal">
@@ -43,8 +42,8 @@ onBeforeMount(() => {
               </v-col>
               <v-col cols="1">
                 <v-menu location="end">
-                  <template v-slot:activator="{ props }">
-                    <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>
+                  <template v-slot:activator="{ props }" >
+                    <v-btn icon="mdi-dots-vertical" class="mt-6" v-bind="props"></v-btn>
                   </template>
 
                   <v-list>
@@ -77,7 +76,7 @@ onBeforeMount(() => {
                           <template v-slot:activator="{ props }">
                             <v-btn v-bind="props">Report</v-btn>
                           </template>
-                          <v-card>
+                          <v-card >
                             <v-card-title>
                               <span class="text-h6">Report</span>
                             </v-card-title>
@@ -169,7 +168,7 @@ onBeforeMount(() => {
         <v-card class="pa-5">
           <v-card-title>Write Comment </v-card-title>
           <v-card-text>
-            <v-textarea v-model="comment.desc" ></v-textarea>
+            <v-textarea @keyup.enter="addComment(comment)" variant="outlined" v-model="comment.desc" ></v-textarea>
           </v-card-text>
           <div class="d-flex justify-end">
             <v-btn @click="store.addComment(comment)" color="success">Comment</v-btn>

@@ -10,8 +10,6 @@ const tab = ref(null);
 
 <template>
     <v-main>
-
-       
             <v-tabs v-model="tab" bg-color="primary" fixed-tabs>
                 <v-tab value="one">manage user</v-tab>
                 <v-tab value="two">report</v-tab>
@@ -70,12 +68,12 @@ const tab = ref(null);
                                         <p  v-for="report in item.report">{{ report }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <v-btn >
+                                        <v-btn :to="`/forum/${item.post}`">
                                             View
                                         </v-btn>
                                     </td>
                                     <td class="text-center">
-                                        <v-btn @click="forumStore.delReport(index)">
+                                        <v-btn @click="forumStore.delReport(parseInt(item.post), index)">
                                             delete
                                         </v-btn>
                                     </td>
