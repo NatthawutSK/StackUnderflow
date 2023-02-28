@@ -35,7 +35,17 @@ export const useUserStore = defineStore('user', () =>{
         // console.log(allUser.value[0].userName);
 
     }
+
+    function editUser(edited){
+        logingUser.value.fname = edited.fname
+        logingUser.value.lname = edited.lname
+        logingUser.value.userName = edited.userName
+        logingUser.value.email = edited.email
+        logingUser.value.password = edited.password
+        // console.log(logingUser.value.fname);
+        
+    }
     
     
-    return { toggleTheme, theme, login, logout, keepLocal, logingUser, allUser, clickDel}
+    return { toggleTheme, theme, login, logout, keepLocal, logingUser, allUser, clickDel, editUser}
 })
