@@ -9,7 +9,7 @@ const userStore = useUserStore()
 <template>
     <v-app-bar>
         <v-btn href="/">
-          <v-app-bar-title>StackUnderflow</v-app-bar-title>
+          <v-app-bar-title ><v-icon size="x-large" style="transform: rotate(180deg);" icon="mdi-stack-overflow"></v-icon>StackUnderflow</v-app-bar-title>
         </v-btn>
         <v-spacer></v-spacer>
         <h3 v-if="JSON.stringify(logingUser) !== '{}'" class="pr-5">Welcome User : {{ logingUser.userName }}</h3>
