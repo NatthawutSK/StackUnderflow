@@ -6,6 +6,7 @@ import { computed, ref } from "vue";
 export const useForumStore = defineStore('forum', ()=>{
     const allForum = useLocalStorage('allForum', [])
     const allReport = useLocalStorage('report', [])
+    const tag = useLocalStorage('tag', '')
     function addComment(comment){
             allForum.value[comment.index].comment.push(comment)
     }
@@ -41,6 +42,15 @@ export const useForumStore = defineStore('forum', ()=>{
         allForum.value[post].title = title;
         // console.log(post);
     }
+    const filterForum = computed(() => {
+        if (tag.value === '') {
+            return allForum.value
+        } else {
+            return allForum.value.filter(item => {
+                return item.tag === tag.value
+            })
+        }
+    })
     
-    return {allForum, addForum, addComment, fcomment, deleteForum, deleteComment,addReport, delReport, allReport,editForum}
+    return {allForum, addForum, addComment, fcomment, deleteForum, deleteComment,addReport, delReport, allReport,editForum, tag, filterForum}
 })
