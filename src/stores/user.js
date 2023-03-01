@@ -24,7 +24,7 @@ export const useUserStore = defineStore('user', () =>{
     }
 
     function logout(){
-        logingUser.value = null
+        logingUser.value = {}
         // location.reload();
     }
     function clickDel(user){
