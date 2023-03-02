@@ -50,7 +50,7 @@ onBeforeMount(() => {
                     <v-list-item>
                       <v-list-item-title
                         class="text-h6 pa-1"
-                        v-if="logingUser.userName === s_forum.user.userName"
+                        v-if="logingUser.userName === s_forum.user.userName || logingUser.userName === 'admin'"
                         ><v-btn
                           href="/"
                           @click="
@@ -62,10 +62,11 @@ onBeforeMount(() => {
                       >
                       <v-list-item-title
                         class="text-h6 pa-1"
-                        v-if="logingUser.userName === s_forum.user.userName"
+                        v-if="logingUser.userName === s_forum.user.userName "
                         ><v-btn @click="checkedit=true">Edit</v-btn></v-list-item-title
                       >
                       <v-list-item-title
+                      v-if="logingUser.userName !== s_forum.user.userName && logingUser.userName !== 'admin'"
                         class="text-h6 pa-1"
                       >
                         <v-dialog
@@ -184,7 +185,7 @@ onBeforeMount(() => {
           </v-card-actions>
         </v-card>
       </div>
-      <div class="mt-5 pa-5" v-if="logingUser.userName">
+      <div class="mt-5 pa-5" v-if="logingUser.userName && logingUser.userName !== 'admin'">
         <v-card class="pa-5">
           <v-card-title>Write Comment </v-card-title>
           <v-card-text>

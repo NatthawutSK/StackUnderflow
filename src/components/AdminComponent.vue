@@ -35,7 +35,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="item in userStore.allUser" >
+                                <tr v-for="item in userStore.filterUser" >
                                     <td class="text-center" >{{ item.userName }}</td>
                                     <td class="text-center">{{ item.email }}</td>
                                     <td class="text-center">
@@ -58,9 +58,7 @@
                                     <th class="text-center">
                                        View Post
                                     </th>
-                                    <th class="text-center">
-                                        Delete Post
-                                    </th>
+                                
                                 </tr>
                             </thead>
                             <tbody>
@@ -73,11 +71,7 @@
                                             View
                                         </v-btn>
                                     </td>
-                                    <td class="text-center">
-                                        <v-btn @click="reportStore.delReport(parseInt(item.post), index)">
-                                            delete
-                                        </v-btn>
-                                    </td>
+                                
                                 </tr>
                             </tbody>
                         </v-table>

@@ -1,14 +1,21 @@
 import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
+import { computed } from "vue";
 
 export const useUserStore = defineStore('user', () => {
     const theme = useLocalStorage('theme', 'light')
-    const allUser = useLocalStorage('allUser', [])
+    const allUser = useLocalStorage('allUser', [{
+        fname: "ri&au",
+        lname: "haha",
+        email: "gg",
+        userName: "admin",
+        password: "12345"
+    }])
     const logingUser = useLocalStorage('loging', {})
     function toggleTheme() {
         theme.value = theme.value === 'light' ? 'dark' : 'light'
     }
-    
+
     function keepLocal(info) {
         allUser.value.push(info)
     }
@@ -36,6 +43,11 @@ export const useUserStore = defineStore('user', () => {
         logingUser.value.email = edited.email
         logingUser.value.password = edited.password
     }
+    const filterUser = computed(() => {
+        return allUser.value.filter((user) =>{
+            return user.userName !== "admin"
+        })
+    })
 
     return {
         toggleTheme,
@@ -46,6 +58,7 @@ export const useUserStore = defineStore('user', () => {
         logingUser,
         allUser,
         clickDel,
-        editUser
+        editUser,
+        filterUser
     }
 })

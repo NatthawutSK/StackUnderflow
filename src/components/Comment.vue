@@ -31,7 +31,7 @@ defineProps({
           <v-col cols="1">
             <v-menu
               location="end"
-              v-if="logingUser.userName === comment.user.userName"
+              v-if="logingUser.userName === comment.user.userName || logingUser.userName === 'admin'"
             >
               <template v-slot:activator="{ props }">
                 <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>
@@ -44,7 +44,7 @@ defineProps({
                       >Delete</v-btn
                     ></v-list-item-title
                   >
-                  <v-list-item-title class="text-h6 pa-1"
+                  <v-list-item-title v-if="logingUser.userName !== 'admin' && logingUser.userName === comment.user.userName" class="text-h6 pa-1"
                     ><v-btn @click="checkedit = !checkedit">Edit</v-btn></v-list-item-title
                   >
                 </v-list-item>
