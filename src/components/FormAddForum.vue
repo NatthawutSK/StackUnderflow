@@ -47,7 +47,7 @@ const forum = ref({
         </v-card-text>
         <div></div>
         <div class="d-flex justify-center">
-          <v-btn href="/"  class="mb-5 w-50" color="primary" @click="forumStore.addForum(forum)">Create Post</v-btn>
+          <v-btn href="/"  class="mb-5 w-50" color="warning" @click="forumStore.addForum(forum)">Create Post</v-btn>
         </div>
       </v-card>
     </v-form>

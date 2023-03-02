@@ -147,7 +147,7 @@ onBeforeMount(() => {
               </v-row>
               <v-row class="text-end">
                 <v-col>
-                <v-btn class=" px-5" @click="forumStore.editForum(s_forum.title, s_forum.desc, id) , checkedit=false">
+                <v-btn class=" px-5"  @click="forumStore.editForum(s_forum.title, s_forum.desc, id) , checkedit=false">
                 save
               </v-btn>
             </v-col>
@@ -192,7 +192,7 @@ onBeforeMount(() => {
             <v-textarea @keyup.enter="forumStore.addComment(comment)" variant="outlined" v-model="comment.desc" ></v-textarea>
           </v-card-text>
           <div class="d-flex justify-end">
-            <v-btn @click="forumStore.addComment(comment)" color="success">Comment</v-btn>
+            <v-btn  @click="forumStore.addComment(comment)" color="warning">Comment</v-btn>
           </div>
         </v-card>
       </div>
