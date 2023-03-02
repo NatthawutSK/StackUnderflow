@@ -20,11 +20,13 @@ export const useUserStore = defineStore('user', () => {
         allUser.value.push(info)
     }
 
+
     function login(data) {
         allUser.value.map((item) => {
             if (item.userName === data.userName && item.password === data.password) {
                 logingUser.value = (item)
             }
+
         })
     }
 
