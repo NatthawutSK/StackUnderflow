@@ -1,7 +1,6 @@
 <script setup>
 import FormAddForum from "../components/FormAddForum.vue"
 
-
 </script>
 
 <template>

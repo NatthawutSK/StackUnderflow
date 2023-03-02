@@ -1,16 +1,11 @@
 <script setup>
-import { storeToRefs } from "pinia";
-import { useUserStore } from "../stores/user";
-
-import CardProfile from '../components/CardProfile.vue'
-const {user} = storeToRefs(useUserStore())
-
+import CardProfile from '@/components/CardProfile.vue'
 </script>
 
 <template>
   <v-main>
-    <v-container >
-        <CardProfile></CardProfile>
+    <v-container>
+      <CardProfile/>
     </v-container>
   </v-main>
 </template>
