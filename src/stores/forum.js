@@ -1,11 +1,10 @@
 import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { computed} from "vue";
 
 
 export const useForumStore = defineStore('forum', ()=>{
     const allForum = useLocalStorage('allForum', [])
-    const allReport = useLocalStorage('report', [])
     const tag = useLocalStorage('tag', '')
     const idPost = useLocalStorage('idPost', 0)
     function addComment(comment){
@@ -29,20 +28,10 @@ export const useForumStore = defineStore('forum', ()=>{
            return com.user === comment.user && com.desc === comment.desc
         }),1)
     }
-    function addReport(report,id){
-        allReport.value.push({report : report, post: id})
-        
-        
-    }
-    function delReport(post, index){
-        allReport.value.splice(index,1)
-        allForum.value.splice(post,1)
-    }
 
     function editForum(title, desc, post){
         allForum.value[post].desc = desc;
         allForum.value[post].title = title;
-        // console.log(post);
     }
     const filterForum = computed(() => {
         if (tag.value === '') {
@@ -54,5 +43,5 @@ export const useForumStore = defineStore('forum', ()=>{
         }
     })
     
-    return {allForum, addForum, addComment, fcomment, deleteForum, deleteComment,addReport, delReport, allReport,editForum, tag, filterForum, idPost}
+    return {allForum, addForum,addComment, deleteComment,fcomment, deleteForum,editForum, tag, filterForum, idPost}
 })

@@ -1,11 +1,6 @@
 <script setup>
-import { ref } from "vue";
-import { storeToRefs } from "pinia";
-import { useUserStore } from "../stores/user";
 import { useForumStore } from "@/stores/forum";
 import CardForum from "@/components/CardForum.vue"
-// const {user} = storeToRefs(useUserStore())
-// const {tag} = storeToRefs(useForumStore())
 const forumStore = useForumStore()
 </script>
 

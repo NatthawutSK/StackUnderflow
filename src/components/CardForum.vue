@@ -1,6 +1,4 @@
 <script setup>
- import { useForumStore } from '../stores/forum';
- 
  defineProps({
   forum:Object
  })

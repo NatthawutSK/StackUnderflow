@@ -10,36 +10,13 @@ const edited = ref({
   email : userStore.logingUser.email,
   password: userStore.logingUser.password
 })
-
-
-
 </script>
 <template>
   <v-container>
-    <v-card class="mx-auto" max-width="434" rounded="0">
-      <v-img
-        height="100%"
-        cover
-        src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
-      >
-        <v-avatar color="grey" size="150" rounded="0">
-          <v-img
-            cover
-            src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"
-          ></v-img>
-        </v-avatar>
-        <v-list-item
-          class="text-white"
-          title="Marcus Obrien"
-          subtitle="Network Engineer"
-        ></v-list-item>
-      </v-img>
-    </v-card>
-    <v-spacer></v-spacer>
     <v-main>
       <v-form>
         <v-card>
-          <v-card-title class="text-h5 ma-3 px-5"> Edit Profile </v-card-title>
+          <v-card-title class="text-h5 ma-3 px-5 text-center"> Edit Profile </v-card-title>
           <v-card-text @keyup.enter="userStore.editUser(edited)">
             <v-row>
               <v-col cols="12" sm="6">

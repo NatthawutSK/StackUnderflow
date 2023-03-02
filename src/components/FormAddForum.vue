@@ -1,10 +1,7 @@
 <script setup>
 import { ref } from "vue";
-import { storeToRefs } from "pinia";
-import { RouterLink } from "vue-router";
 import { useUserStore } from "@/stores/user";
 import {useForumStore} from "@/stores/forum"
-const { theme, user } = storeToRefs(useUserStore());
 const {  logingUser } = useUserStore();
 const forumStore = useForumStore()
 const forum = ref({
