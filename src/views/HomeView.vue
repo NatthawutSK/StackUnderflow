@@ -9,7 +9,7 @@ const forumStore = useForumStore()
     <v-container>
       <v-combobox variant="outlined" class="combo" v-model="forumStore.tag" chips label="Tag"
         :items="['All', 'JavaScript', 'Java', 'Vue.js', 'Node.js']"></v-combobox>
-      <CardForum v-for="forum in forumStore.filterForum" :forum="forum" :to="`/forum/${forum.idPost}`"/>
+      <CardForum v-for="forum,index in forumStore.filterForum" :forum="forum" :to="`/forum/${index}`"/>
     </v-container>
   </v-main>
 </template>

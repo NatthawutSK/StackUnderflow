@@ -11,6 +11,7 @@ const { id } = route.params;
 const reportStore = useReportStore();
 const s_forum = ref(null);
 const dialog = ref(false);
+const isDel = ref(false)
 const report = ref([]);
 const checkedit = ref(false)
 const { logingUser } = useUserStore();
@@ -54,7 +55,7 @@ onBeforeMount(() => {
                           href="/"
                           @click="
                             forumStore.deleteForum(parseInt(id));
-                           
+                           isDel = !isDel
                           "
                           >Delete</v-btn
                         ></v-list-item-title
@@ -136,14 +137,24 @@ onBeforeMount(() => {
               </p>
             </div>
             <div class="text-h5 pa-5" v-else>
-              <p>
-                <v-text-field :value="s_forum.desc" v-model="s_forum.desc"></v-text-field>
-              </p>
+              <v-row>
+                <v-col>
+                <p>
+                  <v-text-field :value="s_forum.desc" v-model="s_forum.desc"></v-text-field>
+                </p>
+              </v-col>
+              </v-row>
+              <v-row class="text-end">
+                <v-col>
+                <v-btn class=" px-5" @click="forumStore.editForum(s_forum.title, s_forum.desc, id) , checkedit=false">
+                save
+              </v-btn>
+            </v-col>
+              </v-row>
+              
             </div>
 
-            <v-btn v-if="checkedit" @click="forumStore.editForum(s_forum.title, s_forum.desc, id) , checkedit=false">
-              save
-            </v-btn>
+           
 
           </v-card-text>
           <v-card-actions>
@@ -187,11 +198,11 @@ onBeforeMount(() => {
       <div class="mt-5">
         <h1>
           Comments({{
-            forumStore.fcomment(parseInt(id)).length
+            (isDel === true ? s_forum.comment.length : forumStore.fcomment(parseInt(id)).length)
           }})
         </h1>
         <Comment
-          v-for="comment in forumStore.fcomment(parseInt(id))"
+          v-for="comment in (isDel === true ? s_forum.comment : forumStore.fcomment(parseInt(id)))"
           :desc="comment.desc"
           :user="comment.user"
           :comment="comment"
