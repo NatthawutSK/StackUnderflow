@@ -7,6 +7,7 @@ export const useForumStore = defineStore('forum', ()=>{
     const allForum = useLocalStorage('allForum', [])
     const allReport = useLocalStorage('report', [])
     const tag = useLocalStorage('tag', '')
+    const idPost = useLocalStorage('idPost', 0)
     function addComment(comment){
             allForum.value[comment.index].comment.push(comment)
     }
@@ -18,6 +19,7 @@ export const useForumStore = defineStore('forum', ()=>{
 
     function addForum(forum){
         allForum.value.push(forum)
+        idPost.value++;
     }
     function deleteForum(index){
         allForum.value.splice(index,1)
@@ -52,5 +54,5 @@ export const useForumStore = defineStore('forum', ()=>{
         }
     })
     
-    return {allForum, addForum, addComment, fcomment, deleteForum, deleteComment,addReport, delReport, allReport,editForum, tag, filterForum}
+    return {allForum, addForum, addComment, fcomment, deleteForum, deleteComment,addReport, delReport, allReport,editForum, tag, filterForum, idPost}
 })

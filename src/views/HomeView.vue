@@ -2,8 +2,8 @@
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../stores/user";
-import { useForumStore } from "../stores/forum";
-import CardForum from "../components/CardForum.vue"
+import { useForumStore } from "@/stores/forum";
+import CardForum from "@/components/CardForum.vue"
 // const {user} = storeToRefs(useUserStore())
 // const {tag} = storeToRefs(useForumStore())
 const forumStore = useForumStore()
@@ -19,9 +19,9 @@ const forumStore = useForumStore()
         :items="['JavaScript', 'Java', 'Vue.js', 'Node.js']"
       ></v-combobox>
       <CardForum
-       v-for="forum, index in forumStore.filterForum"
+       v-for="forum in forumStore.filterForum"
       :forum="forum"
-      :to="`/forum/${index}`"
+      :to="`/forum/${forum.idPost}`"
       ></CardForum>
     </v-container>
   </v-main>

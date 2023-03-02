@@ -2,16 +2,17 @@
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { RouterLink } from "vue-router";
-import { useUserStore } from "../stores/user";
-import {useForumStore} from "../stores/forum"
+import { useUserStore } from "@/stores/user";
+import {useForumStore} from "@/stores/forum"
 const { theme, user } = storeToRefs(useUserStore());
 const {  logingUser } = useUserStore();
-const { addForum} = useForumStore()
+const forumStore = useForumStore()
 const forum = ref({
   title: "",
   desc: "",
   tag: null,
   user:logingUser,
+  idPost: forumStore.idPost,
   comment:[]
 
 });
@@ -21,7 +22,7 @@ const forum = ref({
     <v-form>
       <v-card>
         <v-card-title class="text-h5 ma-3 px-5"> Create Forum </v-card-title>
-        <v-card-text @keyup.enter="addForum(forum), $router.back()">
+        <v-card-text @keyup.enter="forumStore.addForum(forum), $router.back()">
           <v-text-field
           variant="outlined"
             class="mx-2"
@@ -49,7 +50,7 @@ const forum = ref({
         </v-card-text>
         <div></div>
         <div class="d-flex justify-center">
-          <v-btn href="/" class="mb-5 w-50" color="primary" @click="addForum(forum)">Create Post</v-btn>
+          <v-btn href="/"  class="mb-5 w-50" color="primary" @click="forumStore.addForum(forum)">Create Post</v-btn>
         </div>
       </v-card>
     </v-form>
