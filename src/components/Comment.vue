@@ -1,8 +1,9 @@
 <script setup>
 import { useUserStore } from "../stores/user";
+import { useForumStore } from "../stores/forum";
 import { ref } from "vue";
 const { logingUser } = useUserStore();
-const { deleteComment } = useCommentStore();
+const { deleteComment } = useForumStore();
 const checkedit = ref(false)
 defineProps({
   desc: String,

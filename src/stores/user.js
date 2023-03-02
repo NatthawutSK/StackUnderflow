@@ -1,31 +1,35 @@
 import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
-export const useUserStore = defineStore('user', () =>{
+
+export const useUserStore = defineStore('user', () => {
     const theme = useLocalStorage('theme', 'light')
     const allUser = useLocalStorage('allUser', [])
     const logingUser = useLocalStorage('loging', {})
-    function toggleTheme(){
+    function toggleTheme() {
         theme.value = theme.value === 'light' ? 'dark' : 'light'
     }
-    function keepLocal(info){
+    
+    function keepLocal(info) {
         allUser.value.push(info)
     }
-    function login(data){
-       allUser.value.map((item) => {
-           if(item.userName === data.userName && item.password === data.password){
+
+    function login(data) {
+        allUser.value.map((item) => {
+            if (item.userName === data.userName && item.password === data.password) {
                 logingUser.value = (item)
-           }
+            }
         })
     }
 
-    function logout(){
+    function logout() {
         logingUser.value = {}
     }
-    function clickDel(user){
-        allUser.value.splice(allUser.value.findIndex(arrayItem => arrayItem.userName === user.userName),1)
+
+    function clickDel(user) {
+        allUser.value.splice(allUser.value.findIndex(arrayItem => arrayItem.userName === user.userName), 1)
     }
 
-    function editUser(edited){
+    function editUser(edited) {
         logingUser.value.fname = edited.fname
         logingUser.value.lname = edited.lname
         logingUser.value.userName = edited.userName
@@ -33,6 +37,15 @@ export const useUserStore = defineStore('user', () =>{
         logingUser.value.password = edited.password
     }
 
-    
-    return { toggleTheme, theme, login, logout, keepLocal, logingUser, allUser, clickDel, editUser}
+    return {
+        toggleTheme,
+        theme,
+        login,
+        logout,
+        keepLocal,
+        logingUser,
+        allUser,
+        clickDel,
+        editUser
+    }
 })
