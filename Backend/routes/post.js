@@ -50,17 +50,17 @@ router.post("/post/create", async function (req, res, next) {
 
   router.put('/post/addlike/:postId', async function(req, res, next){
     try{
-        const [rows, fields] = await pool.query("UPDATE post SET likes = (SELECT likes FROM post WHERE post_id = ?)+1 WHERE post_id = ?",
+        const [rows, fields] = await pool.query("UPDATE post SET post_like = (SELECT post_like FROM post WHERE post_id = ?)+1 WHERE post_id = ?",
          [req.params.postId, req.params.postId]);
 
          const [rows1, fields1] = await pool.query("SELECT * FROM post WHERE post_id = ?",
          [req.params.postId]);
 
-         const [{post_id, likes}] = rows1;
+         const [{post_id, post_like}] = rows1;
         //  console.log(blog_id, like);
         return res.json({
             postId : post_id,
-            likeNum : likes
+            likeNum : post_like
         });
     
       } catch (err) {
@@ -72,8 +72,10 @@ router.post("/post/create", async function (req, res, next) {
 router.get("/post/:postId", async function (req, res, next) {
     // Your code here
     try{
-        const [rows, fields] = await pool.query("SELECT * FROM post WHERE post_id = ?",
+
+         const [rows, fields] = await pool.query("SELECT * FROM post WHERE post_id = ?",
          [req.params.postId]);
+
         return res.json(rows);
     
       } catch (err) {
@@ -81,12 +83,6 @@ router.get("/post/:postId", async function (req, res, next) {
         return next(err);
       }
   });
-
-
-
-
-
-
 
 
   exports.router = router;

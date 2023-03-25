@@ -15,4 +15,15 @@ router.get("/", async function (req, res, next) {
     
   });
 
+  router.get("/tag", async function (req, res, next) {
+    try {
+        const [rows, fields] = await pool.query('SELECT * FROM tag')
+        return res.json(rows)
+        
+    } catch (error) {
+        next(err)
+    }
+    
+  });
+
 exports.router = router;
