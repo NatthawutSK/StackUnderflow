@@ -2,9 +2,7 @@
  defineProps({
   forum:Object
  })
-  async function like(id){
-    forum.post_like = await axios.put(`http://localhost:3000/post/addlike/${id}`)
-  }
+  
 </script>
 <template>
 
@@ -30,8 +28,8 @@
             image="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
           ></v-avatar>
         </template>
-        <v-list-item-title class="text-h6 my-1">user test</v-list-item-title>
-        <v-chip>{{ forum.tag_id }}</v-chip>
+        <v-list-item-title class="text-h6 my-1">{{forum.mem_fname}}</v-list-item-title>
+        <v-chip>{{ forum.tag_name }}</v-chip>
         <template v-slot:append>
           <div class="justify-self-end">
             <v-btn @click="like(forum.post_id)" style="z-index: 0;"><v-icon class="me-1" icon="mdi-heart"></v-icon>

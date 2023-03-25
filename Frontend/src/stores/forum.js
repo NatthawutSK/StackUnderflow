@@ -4,6 +4,14 @@ import { computed, ref } from "vue";
 import axios from 'axios';
 export const useForumStore = defineStore('forum', () => {
     const post = ref([])
+    // const allTag = ref([])
+    const selectTag = ref("All")
+
+    // const fetchTag = async () => {
+    //     const fetchingData = await axios.get('http://localhost:3000/tag')
+    //     allTag.value = fetchingData.data;
+    //   }
+
 
     const fetchPost = async () => {
         const fetchingData = await axios.get('http://localhost:3000')
@@ -41,20 +49,21 @@ export const useForumStore = defineStore('forum', () => {
     //     allForum.value[post].desc = desc;
     //     allForum.value[post].title = title;
     // }
-    // const filterForum = computed(() => {
-    //     if (post.value === 'All') {
-    //         return allForum.value
-    //     } else {
-    //         return post.value.filter(item => {
-    //             return item.post === post.value
-    //         })
-    //     }
-    // })
+    const filterForum = computed(() => {
+        if (selectTag.value == 'All') {
+            return post.value
+        } else {
+            return post.value.filter(item => {
+                return item.tag_name == selectTag.value
+            })
+        }
+    })
 
     return {
         fetchPost,
         post,
-        // filterForum
+        filterForum,
+        selectTag,
     
     }
 })

@@ -10,9 +10,9 @@ onMounted(forumStore.fetchPost)
 <template>
   <v-main>
     <v-container>
-      <v-select variant="outlined" class=" d-flex flex-row-reverse" v-model="forumStore.tag" chips label="Tag"
+      <v-select variant="outlined" class=" d-flex flex-row-reverse" v-model="forumStore.selectTag" chips label="Tag"
         :items="['All', 'JavaScript', 'Java', 'Vue.js', 'Node.js']"></v-select>
-      <CardForum v-for="forum,index in forumStore.post" :forum="forum" :to="`/forum/${index}`"/>
+      <CardForum v-for="forum,index in forumStore.filterForum" :forum="forum" :to="`/forum/${index}`"/>
     </v-container>
     <!-- {{ forumStore.post }} -->
   </v-main>
