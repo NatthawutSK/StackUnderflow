@@ -1,18 +1,17 @@
 <script setup>
 import { ref } from "vue";
-import { useUserStore } from "@/stores/user";
+// import { useUserStore } from "@/stores/user";
 import {useForumStore} from "@/stores/forum"
-const {  logingUser } = useUserStore();
+// const {  logingUser } = useUserStore();
 const forumStore = useForumStore()
 const forum = ref({
   title: "",
   desc: "",
-  tag: null,
-  user:logingUser,
-  idPost: forumStore.idPost,
-  comment:[]
+  mem: 1,
+  tag: ""
 
 });
+
 </script>
 <template>
   <v-main>

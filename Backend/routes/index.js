@@ -4,16 +4,16 @@ const pool = require('../config.js')
 
 router = express.Router();
 
-// router.get("/", async function (req, res, next) {
-//     try {
-//         const [rows, fields] = await pool.query('SELECT * FROM post')
-//         return res.json(rows)
+router.get("/tag", async function (req, res, next) {
+    try {
+        const [rows, fields] = await pool.query('SELECT * FROM tag')
+        return res.json(rows)
         
-//     } catch (error) {
-//         next(err)
-//     }
+    } catch (error) {
+        next(err)
+    }
     
-//   });
+  });
 
   router.get("/", async function (req, res, next) {
     try {

@@ -15,11 +15,11 @@ const userStore = useUserStore()
         </v-btn>
         <v-spacer></v-spacer>
 
-        <h3 v-if="JSON.stringify(logingUser) !== '{}'" class="pr-5">Welcome User : {{ logingUser.userName }}</h3>
+        <h3 v-if="true" class="pr-5">Welcome User : {{ logingUser.userName }}</h3>
 
         
-        <v-btn  v-if="JSON.stringify(logingUser) !== '{}'"  href="/addforum">Create Forum</v-btn>
-        <v-btn v-if="logingUser.userName === 'admin' " href="/admin">Manage User</v-btn>
+        <v-btn  v-if="true"  href="/addforum">Create Forum</v-btn>
+        <v-btn v-if="true " href="/admin">Manage User</v-btn>
         
         
 
@@ -28,7 +28,7 @@ const userStore = useUserStore()
           @click="userStore.toggleTheme()"
         />
 
-        <v-btn v-if="JSON.stringify(logingUser) === '{}'" variant="tonal"  href="/login"  >log in</v-btn>
+        <v-btn v-if="true" variant="tonal"  href="/login"  >log in</v-btn>
         <v-btn href="/" v-else  @click="userStore.logout()" variant="tonal"  >log out</v-btn>
         <v-btn href="/profile">
           <v-avatar >
