@@ -13,10 +13,14 @@ const dialog = ref(false);
 const isDel = ref(false)
 const report = ref([]);
 const checkedit = ref(false)
-const singlePost = ref({})
+const singlePost = ref({
+  post_title : "",
+  post_desc:"",
+})
 onMounted(async () => {
   singlePost.value = await forumStore.fetchSinglePost(id)
 })
+onMounted(forumStore.fetchTag)
 
 console.log(singlePost.value);
 // const { logingUser } = useUserStore();
@@ -34,16 +38,18 @@ console.log(singlePost.value);
     <v-main>
     <v-container class="mt-5 pa-10">
       {{ singlePost }}
+      <!-- {{   forumStore.editTag }} -->
       <div>
         <v-card variant="outlined">
           <v-card-title >
             <v-row>
               <v-col cols="11">
+                <!-- edit title -->
                 <div class="pa-6 text-h4" style="white-space: normal" v-if="!checkedit">
                   <p>{{ singlePost.post_title }}</p>
                 </div>
                 <div class="pa-6 text-h4" style="white-space: normal" v-else>
-                  <v-text-field :value="singlePost.title" v-model="singlePost.title"></v-text-field>
+                  <v-text-field :value="singlePost.post_title" v-model="singlePost.post_title"></v-text-field>
                 </div>
               </v-col>
               <v-col cols="1">
@@ -138,22 +144,39 @@ console.log(singlePost.value);
             </v-row>
           </v-card-title>
           <v-card-text>
+            <!-- edit desc  -->
             <div class="text-h5 pa-5" v-if="!checkedit">
               <p>
-                {{ singlePost.post_title }}
+                {{ singlePost.post_desc }}
               </p>
             </div>
             <div class="text-h5 pa-5" v-else>
               <v-row>
                 <v-col>
                 <p>
-                  <v-text-field :value="singlePost.title" v-model="singlePost.title"></v-text-field>
+                  <v-text-field :value="singlePost.post_desc" v-model="singlePost.post_desc"></v-text-field>
                 </p>
               </v-col>
               </v-row>
+              <v-row>
+                <v-col>
+                  <v-select
+          variant="outlined"
+            chips
+            class="mx-2"
+            label="Select Tag"
+            item-title="tag_name" item-value="tag_id"
+            :items="forumStore.editTag"
+            v-model="singlePost.tag_id"
+            :value="singlePost.tag_name"
+          ></v-select>
+          {{ singlePost }}
+                </v-col>
+              </v-row>
               <v-row class="text-end">
                 <v-col>
-                <v-btn class=" px-5"  @click="editForum(singlePost.post_title, singlePost, id) , checkedit=false">
+                  
+                <v-btn class=" px-5"  @click="forumStore.editForum(singlePost, id) , checkedit=false">
                 save
               </v-btn>
             </v-col>
@@ -173,15 +196,14 @@ console.log(singlePost.value);
                 ></v-avatar>
               </template>
 
-              <v-list-item-title class="text-h6 my-1">{{ singlePost.mem_id  }}</v-list-item-title>
-
-              <v-chip>{{ singlePost.tag_id }}</v-chip>
+              <v-list-item-title class="text-h6 my-1">{{ singlePost.mem_user_name  }}</v-list-item-title>
+              <v-chip>{{ singlePost.tag_name }}</v-chip>
 
               <template v-slot:append>
                 <div class="justify-self-end">
                   <v-btn
                     ><v-icon class="me-1" icon="mdi-heart"></v-icon>
-                    <span class="subheading me-2">256</span></v-btn
+                    <span class="subheading me-2">{{ singlePost.post_like }}</span></v-btn
                   >
                 </div>
               </template>

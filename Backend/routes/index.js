@@ -6,7 +6,7 @@ router = express.Router();
 
 router.get("/tag", async function (req, res, next) {
     try {
-        const [rows, fields] = await pool.query('SELECT * FROM tag')
+        const [rows, fields] = await pool.query('SELECT * FROM tag ')
         return res.json(rows)
         
     } catch (error) {

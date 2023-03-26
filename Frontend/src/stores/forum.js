@@ -9,7 +9,8 @@ export const useForumStore = defineStore('forum', () => {
             })
     const allTag = ref([])
     const createTag = ref([])
-    const singlePost = ref({})
+    const editTag = ref([])
+    // const singlePost = ref({})
     function convertTime(time){
         const dateObj = new Date(time);
 
@@ -28,6 +29,7 @@ export const useForumStore = defineStore('forum', () => {
         const fetchingData = await axios.get('http://localhost:3000/tag')
         allTag.value = [{tag_id:1, tag_name:"All"}, ...fetchingData.data];
         createTag.value = fetchingData.data;
+        editTag.value = fetchingData.data;
       }
     const fetchPost = async () => {
         const fetchingData = await axios.get('http://localhost:3000')
@@ -44,15 +46,19 @@ export const useForumStore = defineStore('forum', () => {
         }
     })
 
+    const editForum = async (forum, id) =>{
+        // console.log(forum, id);
+        await axios.put(`http://localhost:3000/post/edit/${id}`, forum)
+    }
 
 
     const addForum = async (forum) =>{
         // console.log(forum);
         await axios.post('http://localhost:3000/post/create', forum)
     }
+
     const fetchSinglePost = async (id) => {
         return (await axios.get(`http://localhost:3000/post/${id}`)).data[0]
-        
        }
     return {
         fetchPost,
@@ -64,8 +70,10 @@ export const useForumStore = defineStore('forum', () => {
         fetchTag,
         allTag,
         createTag,
-        singlePost,
-        convertTime
+        // singlePost,
+        convertTime,
+        editForum,
+        editTag
     
     }
 })
