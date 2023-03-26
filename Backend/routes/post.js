@@ -7,6 +7,7 @@ router = express.Router();
 router.post("/post/create", async function (req, res, next) {
     // Your code here
     const {post_title, post_desc, mem_id, tag_id} = req.body
+    // console.log(post_title, post_desc, mem_id, tag_id);
     try {
         const [rows, fields] = await pool.query('INSERT INTO post(post_title,post_desc,mem_id,tag_id) VALUES (?,?,?,?)',
         [post_title, post_desc, mem_id, tag_id])

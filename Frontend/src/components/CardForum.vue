@@ -1,4 +1,6 @@
 <script setup>
+import {useForumStore} from "@/stores/forum"
+const forumStore = useForumStore()
  defineProps({
   forum:Object
  })
@@ -16,8 +18,9 @@
         </h3>
         </v-col>
           </v-row>
-        <div class="text-truncate"
-        style="max-width: 100%">{{ forum.post_desc }}</div>
+        <!-- <div class="text-truncate"
+        style="max-width: 100%">{{ forum.post_desc }}</div> -->
+        <small>{{ forumStore.convertTime(forum.post_created_at) }}</small>
       </div>
     </v-card-title>
     <v-card-actions>
