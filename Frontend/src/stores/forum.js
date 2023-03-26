@@ -51,11 +51,9 @@ export const useForumStore = defineStore('forum', () => {
         await axios.post('http://localhost:3000/post/create', forum)
     }
     const fetchSinglePost = async (id) => {
-        const fetchingData = await axios.get(`http://localhost:3000/post/${id}`)
-        const {destruc} = fetchingData.data;
-        singlePost.value = destruc;
-        console.log(singlePost.value);
-      }
+        return (await axios.get(`http://localhost:3000/post/${id}`)).data[0]
+        
+       }
     return {
         fetchPost,
         fetchSinglePost,

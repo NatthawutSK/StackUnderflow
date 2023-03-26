@@ -2,7 +2,7 @@
 import { useRoute } from "vue-router";
 // import { useUserStore } from "@/stores/user";
 import Comment from "@/components/Comment.vue";
-import { ref, onMounted} from "vue";
+import { ref, onMounted, } from "vue";
 import { useForumStore } from "@/stores/forum";
 // import { useReportStore } from "@/stores/report";
 const forumStore = useForumStore();
@@ -13,9 +13,12 @@ const dialog = ref(false);
 const isDel = ref(false)
 const report = ref([]);
 const checkedit = ref(false)
-console.log(id);
-onMounted(forumStore.fetchSinglePost(id))
-console.log(forumStore.singlePost);
+const singlePost = ref({})
+onMounted(async () => {
+  singlePost.value = await forumStore.fetchSinglePost(id)
+})
+
+console.log(singlePost.value);
 // const { logingUser } = useUserStore();
 // const comment = ref({
 //   desc: "",
@@ -23,23 +26,24 @@ console.log(forumStore.singlePost);
 //   index: parseInt(id),
 // });
 // onBeforeMount(() => {
-//   forumStore.singlePostvalue = forumStore.allForum.find((f, index) => index === parseInt(id));
+//   singlePostvalue = allForum.find((f, index) => index === parseInt(id));
 // });
 </script>
 
 <template>
     <v-main>
     <v-container class="mt-5 pa-10">
+      {{ singlePost }}
       <div>
         <v-card variant="outlined">
           <v-card-title >
             <v-row>
               <v-col cols="11">
                 <div class="pa-6 text-h4" style="white-space: normal" v-if="!checkedit">
-                  <p>{{ forumStore.singlePost.title }}</p>
+                  <p>{{ singlePost.post_title }}</p>
                 </div>
                 <div class="pa-6 text-h4" style="white-space: normal" v-else>
-                  <v-text-field :value="forumStore.singlePosttitle" v-model="forumStore.singlePosttitle"></v-text-field>
+                  <v-text-field :value="singlePost.title" v-model="singlePost.title"></v-text-field>
                 </div>
               </v-col>
               <v-col cols="1">
@@ -56,7 +60,7 @@ console.log(forumStore.singlePost);
                         ><v-btn
                           href="/"
                           @click="
-                            forumStore.deleteForum(parseInt(id));
+                            deleteForum(parseInt(id));
                            isDel = !isDel
                           "
                           >Delete</v-btn
@@ -136,20 +140,20 @@ console.log(forumStore.singlePost);
           <v-card-text>
             <div class="text-h5 pa-5" v-if="!checkedit">
               <p>
-                {{ forumStore.singlePostdesc }}
+                {{ singlePost.post_title }}
               </p>
             </div>
             <div class="text-h5 pa-5" v-else>
               <v-row>
                 <v-col>
                 <p>
-                  <v-text-field :value="forumStore.singlePostdesc" v-model="forumStore.singlePostdesc"></v-text-field>
+                  <v-text-field :value="singlePost.title" v-model="singlePost.title"></v-text-field>
                 </p>
               </v-col>
               </v-row>
               <v-row class="text-end">
                 <v-col>
-                <v-btn class=" px-5"  @click="forumStore.editForum(forumStore.singlePosttitle, forumStore.singlePostdesc, id) , checkedit=false">
+                <v-btn class=" px-5"  @click="editForum(singlePost.post_title, singlePost, id) , checkedit=false">
                 save
               </v-btn>
             </v-col>
@@ -169,11 +173,9 @@ console.log(forumStore.singlePost);
                 ></v-avatar>
               </template>
 
-              <v-list-item-title class="text-h6 my-1">{{
-                forumStore.singlePostuser.mem_id
-              }}</v-list-item-title>
+              <v-list-item-title class="text-h6 my-1">{{ singlePost.mem_id  }}</v-list-item-title>
 
-              <v-chip>{{ forumStore.singlePosttag }}</v-chip>
+              <v-chip>{{ singlePost.tag_id }}</v-chip>
 
               <template v-slot:append>
                 <div class="justify-self-end">
@@ -187,25 +189,25 @@ console.log(forumStore.singlePost);
           </v-card-actions>
         </v-card>
       </div>
-      <div class="mt-5 pa-5" v-if="true">
+      <!-- <div class="mt-5 pa-5" v-if="true">
         <v-card class="pa-5">
           <v-card-title>Write Comment </v-card-title>
           <v-card-text>
-            <v-textarea @keyup.enter="forumStore.addComment(comment)" variant="outlined" v-model="comment.desc" ></v-textarea>
+            <v-textarea @keyup.enter="addComment(comment)" variant="outlined" v-model="comment.desc" ></v-textarea>
           </v-card-text>
           <div class="d-flex justify-end">
-            <v-btn  @click="forumStore.addComment(comment)" color="warning">Comment</v-btn>
+            <v-btn  @click="addComment(comment)" color="warning">Comment</v-btn>
           </div>
         </v-card>
-      </div>
+      </div> -->
       <!-- <div class="mt-5">
         <h1>
           Comments({{
-            (isDel === true ? forumStore.singlePostcomment.length : forumStore.fcomment(parseInt(id)).length)
+            (isDel === true ? singlePostcomment.length : fcomment(parseInt(id)).length)
           }})
         </h1>
         <Comment
-          v-for="comment in (isDel === true ? forumStore.singlePostcomment : forumStore.fcomment(parseInt(id)))"
+          v-for="comment in (isDel === true ? singlePostcomment : fcomment(parseInt(id)))"
           :desc="comment.desc"
           :user="comment.user"
           :comment="comment"
