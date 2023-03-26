@@ -9,7 +9,7 @@ export const useForumStore = defineStore('forum', () => {
             })
     const allTag = ref([])
     const createTag = ref([])
-    
+    const singlePost = ref({})
     function convertTime(time){
         const dateObj = new Date(time);
 
@@ -50,9 +50,15 @@ export const useForumStore = defineStore('forum', () => {
         // console.log(forum);
         await axios.post('http://localhost:3000/post/create', forum)
     }
-
+    const fetchSinglePost = async (id) => {
+        const fetchingData = await axios.get(`http://localhost:3000/post/${id}`)
+        const {destruc} = fetchingData.data;
+        singlePost.value = destruc;
+        console.log(singlePost.value);
+      }
     return {
         fetchPost,
+        fetchSinglePost,
         post,
         filterForum,
         selectTag,
@@ -60,6 +66,7 @@ export const useForumStore = defineStore('forum', () => {
         fetchTag,
         allTag,
         createTag,
+        singlePost,
         convertTime
     
     }
