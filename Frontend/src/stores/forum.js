@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { computed, ref, reactive } from "vue";
 import axios from 'axios';
 export const useForumStore = defineStore('forum', () => {
     const post = ref([])
@@ -91,6 +91,25 @@ export const useForumStore = defineStore('forum', () => {
         })
     }
 
+    const createComment = ref({
+        comm_content: "",
+        post_id: "", 
+        mem_id:""
+    })
+    
+    const addComment = async (content, mem_id, post_id) =>{
+        const commentData = await axios.post('http://localhost:3000/comment/create', {
+            comm_content: content,
+            post_id: post_id, 
+            mem_id: mem_id
+        })
+        const [destruc] =  commentData.data
+        commentPost.value.push(destruc)
+        createComment.value.comm_content = ""
+    }
+
+
+
     return {
         fetchPost,
         fetchSinglePost,
@@ -110,6 +129,7 @@ export const useForumStore = defineStore('forum', () => {
         commentPost,
         fetchComment,
         addLikeComment,
-    
+        createComment,
+        addComment
     }
 })

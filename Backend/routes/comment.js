@@ -24,7 +24,12 @@ router.post("/comment/create", async function (req, res, next) {
     try {
         const [rows, fields] = await pool.query('INSERT INTO comment(comm_content, post_id, mem_id) VALUES (?,?,?)',
         [comm_content, post_id, mem_id])
-        return res.json(rows)
+      const insertId = rows.insertId
+      // console.log(insertId);
+        const [rows1, fields1] = await pool.query("SELECT * FROM comment WHERE comm_id = ?",
+         [insertId]);
+
+        return res.json(rows1)
     } catch (error) {
         console.log(error);
     }

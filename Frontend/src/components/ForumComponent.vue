@@ -19,13 +19,6 @@ onMounted(async () => {
 })
 onMounted(forumStore.fetchTag)
 
-// const { logingUser } = useUserStore();
-// const comment = ref({
-//   desc: "",
-//   user: logingUser,
-//   index: parseInt(id),
-// });
-
 </script>
 
 <template>
@@ -205,17 +198,18 @@ onMounted(forumStore.fetchTag)
           </v-card-actions>
         </v-card>
       </div>
-      <!-- <div class="mt-5 pa-5" v-if="true">
+      <div class="mt-5 pa-5" v-if="true">
         <v-card class="pa-5">
           <v-card-title>Write Comment </v-card-title>
           <v-card-text>
-            <v-textarea @keyup.enter="addComment(comment)" variant="outlined" v-model="comment.desc" ></v-textarea>
+            <v-textarea  variant="outlined" v-model="forumStore.createComment.comm_content" ></v-textarea>
           </v-card-text>
           <div class="d-flex justify-end">
-            <v-btn  @click="addComment(comment)" color="warning">Comment</v-btn>
+            <v-btn  @click="forumStore.addComment(forumStore.createComment.comm_content, forumStore.singlePost.mem_id, forumStore.singlePost.post_id) " color="warning">Comment</v-btn>
           </div>
         </v-card>
-      </div> -->
+      </div>
+      {{ forumStore.createComment.comm_content }}
       <div class="mt-5">
         <h1>
           Comments({{
