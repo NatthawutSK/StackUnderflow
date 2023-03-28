@@ -40,10 +40,10 @@ router.post("/post/create", async function (req, res, next) {
         const [rows, fields] = await pool.query("UPDATE post SET post_title=?,post_desc=?,tag_id=?  WHERE post_id = ?",
          [post_title,post_desc,tag_id,req.params.postId]);
 
-         const [rows1, fields1] = await pool.query("SELECT * FROM post p JOIN tag t ON (p.tag_id = t.tag_id) JOIN member m ON (m.mem_id = p.mem_id) WHERE post_id = ?",
-         [req.params.postId]);
+        //  const [rows1, fields1] = await pool.query("SELECT * FROM post p JOIN tag t ON (p.tag_id = t.tag_id) JOIN member m ON (m.mem_id = p.mem_id) WHERE post_id = ?",
+        //  [req.params.postId]);
 
-         return res.json(rows1);
+         return res.json(rows);
     
       } catch (err) {
         console.log(err)

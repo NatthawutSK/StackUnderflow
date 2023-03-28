@@ -9,8 +9,12 @@ export const useForumStore = defineStore('forum', () => {
             })
     const allTag = ref([])
     const createTag = ref([])
-    const editTag = ref([])
-    // const singlePost = ref({})
+    const singlePost = ref({})
+    const editTag = ref([{
+        tag_id: singlePost.value.tag_id,
+        tag_name: singlePost.value.tag_name
+    }])
+    
     function convertTime(time){
         const dateObj = new Date(time);
 
@@ -35,7 +39,10 @@ export const useForumStore = defineStore('forum', () => {
         const fetchingData = await axios.get('http://localhost:3000')
         post.value = fetchingData.data;
       }
-      
+      async function fetchData(id){
+        singlePost.value = await fetchSinglePost(id)
+        // console.log(singlePost.value);
+      }
     const filterForum = computed(() => {
         if (selectTag.value.tag_name == 'All') {
             return post.value
@@ -49,17 +56,24 @@ export const useForumStore = defineStore('forum', () => {
     const editForum = async (forum, id) =>{
         // console.log(forum, id);
         await axios.put(`http://localhost:3000/post/edit/${id}`, forum)
+        fetchData(id)
     }
 
 
     const addForum = async (forum) =>{
-        // console.log(forum);
         await axios.post('http://localhost:3000/post/create', forum)
     }
 
     const fetchSinglePost = async (id) => {
         return (await axios.get(`http://localhost:3000/post/${id}`)).data[0]
        }
+    const addLikePost = async (id) =>{
+        await axios.put(`http://localhost:3000/post/addlike/${id}`)
+        fetchData(id)
+    }
+
+
+
     return {
         fetchPost,
         fetchSinglePost,
@@ -70,10 +84,11 @@ export const useForumStore = defineStore('forum', () => {
         fetchTag,
         allTag,
         createTag,
-        // singlePost,
+        singlePost,
         convertTime,
         editForum,
-        editTag
+        editTag,
+        addLikePost
     
     }
 })
