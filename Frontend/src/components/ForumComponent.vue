@@ -59,7 +59,7 @@ onMounted(forumStore.fetchTag)
                         ><v-btn
                           href="/"
                           @click="
-                            deleteForum(id);
+                            forumStore.deleteForum(id);
                           "
                           >Delete</v-btn
                         ></v-list-item-title

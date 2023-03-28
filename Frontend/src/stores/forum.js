@@ -39,9 +39,8 @@ export const useForumStore = defineStore('forum', () => {
         const fetchingData = await axios.get('http://localhost:3000')
         post.value = fetchingData.data;
       }
-      async function fetchData(id){
+      async function fetchSinglePostData(id){
         singlePost.value = await fetchSinglePost(id)
-        // console.log(singlePost.value);
       }
     const filterForum = computed(() => {
         if (selectTag.value.tag_name == 'All') {
@@ -56,7 +55,7 @@ export const useForumStore = defineStore('forum', () => {
     const editForum = async (forum, id) =>{
         // console.log(forum, id);
         await axios.put(`http://localhost:3000/post/edit/${id}`, forum)
-        fetchData(id)
+        fetchSinglePostData(id)
     }
 
 
@@ -69,9 +68,13 @@ export const useForumStore = defineStore('forum', () => {
        }
     const addLikePost = async (id) =>{
         await axios.put(`http://localhost:3000/post/addlike/${id}`)
-        fetchData(id)
+        fetchSinglePostData(id)
     }
 
+    const deleteForum = async (id) =>{
+        await axios.delete(`http://localhost:3000/post/delete/${id}`)
+    }
+    
 
 
     return {
@@ -88,7 +91,8 @@ export const useForumStore = defineStore('forum', () => {
         convertTime,
         editForum,
         editTag,
-        addLikePost
+        addLikePost,
+        deleteForum
     
     }
 })
