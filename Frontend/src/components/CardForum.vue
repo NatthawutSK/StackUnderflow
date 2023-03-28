@@ -35,7 +35,7 @@ const forumStore = useForumStore()
         <v-chip>{{ forum.tag_name }}</v-chip>
         <template v-slot:append>
           <div class="justify-self-end">
-            <v-btn @click="like(forum.post_id)" style="z-index: 0;"><v-icon class="me-1" icon="mdi-heart"></v-icon>
+            <v-btn  style="z-index: 0;"><v-icon class="me-1" icon="mdi-heart"></v-icon>
               <span class="subheading me-2">{{forum.post_like}}</span></v-btn>
           </div>
         </template>

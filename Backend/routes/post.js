@@ -77,7 +77,7 @@ router.get("/post/:postId", async function (req, res, next) {
     // Your code here
     try{
 
-         const [rows, fields] = await pool.query("SELECT * FROM post p JOIN tag t ON (p.tag_id = t.tag_id) JOIN member m ON (m.mem_id = p.mem_id) WHERE post_id = ?",
+         const [rows, fields] = await pool.query("SELECT * FROM post NATURAL JOIN member NATURAL JOIN tag where post_id = ?;",
          [req.params.postId]);
 
         return res.json(rows);

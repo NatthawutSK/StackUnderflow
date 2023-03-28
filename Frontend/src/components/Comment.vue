@@ -1,15 +1,18 @@
 <script setup>
+import { useRoute } from "vue-router";
 import { useUserStore } from "../stores/user";
 import { useForumStore } from "../stores/forum";
-import { ref } from "vue";
-const { logingUser } = useUserStore();
-const { deleteComment } = useForumStore();
+import { ref, onMounted } from "vue";
+// const { logingUser } = useUserStore();
+const route = useRoute()
+const {id} = route.params
+const forumStore = useForumStore();
 const checkedit = ref(false)
 defineProps({
-  desc: String,
-  user: Object,
   comment: Object,
 });
+
+
 </script>
 
 <template>
@@ -19,11 +22,11 @@ defineProps({
         <v-row>
           <v-col cols="11">
             <div class="text-truncate" style="max-width: 80%" v-if="!checkedit">
-              {{ comment.desc }}
+              {{ comment.comm_content }}
             </div>
             <div class="text-truncate d-flex " style="max-width: 80%" v-else>
               
-              <v-text-field  v-model="comment.desc"></v-text-field>
+              <v-text-field  v-model="comment.comm_content"></v-text-field>
             <v-btn class=" ms-4 mt-2" @click="checkedit = !checkedit">Save</v-btn>
             
             </div>
@@ -31,13 +34,13 @@ defineProps({
           <v-col cols="1">
             <v-menu
               location="end"
-              v-if="logingUser.userName === comment.user.userName || logingUser.userName === 'admin'"
+              v-if="true"
             >
               <template v-slot:activator="{ props }">
                 <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>
               </template>
 
-              <v-list>
+              <!-- <v-list>
                 <v-list-item>
                   <v-list-item-title class="text-h6 pa-1"
                     ><v-btn @click="deleteComment(comment, comment.index)"
@@ -48,7 +51,7 @@ defineProps({
                     ><v-btn @click="checkedit = !checkedit">Edit</v-btn></v-list-item-title
                   >
                 </v-list-item>
-              </v-list>
+              </v-list> -->
             </v-menu>
           </v-col>
         </v-row>
@@ -64,15 +67,15 @@ defineProps({
         </template>
 
         <v-list-item-title class="text-h6 my-1">{{
-          user.userName
+          comment.mem_id
         }}</v-list-item-title>
 
         <template v-slot:append>
           <div class="justify-self-end">
-            <v-btn
-              ><v-icon class="me-1" icon="mdi-heart"></v-icon>
-              <span class="subheading me-2">256</span></v-btn
-            >
+            <v-btn @click="forumStore.addLikeComment(comment.comm_id)" >
+              <v-icon class="me-1" icon="mdi-heart"></v-icon>
+              <span class="subheading me-2">{{ comment.comm_like }}</span>
+              </v-btn>
           </div>
         </template>
       </v-list-item>

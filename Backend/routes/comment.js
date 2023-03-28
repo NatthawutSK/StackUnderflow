@@ -4,6 +4,19 @@ const pool = require('../config.js')
 
 router = express.Router();
 
+router.get("/comment/:postId", async function (req, res, next) {
+    // Your code here
+    // const {comm_content, post_id, mem_id} = req.body
+    // console.log(comm_content, post_id, mem_id);
+    try {
+        const [rows, fields] = await pool.query('select * from comment where post_id = ?',
+        [req.params.postId])
+        return res.json(rows)
+    } catch (error) {
+        console.log(error);
+    }
+  });
+
 router.post("/comment/create", async function (req, res, next) {
     // Your code here
     const {comm_content, post_id, mem_id} = req.body

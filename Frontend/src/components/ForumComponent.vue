@@ -15,6 +15,7 @@ const report = ref([]);
 const checkedit = ref(false)
 onMounted(async () => {
   forumStore.singlePost = await forumStore.fetchSinglePost(id)
+  forumStore.commentPost = await forumStore.fetchComment(id)
 })
 onMounted(forumStore.fetchTag)
 
@@ -30,6 +31,7 @@ onMounted(forumStore.fetchTag)
 <template>
     <v-main>
     <v-container class="mt-5 pa-10">
+    {{ forumStore.commentPost }}
       <!-- {{ singlePost }} -->
       <!-- {{   forumStore.editTag }} -->
       <div>
@@ -214,19 +216,18 @@ onMounted(forumStore.fetchTag)
           </div>
         </v-card>
       </div> -->
-      <!-- <div class="mt-5">
+      <div class="mt-5">
         <h1>
           Comments({{
-            (isDel === true ? singlePostcomment.length : fcomment(parseInt(id)).length)
+            forumStore.commentPost.length
           }})
         </h1>
+        
         <Comment
-          v-for="comment in (isDel === true ? singlePostcomment : fcomment(parseInt(id)))"
-          :desc="comment.desc"
-          :user="comment.user"
+          v-for="comment in forumStore.commentPost"
           :comment="comment"
         ></Comment>
-      </div> -->
+      </div>
     </v-container>
   </v-main>
 </template>

@@ -67,8 +67,8 @@ export const useForumStore = defineStore('forum', () => {
         return (await axios.get(`http://localhost:3000/post/${id}`)).data[0]
        }
     const addLikePost = async (id) =>{
-        await axios.put(`http://localhost:3000/post/addlike/${id}`)
-        fetchSinglePostData(id)
+        const likeData = await axios.put(`http://localhost:3000/post/addlike/${id}`)
+        singlePost.value.post_like = likeData.data.likeNum
     }
 
     const deleteForum = async (id) =>{
@@ -76,6 +76,20 @@ export const useForumStore = defineStore('forum', () => {
     }
     
 
+    const commentPost = ref([])
+    const fetchComment = async (id) => {
+        return (await axios.get(`http://localhost:3000/comment/${id}`)).data
+       }
+
+    const addLikeComment = async (comId) =>{
+        const likeData = await axios.put(`http://localhost:3000/comment/addlike/${comId}`)
+        commentPost.value = commentPost.value.map((item) => {
+            if(item.comm_id == comId){
+                return { ...item,  comm_like:likeData.data.likeNum };
+            }
+            return item
+        })
+    }
 
     return {
         fetchPost,
@@ -92,7 +106,10 @@ export const useForumStore = defineStore('forum', () => {
         editForum,
         editTag,
         addLikePost,
-        deleteForum
+        deleteForum,
+        commentPost,
+        fetchComment,
+        addLikeComment,
     
     }
 })
