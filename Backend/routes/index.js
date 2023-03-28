@@ -21,8 +21,8 @@ router.get("/tag", async function (req, res, next) {
         return res.json(rows)
         
     } catch (error) {
-        console.log(err);
-        next(err)
+        console.log(error);
+        next(error)
     }
     
   });

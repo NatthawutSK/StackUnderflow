@@ -133,8 +133,8 @@ onMounted(forumStore.fetchTag)
           <v-card-text>
             <!-- edit desc  -->
             <div class="text-h5 pa-5" v-if="!checkedit">
-              <p>
-                {{ forumStore.singlePost.post_desc }}
+              <p v-html="forumStore.singlePost.post_desc">
+                 
               </p>
             </div>
             <div class="text-h5 pa-5" v-else>
