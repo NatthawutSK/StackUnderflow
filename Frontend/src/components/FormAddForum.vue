@@ -21,15 +21,15 @@ const forum = ref({
                     Create Forum
                 </v-card-title>
 
-                <v-card-item class="p-1">
+                
                     <v-text-field
                         variant="outlined"
-                        class="mx-2 mb-5"
+                        class="mx-2 mb-5 pl-6"
                         prepend-icon="mdi-account-circle"
                         label="Title"
                         v-model="forum.post_title"
                     ></v-text-field>
-                </v-card-item>
+                
                 <!-- <v-textarea
           variant="outlined"
             class="mx-2"

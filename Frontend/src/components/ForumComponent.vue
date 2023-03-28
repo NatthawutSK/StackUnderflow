@@ -141,7 +141,21 @@ onMounted(forumStore.fetchTag)
               <v-row>
                 <v-col>
                 <p>
-                  <v-text-field :value="forumStore.singlePost.post_desc" v-model="forumStore.singlePost.post_desc"></v-text-field>
+                  <!-- <v-text-field :value="forumStore.singlePost.post_desc" v-model="forumStore.singlePost.post_desc"></v-text-field> -->
+                  <QuillEditor
+                        content-type="html"
+                        v-model:content="forumStore.singlePost.post_desc"
+                        :toolbar="[
+                            { size: ['small', false, 'large', 'huge'] },
+                            'bold',
+                            'italic',
+                            'underline',
+                            'code-block',
+                            { color: [] },
+                            { background: [] },
+                        ]"
+                        theme="snow"
+                    />
                 </p>
               </v-col>
               </v-row>
@@ -202,7 +216,21 @@ onMounted(forumStore.fetchTag)
         <v-card class="pa-5">
           <v-card-title>Write Comment </v-card-title>
           <v-card-text>
-            <v-textarea  variant="outlined" v-model="forumStore.createComment.comm_content" ></v-textarea>
+            <!-- <v-textarea  variant="outlined" v-model="forumStore.createComment.comm_content" ></v-textarea> -->
+            <QuillEditor
+                        content-type="html"
+                        v-model:content="forumStore.createComment.comm_content"
+                        :toolbar="[
+                            { size: ['small', false, 'large', 'huge'] },
+                            'bold',
+                            'italic',
+                            'underline',
+                            'code-block',
+                            { color: [] },
+                            { background: [] },
+                        ]"
+                        theme="snow"
+                    />
           </v-card-text>
           <div class="d-flex justify-end">
             <v-btn  @click="forumStore.addComment(forumStore.createComment.comm_content, forumStore.singlePost.mem_id, forumStore.singlePost.post_id) " color="warning">Comment</v-btn>

@@ -90,13 +90,15 @@ export const useForumStore = defineStore('forum', () => {
             return item
         })
     }
-
+    const editComment = async (id, comment) =>{
+        console.log(typeof comment);
+        await axios.put(`http://localhost:3000/comment/edit/${id}`, {comm_content:comment})
+    }
     const createComment = ref({
         comm_content: "",
         post_id: "", 
         mem_id:""
     })
-    
     const addComment = async (content, mem_id, post_id) =>{
         const commentData = await axios.post('http://localhost:3000/comment/create', {
             comm_content: content,
@@ -130,6 +132,7 @@ export const useForumStore = defineStore('forum', () => {
         fetchComment,
         addLikeComment,
         createComment,
-        addComment
+        addComment,
+        editComment
     }
 })
