@@ -107,7 +107,7 @@ export const useForumStore = defineStore('forum', () => {
         })
         const [destruc] =  commentData.data
         commentPost.value.push(destruc)
-        createComment.value.comm_content = ""
+        createComment.value.comm_content = "<p></p>"
     }
     const delComment = async(comm_id, blog_id) =>{
         await axios.delete(`http://localhost:3000/comment/delete/${comm_id}`)
