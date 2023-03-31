@@ -57,11 +57,11 @@ defineProps({
 
               <v-list>
                 <v-list-item>
-                  <!-- <v-list-item-title class="text-h6 pa-1"
-                    ><v-btn @click="deleteComment(comment, comment.index)"
+                  <v-list-item-title class="text-h6 pa-1"
+                    ><v-btn @click="forumStore.delComment(comment.comm_id, id)"
                       >Delete</v-btn
                     ></v-list-item-title
-                  > -->
+                  >
                   <v-list-item-title v-if="true" class="text-h6 pa-1"
                     ><v-btn @click="checkedit = !checkedit">Edit</v-btn></v-list-item-title
                   >

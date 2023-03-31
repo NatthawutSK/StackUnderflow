@@ -109,6 +109,10 @@ export const useForumStore = defineStore('forum', () => {
         commentPost.value.push(destruc)
         createComment.value.comm_content = ""
     }
+    const delComment = async(comm_id, blog_id) =>{
+        await axios.delete(`http://localhost:3000/comment/delete/${comm_id}`)
+        commentPost.value = await fetchComment(blog_id)
+    }
 
 
 
@@ -133,6 +137,7 @@ export const useForumStore = defineStore('forum', () => {
         addLikeComment,
         createComment,
         addComment,
-        editComment
+        editComment,
+        delComment
     }
 })
