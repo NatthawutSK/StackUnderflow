@@ -1,5 +1,5 @@
 <script setup>
-import { useUserStore } from "./stores/user";
+import { useUserStore } from "@/stores/user";
 import { RouterView } from "vue-router";
 import Navbar from "./components/Navbar.vue"
 const userStore = useUserStore()

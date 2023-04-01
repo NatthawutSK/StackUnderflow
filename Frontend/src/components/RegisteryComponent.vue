@@ -4,17 +4,17 @@ import { useUserStore } from "@/stores/user";
   const store = useUserStore();
   const step = ref(1);
   const show = ref(false);
-  const regData = ref({
-      fname: '',
-      lname: '',
-      userName: '',
-      email: '',
-      password: ''
-  })
-  const loginData = ref({
-      userName: '',
-      password: ''
-  })
+  // const regData = ref({
+  //     fname: '',
+  //     lname: '',
+  //     userName: '',
+  //     email: '',
+  //     password: ''
+  // })
+  // const loginData = ref({
+  //     userName: '',
+  //     password: ''
+  // })
 
 </script>
 <template>
@@ -33,7 +33,7 @@ import { useUserStore } from "@/stores/user";
                           class="text-center"
                         >Login in to Your Account</h4>
                         <v-row align="center" justify="center">
-                          <v-col cols="12" sm="8" @keyup.enter="store.login(loginData), $router.back()">
+                          <v-col cols="12" sm="8">
                            
                           <v-text-field
                           variant="outlined"
@@ -42,7 +42,7 @@ import { useUserStore } from "@/stores/user";
                             dense
                             color="blue"
                             autocomplete="false"
-                            v-model="loginData.userName"
+                            v-model="store.loginData.username"
                            class="mt-16"
                           />
                           <v-text-field
@@ -52,14 +52,14 @@ import { useUserStore } from "@/stores/user";
                             dense
                             color="blue"
                           autocomplete="false"
-                          v-model="loginData.password"
+                          v-model="store.loginData.password"
                           :type="show ?'text': 'password'"
                           :append-icon="show ?'mdi-eye':'mdi-eye-off'"   
                           @click:append="show=!show"
                           
                           />
                             
-                          <v-btn href="/"  @click="store.login(loginData)" color="blue" dark block tile>Log in</v-btn>
+                          <v-btn href="/"  @click="store.login(store.loginData)" color="blue" dark block tile>Log in</v-btn>
                      
                          
                           </v-col>
@@ -103,7 +103,7 @@ import { useUserStore } from "@/stores/user";
                           class="text-center mb-3"
                         >Sign Up for an Account</h4>
                         <v-row align="center" justify="center">
-                          <v-col cols="12" sm="8" @keyup.enter="store.keepLocal(regData),step--">
+                          <v-col cols="12" sm="8" @keyup.enter="step--">
                            <v-row>
                            <v-col cols="12" sm="6">
                             <v-text-field
@@ -113,7 +113,7 @@ import { useUserStore } from "@/stores/user";
                             dense
                             color="blue"
                             autocomplete="false"
-                            v-model="regData.fname"
+                            v-model="store.regisData.fname"
                            class="mt-4"
                           />
                            </v-col>
@@ -125,7 +125,7 @@ import { useUserStore } from "@/stores/user";
                             dense
                             color="blue"
                             autocomplete="false"
-                            v-model="regData.lname"
+                            v-model="store.regisData.lname"
                            class="mt-4"
                           />
                            </v-col>
@@ -137,7 +137,7 @@ import { useUserStore } from "@/stores/user";
                             dense
                             color="blue"
                             autocomplete="false"
-                            v-model="regData.userName"
+                            v-model="store.regisData.username"
                           />
                           <v-text-field
                           variant="outlined"
@@ -146,7 +146,7 @@ import { useUserStore } from "@/stores/user";
                             dense
                             color="blue"
                             autocomplete="false"
-                            v-model="regData.email"
+                            v-model="store.regisData.email"
                           />
                           <v-text-field
                           variant="outlined"
@@ -155,14 +155,14 @@ import { useUserStore } from "@/stores/user";
                             dense
                             color="blue"
                           autocomplete="false"
-                          v-model="regData.password"
+                          v-model="store.regisData.password"
                           :type="show ?'text': 'password'"
                           :append-icon="show ?'mdi-eye':'mdi-eye-off'"   
                           @click:append="show=!show"
                           
                           />
 
-                          <v-btn @click="store.keepLocal(regData),step--" color="blue" dark block tile>Sign up</v-btn>
+                          <v-btn @click="store.register(store.regisData),step--" color="blue" dark block tile>Sign up</v-btn>
                           </v-col>
                         </v-row>  
                       </v-card-text>

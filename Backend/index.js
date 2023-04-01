@@ -10,10 +10,12 @@ app.use(cors())
 const indexRouter = require('./routes/index')
 const postRouter = require('./routes/post')
 const commentRouter = require('./routes/comment')
+const registerRouter = require('./routes/registration')
 
 app.use(indexRouter.router)
 app.use(postRouter.router)
 app.use(commentRouter.router)
+app.use(registerRouter.router)
 
 app.listen(3000, () => {
   console.log(`Example app listening at http://localhost:3000`)
