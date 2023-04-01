@@ -1,66 +1,71 @@
 import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
-import { computed } from "vue";
+import { computed, ref } from "vue";
+import axios from 'axios';
 
 export const useUserStore = defineStore('user', () => {
     const theme = useLocalStorage('theme', 'light')
-    const allUser = useLocalStorage('allUser', [{
-        fname: "ri&au",
-        lname: "haha",
-        email: "gg",
-        userName: "admin",
-        password: "12345"
-    }])
-    const logingUser = useLocalStorage('loging', {})
+    const token = useLocalStorage('token', '')
+    const regisData = ref({
+        fname : "",
+        lname : "",
+        username: "",
+        email: "",
+        password: ""
+    })
+    const loginData = ref({
+        username: "",
+        password: ""
+    })
+    const loging = ref({})
+
+
     function toggleTheme() {
         theme.value = theme.value === 'light' ? 'dark' : 'light'
     }
-
-    function keepLocal(info) {
-        allUser.value.push(info)
+    const register =  async (info) =>{
+        await axios.post('http://localhost:3000/register', info)
     }
 
+    const login =  async (info) =>{
+        // console.log(info);
+        const fetchingData = await axios.post('http://localhost:3000/login', info)
+        token.value = fetchingData.data.token
+        // console.log(fetchingData.data);
+    }
 
-    function login(data) {
-        allUser.value.map((item) => {
-            if (item.userName === data.userName && item.password === data.password) {
-                logingUser.value = (item)
+    const authen = async () =>{
+            const fetchingData = await axios.post('http://localhost:3000/authen', {}, 
+            { 
+                headers: 
+                    {"Authorization" : `Bearer ${token.value}`}
+            })
+            console.log(fetchingData);
+            if(fetchingData.data.status == "ok"){
+                alert("login success")
+                loging.value = fetchingData.data.decoded.user
+            }else{
+                window.location = ('/login')
+                alert("login fail")
+
             }
-
-        })
     }
 
-    function logout() {
-        logingUser.value = {}
+    const logout = () => {
+        token.value = null
     }
 
-    function clickDel(user) {
-        allUser.value.splice(allUser.value.findIndex(arrayItem => arrayItem.userName === user.userName), 1)
-    }
-
-    function editUser(edited) {
-        logingUser.value.fname = edited.fname
-        logingUser.value.lname = edited.lname
-        logingUser.value.userName = edited.userName
-        logingUser.value.email = edited.email
-        logingUser.value.password = edited.password
-    }
-    const filterUser = computed(() => {
-        return allUser.value.filter((user) =>{
-            return user.userName !== "admin"
-        })
-    })
 
     return {
         toggleTheme,
         theme,
+        register,
+        regisData,
         login,
+        loginData,
+        authen,
         logout,
-        keepLocal,
-        logingUser,
-        allUser,
-        clickDel,
-        editUser,
-        filterUser
+        loging
+        
     }
 })

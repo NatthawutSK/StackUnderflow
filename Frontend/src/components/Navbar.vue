@@ -1,8 +1,8 @@
 <script setup>
 import { storeToRefs } from "pinia";
-import { useUserStore } from "../stores/user";
+import { useUserStore } from "@/stores/user";
 
-const {theme, logingUser} = storeToRefs(useUserStore())
+const {theme} = storeToRefs(useUserStore())
 const userStore = useUserStore()
 
 
@@ -15,7 +15,7 @@ const userStore = useUserStore()
         </v-btn>
         <v-spacer></v-spacer>
 
-        <h3 v-if="true" class="pr-5">Welcome User : {{ logingUser.userName }}</h3>
+        <h3 v-if="true" class="pr-5">Welcome User : </h3>
 
         
         <v-btn  v-if="true"  href="/addforum">Create Forum</v-btn>
@@ -29,7 +29,7 @@ const userStore = useUserStore()
         />
 
         <v-btn v-if="true" variant="tonal"  href="/login"  >log in</v-btn>
-        <v-btn href="/" v-else  @click="userStore.logout()" variant="tonal"  >log out</v-btn>
+        <v-btn href="/"  @click="userStore.logout()" variant="tonal"  >log out</v-btn>
         <v-btn href="/profile">
           <v-avatar >
             <v-img  src="https://www.pngitem.com/pimgs/m/279-2799324_transparent-guest-png-become-a-member-svg-icon.png"/>

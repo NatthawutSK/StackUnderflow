@@ -1,27 +1,16 @@
 <script setup>
 import { onMounted } from "vue";
 import { useForumStore } from "@/stores/forum";
+import { useUserStore } from "@/stores/user";
 import CardForum from "@/components/CardForum.vue"
 const forumStore = useForumStore()
+const userStore = useUserStore()
+onMounted(userStore.authen)
 onMounted(forumStore.fetchPost)
 onMounted(forumStore.fetchTag)
 onMounted(forumStore.fetchSinglePost)
-// const dateString = '2023-03-26T01:58:59.000Z';
 
-// const dateObj = new Date(forumStore.post[4].post_created_at);
 
-// const options = { 
-//   month: 'short', 
-//   day: '2-digit', 
-//   year: 'numeric', 
-//   hour: 'numeric', 
-//   minute: '2-digit', 
-//   hour12: true 
-// };
-
-// const formattedDate = dateObj.toLocaleString('en-US', options);
-
-// console.log(formattedDate); // Output: "Mar 26, 2023 1:58 AM"
 
 
 
@@ -29,10 +18,11 @@ onMounted(forumStore.fetchSinglePost)
 
 <template>
   <v-main>
+    {{ userStore.loging }}
     <!-- <v-btn @click="forumStore.fetchSinglePost">test</v-btn> -->
-    {{ forumStore.allTag }}<br/>
+    <!-- {{ forumStore.allTag }}<br/>
     {{ forumStore.selectTag }}<br/>
-    {{ forumStore.singlePost }}
+    {{ forumStore.singlePost }} -->
     <!-- {{ formattedDate }} -->
     <!-- {{ forumStore.post[0].post_created_at }} -->
     <v-container>
