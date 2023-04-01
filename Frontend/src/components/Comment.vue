@@ -21,14 +21,29 @@ defineProps({
       <div>
         <v-row>
           <v-col cols="11">
-            <div class="text-truncate" style="max-width: 80%" v-if="!checkedit">
-              {{ comment.comm_content }}
+            <div class="text-truncate" style="max-width: 80%" v-if="!checkedit" v-html="comment.comm_content">
+               
             </div>
-            <div class="text-truncate d-flex " style="max-width: 80%" v-else>
+            <div class="text-truncate"  v-else>
               
-              <v-text-field  v-model="comment.comm_content"></v-text-field>
-            <v-btn class=" ms-4 mt-2" @click="checkedit = !checkedit">Save</v-btn>
-            
+              <!-- <v-text-field  v-model="comment.comm_content"></v-text-field> -->
+              <QuillEditor
+                        content-type="html"
+                        v-model:content="comment.comm_content"
+                        :toolbar="[
+                            { size: ['small', false, 'large', 'huge'] },
+                            'bold',
+                            'italic',
+                            'underline',
+                            'code-block',
+                            { color: [] },
+                            { background: [] },
+                        ]"
+                        theme="snow"
+                    />
+                    <div class="text-center">
+            <v-btn class=" ms-4 mt-2  bg-teal-darken-2" @click="forumStore.editComment(comment.comm_id, comment.comm_content), checkedit = !checkedit">Save</v-btn>
+          </div>
             </div>
           </v-col>
           <v-col cols="1">
@@ -40,18 +55,18 @@ defineProps({
                 <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>
               </template>
 
-              <!-- <v-list>
+              <v-list>
                 <v-list-item>
                   <v-list-item-title class="text-h6 pa-1"
-                    ><v-btn @click="deleteComment(comment, comment.index)"
+                    ><v-btn @click="forumStore.delComment(comment.comm_id, id)"
                       >Delete</v-btn
                     ></v-list-item-title
                   >
-                  <v-list-item-title v-if="logingUser.userName !== 'admin' && logingUser.userName === comment.user.userName" class="text-h6 pa-1"
+                  <v-list-item-title v-if="true" class="text-h6 pa-1"
                     ><v-btn @click="checkedit = !checkedit">Edit</v-btn></v-list-item-title
                   >
                 </v-list-item>
-              </v-list> -->
+              </v-list>
             </v-menu>
           </v-col>
         </v-row>

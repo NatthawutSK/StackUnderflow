@@ -49,13 +49,14 @@ router.post("/comment/create", async function (req, res, next) {
         return next(err);
       }
   });
-
+ 
   router.put("/comment/edit/:comId", async function (req, res, next) {
     // Your code here
-    const {comm_content, post_id, mem_id} = req.body
+    const {comm_content} = req.body
+    console.log(comm_content);
     try{
-        const [rows, fields] = await pool.query("UPDATE comment SET comm_content=?,post_id=?,mem_id=?  WHERE comm_id = ?",
-         [comm_content, post_id, mem_id,req.params.comId]);
+        const [rows, fields] = await pool.query("UPDATE comment SET comm_content=?  WHERE comm_id = ?",
+         [comm_content,req.params.comId]);
         return res.json({
             "message": `Comment ID ${req.params.comId} is updated.`
         });
