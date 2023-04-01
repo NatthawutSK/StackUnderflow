@@ -14,7 +14,8 @@ export const useForumStore = defineStore('forum', () => {
         tag_id: singlePost.value.tag_id,
         tag_name: singlePost.value.tag_name
     }])
-    
+    const commentPost = ref([])
+   
     function convertTime(time){
         const dateObj = new Date(time);
 
@@ -76,7 +77,7 @@ export const useForumStore = defineStore('forum', () => {
     }
     
 
-    const commentPost = ref([])
+
     const fetchComment = async (id) => {
         return (await axios.get(`http://localhost:3000/comment/${id}`)).data
        }
@@ -105,13 +106,14 @@ export const useForumStore = defineStore('forum', () => {
             post_id: post_id, 
             mem_id: mem_id
         })
-        const [destruc] =  commentData.data
-        commentPost.value.push(destruc)
+        // const [destruc] =  commentData.data
+        // commentPost.value.push(destruc)
+        commentPost.value = await fetchComment(post_id)
         createComment.value.comm_content = "<p></p>"
     }
-    const delComment = async(comm_id, blog_id) =>{
+    const delComment = async(comm_id, post_id) =>{
         await axios.delete(`http://localhost:3000/comment/delete/${comm_id}`)
-        commentPost.value = await fetchComment(blog_id)
+        commentPost.value = await fetchComment(post_id)
     }
 
 

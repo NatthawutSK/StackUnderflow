@@ -16,6 +16,7 @@ defineProps({
 </script>
 
 <template>
+  {{ comment }}
   <v-card variant="outlined" class="pa-2 my-4">
     <v-card-title primary-title>
       <div>
@@ -82,7 +83,7 @@ defineProps({
         </template>
 
         <v-list-item-title class="text-h6 my-1">{{
-          comment.mem_id
+          comment.mem_user_name
         }}</v-list-item-title>
 
         <template v-slot:append>

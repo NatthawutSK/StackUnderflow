@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute } from "vue-router";
-// import { useUserStore } from "@/stores/user";
+import { useUserStore } from "@/stores/user";
 import Comment from "@/components/Comment.vue";
 import { ref, onMounted, } from "vue";
 import { useForumStore } from "@/stores/forum";
@@ -13,6 +13,8 @@ const dialog = ref(false);
 const isDel = ref(false)
 const report = ref([]);
 const checkedit = ref(false)
+const userStore = useUserStore()
+onMounted(userStore.authen)
 onMounted(async () => {
   forumStore.singlePost = await forumStore.fetchSinglePost(id)
   forumStore.commentPost = await forumStore.fetchComment(id)
@@ -24,7 +26,8 @@ onMounted(forumStore.fetchTag)
 <template>
     <v-main>
     <v-container class="mt-5 pa-10">
-    {{ forumStore.commentPost }}
+      {{ userStore.loging }}
+    <!-- {{ forumStore.commentPost }} -->
       <!-- {{ singlePost }} -->
       <!-- {{   forumStore.editTag }} -->
       <div>
@@ -233,7 +236,7 @@ onMounted(forumStore.fetchTag)
                     />
           </v-card-text>
           <div class="d-flex justify-end">
-            <v-btn  @click="forumStore.addComment(forumStore.createComment.comm_content, forumStore.singlePost.mem_id, forumStore.singlePost.post_id) " color="warning">Comment</v-btn>
+            <v-btn  @click="forumStore.addComment(forumStore.createComment.comm_content, userStore.loging.mem_id, forumStore.singlePost.post_id) " color="warning">Comment</v-btn>
           </div>
         </v-card>
       </div>
@@ -248,6 +251,7 @@ onMounted(forumStore.fetchTag)
         <Comment
           v-for="comment in forumStore.commentPost"
           :comment="comment"
+        
         ></Comment>
       </div>
     </v-container>

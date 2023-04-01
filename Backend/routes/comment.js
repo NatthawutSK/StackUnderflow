@@ -9,7 +9,7 @@ router.get("/comment/:postId", async function (req, res, next) {
     // const {comm_content, post_id, mem_id} = req.body
     // console.log(comm_content, post_id, mem_id);
     try {
-        const [rows, fields] = await pool.query('select * from comment where post_id = ?',
+        const [rows, fields] = await pool.query('select * from comment c join member m on(m.mem_id = c.mem_id) where  c.post_id = ?',
         [req.params.postId])
         return res.json(rows)
     } catch (error) {

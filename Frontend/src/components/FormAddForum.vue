@@ -1,14 +1,16 @@
 <script setup>
 import { ref, onMounted } from "vue";
-// import { useUserStore } from "@/stores/user";
+import { useUserStore } from "@/stores/user";
 import { useForumStore } from "@/stores/forum";
-// const {  logingUser } = useUserStore();
+
 const forumStore = useForumStore();
+const userStore = useUserStore();
+onMounted(userStore.authen)
 onMounted(forumStore.fetchTag);
-const forum = ref({
+const forum = ref({ 
     post_title: "",
     post_desc: "",
-    mem_id: 1,
+    mem_id: userStore.loging.mem_id,
     tag_id: { tag_id: 0, tag_name: "Select Tag" },
 });
 // post_title, post_desc, mem_id, tag_id
@@ -17,6 +19,7 @@ const forum = ref({
     <v-main>
         <v-form>
             <v-card>
+                {{ userStore.loging }}
                 <v-card-title class="text-h4 ma-3 mb-5 px-5">
                     Create Forum
                 </v-card-title>
@@ -81,7 +84,7 @@ const forum = ref({
                         href="/"
                         class="mb-5 w-50"
                         color="warning"
-                        @click="forumStore.addForum(forum)"
+                        @click="forum.mem_id = userStore.loging.mem_id,forumStore.addForum(forum)"
                         >Create Post</v-btn
                     >
                 </div>
