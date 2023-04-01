@@ -59,8 +59,8 @@ import { useUserStore } from "@/stores/user";
                           
                           />
                             
-                          <v-btn href="/"  @click="store.login(store.loginData)" color="blue" dark block tile>Log in</v-btn>
-                     
+                          <v-btn  class="mb-3"  @click="store.login(store.loginData)" color="blue" dark block tile>Log in</v-btn>
+                            <v-btn  @click="store.login(store.guest)" color="green" dark block tile >Login as Guest</v-btn>
                          
                           </v-col>
                         </v-row>  

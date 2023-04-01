@@ -18,8 +18,13 @@ export const useUserStore = defineStore('user', () => {
         password: ""
     })
     const loging = ref({})
+    const guest = ref({
+        username:'Guest',
+        password:'guest'
+    })
 
 
+    
     function toggleTheme() {
         theme.value = theme.value === 'light' ? 'dark' : 'light'
     }
@@ -31,8 +36,10 @@ export const useUserStore = defineStore('user', () => {
         // console.log(info);
         const fetchingData = await axios.post('http://localhost:3000/login', info)
         token.value = fetchingData.data.token
+        window.location = '/'
         // console.log(fetchingData.data);
     }
+
 
     const authen = async () =>{
             const fetchingData = await axios.post('http://localhost:3000/authen', {}, 
@@ -65,7 +72,8 @@ export const useUserStore = defineStore('user', () => {
         loginData,
         authen,
         logout,
-        loging
+        loging,
+        guest
         
     }
 })
