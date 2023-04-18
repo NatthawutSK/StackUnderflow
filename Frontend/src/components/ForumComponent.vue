@@ -218,13 +218,13 @@ onMounted(forumStore.fetchTag)
       <div class="mt-5 pa-5" v-if="true">
         <v-card class="pa-5">
           <v-card-title>Write Comment </v-card-title>
-          <v-card-text>
+          <v-card-text class="pb-10">
             <!-- <v-textarea  variant="outlined" v-model="forumStore.createComment.comm_content" ></v-textarea> -->
             <QuillEditor
                         content-type="html"
                         v-model:content="forumStore.createComment.comm_content"
                         :toolbar="[
-                            { size: ['small', false, 'large', 'huge'] },
+                          { header: [1, 2, false] },
                             'bold',
                             'italic',
                             'underline',

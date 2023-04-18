@@ -31,7 +31,7 @@ router.post("/register", async function  (req, res, next) {
     })
 });
 
-router.post('/login', async (req,res) =>{
+router.post('/login', async (req,res,next) =>{
     const {username,password} = req.body
     try {
         const [rows, fields] = await pool.query('SELECT * FROM member WHERE mem_user_name = ?',
@@ -51,7 +51,7 @@ router.post('/login', async (req,res) =>{
             })
         }  
     } catch (error) {
-        next(err)
+        next(error)
     }
 
     

@@ -22,17 +22,17 @@ defineProps({
       <div>
         <v-row>
           <v-col cols="11">
-            <div class="text-truncate" style="max-width: 80%" v-if="!checkedit" v-html="comment.comm_content">
+            <div class="text-wrap" style="max-width: 100%" v-if="!checkedit" v-html="comment.comm_content">
                
             </div>
-            <div class="text-truncate"  v-else>
+            <div class="text-wrap pa-8 pb-16"  v-else>
               
               <!-- <v-text-field  v-model="comment.comm_content"></v-text-field> -->
               <QuillEditor
                         content-type="html"
                         v-model:content="comment.comm_content"
                         :toolbar="[
-                            { size: ['small', false, 'large', 'huge'] },
+                          { header: [1, 2, false] },
                             'bold',
                             'italic',
                             'underline',
@@ -98,3 +98,26 @@ defineProps({
     </v-card-actions>
   </v-card>
 </template>
+<style>
+.ql-syntax{
+  background: #414449;
+  color: #b3bccc;
+  word-wrap: break-word;
+  white-space: pre;
+  font-size: 13pt;
+  tab-size: 4;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, .75);
+}
+.ql-syntax{
+  margin:10px ;
+  padding: 15px;
+}
+code{
+  background: #ebebeb;
+  padding: 5px;
+  margin: 2px;
+  border-radius: 5px;
+  font-size: 13pt;
+}
+
+</style>

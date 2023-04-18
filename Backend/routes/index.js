@@ -10,7 +10,7 @@ router.get("/tag", async function (req, res, next) {
         return res.json(rows)
         
     } catch (error) {
-        next(err)
+        next(error)
     }
     
   });
