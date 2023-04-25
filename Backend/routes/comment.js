@@ -1,6 +1,6 @@
 const express = require('express');
 const pool = require('../config.js')
-
+const { isLoggedIn } = require('../middleware/index.js')
 
 router = express.Router();
 
@@ -17,7 +17,7 @@ router.get("/comment/:postId", async function (req, res, next) {
     }
   });
 
-router.post("/comment/create", async function (req, res, next) {
+router.post("/comment/create", isLoggedIn, async function (req, res, next) {
     // Your code here
     const {comm_content, post_id, mem_id} = req.body
     // console.log(comm_content, post_id, mem_id);

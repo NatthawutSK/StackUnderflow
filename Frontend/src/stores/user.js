@@ -1,7 +1,7 @@
 import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import axios from 'axios';
+import axios from '@/plugins/axios';
 
 export const useUserStore = defineStore('user', () => {
     const theme = useLocalStorage('theme', 'light')
@@ -29,12 +29,12 @@ export const useUserStore = defineStore('user', () => {
         theme.value = theme.value === 'light' ? 'dark' : 'light'
     }
     const register =  async (info) =>{
-        await axios.post('http://localhost:3000/register', info)
+        await axios.post('/register', info)
     }
 
     const login =  async (info) =>{
         // console.log(info);
-        const fetchingData = await axios.post('http://localhost:3000/login', info)
+        const fetchingData = await axios.post('/login', info)
         token.value = fetchingData.data.token
         window.location = '/'
         // console.log(fetchingData.data);
@@ -42,7 +42,7 @@ export const useUserStore = defineStore('user', () => {
 
 
     const authen = async () =>{
-            const fetchingData = await axios.post('http://localhost:3000/authen', {}, 
+            const fetchingData = await axios.post('/authen', {}, 
             { 
                 headers: 
                     {"Authorization" : `Bearer ${token.value}`}

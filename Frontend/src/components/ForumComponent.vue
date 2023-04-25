@@ -14,7 +14,7 @@ const isDel = ref(false)
 const report = ref([]);
 const checkedit = ref(false)
 const userStore = useUserStore()
-onMounted(userStore.authen)
+// onMounted(userStore.authen)
 onMounted(async () => {
   forumStore.singlePost = await forumStore.fetchSinglePost(id)
   forumStore.commentPost = await forumStore.fetchComment(id)

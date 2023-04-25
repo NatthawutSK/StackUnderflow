@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, ref, reactive } from "vue";
-import axios from 'axios';
+import axios from '@/plugins/axios';
 export const useForumStore = defineStore('forum', () => {
     const post = ref([])
     const selectTag = ref({
@@ -31,13 +31,13 @@ export const useForumStore = defineStore('forum', () => {
     }
 
     const fetchTag = async () => {
-        const fetchingData = await axios.get('http://localhost:3000/tag')
+        const fetchingData = await axios.get('/tag')
         allTag.value = [{tag_id:1, tag_name:"All"}, ...fetchingData.data];
         createTag.value = fetchingData.data;
         editTag.value = fetchingData.data;
       }
     const fetchPost = async () => {
-        const fetchingData = await axios.get('http://localhost:3000')
+        const fetchingData = await axios.get('')
         post.value = fetchingData.data;
       }
       async function fetchSinglePostData(id){
@@ -55,35 +55,35 @@ export const useForumStore = defineStore('forum', () => {
 
     const editForum = async (forum, id) =>{
         // console.log(forum, id);
-        await axios.put(`http://localhost:3000/post/edit/${id}`, forum)
+        await axios.put(`/post/edit/${id}`, forum)
         fetchSinglePostData(id)
     }
 
 
     const addForum = async (forum) =>{
-        await axios.post('http://localhost:3000/post/create', forum)
+        await axios.post('/post/create', forum)
     }
 
     const fetchSinglePost = async (id) => {
-        return (await axios.get(`http://localhost:3000/post/${id}`)).data[0]
+        return (await axios.get(`/post/${id}`)).data[0]
        }
     const addLikePost = async (id) =>{
-        const likeData = await axios.put(`http://localhost:3000/post/addlike/${id}`)
+        const likeData = await axios.put(`/post/addlike/${id}`)
         singlePost.value.post_like = likeData.data.likeNum
     }
 
     const deleteForum = async (id) =>{
-        await axios.delete(`http://localhost:3000/post/delete/${id}`)
+        await axios.delete(`/post/delete/${id}`)
     }
     
 
 
     const fetchComment = async (id) => {
-        return (await axios.get(`http://localhost:3000/comment/${id}`)).data
+        return (await axios.get(`/comment/${id}`)).data
        }
 
     const addLikeComment = async (comId) =>{
-        const likeData = await axios.put(`http://localhost:3000/comment/addlike/${comId}`)
+        const likeData = await axios.put(`/comment/addlike/${comId}`)
         commentPost.value = commentPost.value.map((item) => {
             if(item.comm_id == comId){
                 return { ...item,  comm_like:likeData.data.likeNum };
@@ -93,7 +93,7 @@ export const useForumStore = defineStore('forum', () => {
     }
     const editComment = async (id, comment) =>{
         console.log(typeof comment);
-        await axios.put(`http://localhost:3000/comment/edit/${id}`, {comm_content:comment})
+        await axios.put(`/comment/edit/${id}`, {comm_content:comment})
     }
     const createComment = ref({
         comm_content: "",
@@ -101,7 +101,7 @@ export const useForumStore = defineStore('forum', () => {
         mem_id:""
     })
     const addComment = async (content, mem_id, post_id) =>{
-        const commentData = await axios.post('http://localhost:3000/comment/create', {
+        const commentData = await axios.post('/comment/create', {
             comm_content: content,
             post_id: post_id, 
             mem_id: mem_id
@@ -112,7 +112,7 @@ export const useForumStore = defineStore('forum', () => {
         createComment.value.comm_content = "<p></p>"
     }
     const delComment = async(comm_id, post_id) =>{
-        await axios.delete(`http://localhost:3000/comment/delete/${comm_id}`)
+        await axios.delete(`/comment/delete/${comm_id}`)
         commentPost.value = await fetchComment(post_id)
     }
 

@@ -42,7 +42,7 @@ router.post('/login', async (req,res,next) =>{
         }else {
             bcrypt.compare(password,rows[0].mem_password, function(err,isLogin){
                 if(isLogin){
-                    var token = jwt.sign({ user: rows[0] }, secret,{ expiresIn: '1h' });
+                    var token = jwt.sign({ user: rows[0] }, secret,{ expiresIn: '6h' });
                     res.json({status:'ok',token:token})
                 }
                 else{
@@ -59,16 +59,16 @@ router.post('/login', async (req,res,next) =>{
 
 
 
-router.post('/authen', (req,res) =>{
-    try{
-        const token = req.headers.authorization.split(' ')[1]
-        // console.log(token);
-        var decoded = jwt.verify(token,secret);
-        res.json({decoded,status:'ok'})
-    }
-    catch(err){
-        res.json({error:err})
-    }
-});
+// router.post('/authen', (req,res) =>{
+//     try{
+//         const token = req.headers.authorization.split(' ')[1]
+//         console.log(token);
+//         var decoded = jwt.verify(token,secret);
+//         res.json({decoded,status:'ok'})
+//     }
+//     catch(err){
+//         res.json({error:err})
+//     }
+// });
 
 exports.router = router;
