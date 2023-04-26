@@ -63,6 +63,7 @@ export const useForumStore = defineStore('forum', () => {
 
 
     const addForum = async (forum) =>{
+       
         await axios.post('/post/create', forum)
     }
 

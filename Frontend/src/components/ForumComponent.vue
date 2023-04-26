@@ -26,13 +26,14 @@ onMounted(forumStore.fetchTag)
 <template>
     <v-main>
     <v-container class="mt-5 pa-10">
-      {{ userStore.loging }}
+      {{ userStore.user }}
+      
     <!-- {{ forumStore.commentPost }} -->
-      <!-- {{ singlePost }} -->
-      <!-- {{   forumStore.editTag }} -->
-      <div>
-        <v-card variant="outlined">
-          <v-card-title >
+    <!-- {{ singlePost }} -->
+    <!-- {{   forumStore.editTag }} -->
+    <div>
+      <v-card variant="outlined">
+        <v-card-title >
             <v-row>
               <v-col cols="11">
                 <!-- edit title -->
@@ -53,9 +54,8 @@ onMounted(forumStore.fetchTag)
                     <v-list-item>
                       <v-list-item-title
                         class="text-h6 pa-1"
-                        v-if="true"
+                        v-if="userStore.user.mem_id === forumStore.singlePost.mem_id || userStore.user.role === 'admin'"
                         ><v-btn
-                         
                           @click="
                             forumStore.deleteForum(id);
                           "
@@ -64,11 +64,10 @@ onMounted(forumStore.fetchTag)
                       >
                       <v-list-item-title
                         class="text-h6 pa-1"
-                        v-if="true"
+                        v-if="userStore.user.mem_id === forumStore.singlePost.mem_id || userStore.user.role === 'admin'"
                         ><v-btn @click="checkedit=true">Edit</v-btn></v-list-item-title
                       >
                       <v-list-item-title
-                      v-if="true"
                         class="text-h6 pa-1"
                       >
                         <v-dialog
@@ -217,9 +216,11 @@ onMounted(forumStore.fetchTag)
       </div>
       <div class="mt-5 pa-5" v-if="true">
         <v-card class="pa-5">
+          {{useUserStore.user}}
           <v-card-title>Write Comment </v-card-title>
           <v-card-text class="pb-10">
             <!-- <v-textarea  variant="outlined" v-model="forumStore.createComment.comm_content" ></v-textarea> -->
+            
             <QuillEditor
                         content-type="html"
                         v-model:content="forumStore.createComment.comm_content"

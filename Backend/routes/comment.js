@@ -6,7 +6,7 @@ router = express.Router();
 // router.use(isLoggedIn)
 
 const commentOwner = async (req, res, next) => {
-
+  
   if (req.user.role === 'admin') {
       return next()
   }
@@ -39,6 +39,7 @@ router.get("/comment/:postId", async function (req, res, next) {
 
 router.post("/comment/create",isLoggedIn,  async function (req, res, next) {
     // Your code here
+    
     const {comm_content, post_id, mem_id} = req.body
     console.log(comm_content, post_id, mem_id);
     try {

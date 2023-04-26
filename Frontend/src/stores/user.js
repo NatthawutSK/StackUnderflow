@@ -54,14 +54,15 @@ export const useUserStore = defineStore('user', () => {
 
     const authen = async () =>{
             const fetchingData = await axios.get('/user/me' )
-            user.value = fetchingData.data.user
-            // console.log(fetchingData.data);
+            user.value = fetchingData.data
+           
            
             
     }
 
     const logout = () => {
         token.value = null
+        user.value = {}
     }
 
 
