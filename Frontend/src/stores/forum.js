@@ -1,7 +1,9 @@
 import { defineStore } from "pinia";
 import { computed, ref, reactive } from "vue";
 import axios from '@/plugins/axios';
+import { useRouter } from "vue-router";
 export const useForumStore = defineStore('forum', () => {
+    const route = useRouter()
     const post = ref([])
     const selectTag = ref({
                 tag_id : 1,
@@ -73,10 +75,11 @@ export const useForumStore = defineStore('forum', () => {
     }
 
     const deleteForum = async (id) =>{
-        await axios.delete(`/post/delete/${id}`)
+        const fetchData = await axios.delete(`/post/delete/${id}`)
+        alert(fetchData.data.message)
+        route.push('/')
+        // console.log(fetchData.data.message);
     }
-    
-
 
     const fetchComment = async (id) => {
         return (await axios.get(`/comment/${id}`)).data
@@ -101,18 +104,20 @@ export const useForumStore = defineStore('forum', () => {
         mem_id:""
     })
     const addComment = async (content, mem_id, post_id) =>{
+        // console.log(mem_id);
         const commentData = await axios.post('/comment/create', {
             comm_content: content,
             post_id: post_id, 
             mem_id: mem_id
         })
-        // const [destruc] =  commentData.data
-        // commentPost.value.push(destruc)
+        const [destruc] =  commentData.data
+        commentPost.value.push(destruc)
         commentPost.value = await fetchComment(post_id)
         createComment.value.comm_content = "<p></p>"
     }
     const delComment = async(comm_id, post_id) =>{
-        await axios.delete(`/comment/delete/${comm_id}`)
+        const fetchData = await axios.delete(`/comment/delete/${comm_id}`)
+        alert(fetchData.data.message)
         commentPost.value = await fetchComment(post_id)
     }
 

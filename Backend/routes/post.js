@@ -1,9 +1,19 @@
 const express = require('express');
 const pool = require('../config.js')
+const { isLoggedIn } = require('../middleware/index.js')
+const blogOwner = async (req, res, next) => {
+  if (req.user.role === 'admin') {
+      return next()
+  }
+  const [[post]] = await pool.query('SELECT * FROM post WHERE post_id=?', [req.params.postId])
 
-
-router = express.Router();
-
+  if (post.mem_id !== req.user.mem_id) {
+    return res.json({message:'You do not have permission to perform this action'})
+  }
+  next()
+}
+// router = express.Router();
+// router.use(isLoggedIn)
 router.post("/post/create", async function (req, res, next) {
     // Your code here
     const {post_title, post_desc, mem_id, tag_id} = req.body
@@ -17,7 +27,7 @@ router.post("/post/create", async function (req, res, next) {
     }
   });
 
-  router.delete("/post/delete/:postId", async function (req, res, next) {
+  router.delete("/post/delete/:postId",isLoggedIn,blogOwner, async function (req, res, next) {
     // Your code here
     try{
         const [rows, fields] = await pool.query("DELETE FROM post WHERE post_id = ?",

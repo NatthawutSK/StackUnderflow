@@ -1,6 +1,6 @@
 const express = require('express');
 const pool = require('../config.js')
-
+const {isLoggedIn} = require('../middleware')
 
 router = express.Router();
 
@@ -26,5 +26,18 @@ router.get("/tag", async function (req, res, next) {
     }
     
   });
+
+  router.get("/user/me", isLoggedIn, async function (req, res, next) {
+    try {
+         res.json(req.user)
+    } catch (error) {
+        console.log(error);
+        next(error)
+    }
+    
+  });
+
+
+
 
 exports.router = router;

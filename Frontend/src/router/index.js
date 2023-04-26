@@ -11,6 +11,7 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
+      meta:{guess:true},
       component: () => import('../views/LoginView.vue')
     },
     {
@@ -21,16 +22,19 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'about',
+      meta:{login:true},
       component: () => import('../views/ProfileView.vue')
     },
     {
       path: '/addforum',
       name: 'addforum',
+      meta:{login:true},
       component: () => import('../views/AddForumView.vue')
     },
     {
       path: '/admin',
       name: 'admin',
+      meta:{admin:true},
       component: () => import('../views/AdminView.vue')
     }
   ]
@@ -39,17 +43,21 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const isLoggedIn = !!localStorage.getItem('token')
-
   if (to.meta.login && !isLoggedIn) {
     alert('Please login first!')
-    next({ path: '/user/login' })
+    next({ path: '/login' })
   }
 
-  if (to.meta.guess && isLoggedIn) {
-    alert("You've already logged in")
+  if (to.meta.admin && isLoggedIn) {
+    alert("You're not admin")
     next({ path: '/'})
   }
-
+  
+  if (to.meta.guess && isLoggedIn) {
+    alert("You're already login")
+    next({ path: '/'})
+  }
+  
   next()
 })
 export default router

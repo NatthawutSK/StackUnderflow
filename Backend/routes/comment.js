@@ -3,6 +3,26 @@ const pool = require('../config.js')
 const { isLoggedIn } = require('../middleware/index.js')
 
 router = express.Router();
+// router.use(isLoggedIn)
+
+const commentOwner = async (req, res, next) => {
+
+  if (req.user.role === 'admin') {
+      return next()
+  }
+  const [[comment]] = await pool.query('SELECT * FROM comment WHERE comm_id = ?', [req.params.comId])
+
+  console.log(comment.mem_id);
+  console.log(req.user.mem_id);
+  if (comment.mem_id !== req.user.mem_id) {
+    // console.log("555");
+    return res.json({message:'You do not have permission to perform this action'})
+  }else{
+    next()
+  }
+
+  
+}
 
 router.get("/comment/:postId", async function (req, res, next) {
     // Your code here
@@ -17,10 +37,10 @@ router.get("/comment/:postId", async function (req, res, next) {
     }
   });
 
-router.post("/comment/create", isLoggedIn, async function (req, res, next) {
+router.post("/comment/create",isLoggedIn,  async function (req, res, next) {
     // Your code here
     const {comm_content, post_id, mem_id} = req.body
-    // console.log(comm_content, post_id, mem_id);
+    console.log(comm_content, post_id, mem_id);
     try {
         const [rows, fields] = await pool.query('INSERT INTO comment(comm_content, post_id, mem_id) VALUES (?,?,?)',
         [comm_content, post_id, mem_id])
@@ -35,7 +55,7 @@ router.post("/comment/create", isLoggedIn, async function (req, res, next) {
     }
   });
 
-  router.delete("/comment/delete/:comId", async function (req, res, next) {
+  router.delete("/comment/delete/:comId",isLoggedIn, commentOwner, async function (req, res, next) {
     // Your code here
     try{
         const [rows, fields] = await pool.query("DELETE FROM comment WHERE comm_id = ?",
@@ -50,7 +70,7 @@ router.post("/comment/create", isLoggedIn, async function (req, res, next) {
       }
   });
  
-  router.put("/comment/edit/:comId", async function (req, res, next) {
+  router.put("/comment/edit/:comId", isLoggedIn, commentOwner, async function (req, res, next) {
     // Your code here
     const {comm_content} = req.body
     console.log(comm_content);

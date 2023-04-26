@@ -5,12 +5,11 @@ import { useForumStore } from "@/stores/forum";
 
 const forumStore = useForumStore();
 const userStore = useUserStore();
-onMounted(userStore.authen)
 onMounted(forumStore.fetchTag);
 const forum = ref({ 
     post_title: "",
     post_desc: "",
-    mem_id: userStore.loging.mem_id,
+    mem_id: userStore.user.mem_id,
     tag_id: { tag_id: 0, tag_name: "Select Tag" },
 });
 // post_title, post_desc, mem_id, tag_id
@@ -19,7 +18,7 @@ const forum = ref({
     <v-main>
         <v-form>
             <v-card>
-                {{ userStore.loging }}
+                {{ userStore.user }}
                 <v-card-title class="text-h4 ma-3 mb-5 px-5">
                     Create Forum
                 </v-card-title>
@@ -84,7 +83,7 @@ const forum = ref({
                         href="/"
                         class="mb-5 w-50"
                         color="warning"
-                        @click="forum.mem_id = userStore.loging.mem_id,forumStore.addForum(forum)"
+                        @click="forum.mem_id = userStore.user.mem_id,forumStore.addForum(forum)"
                         >Create Post</v-btn
                     >
                 </div>

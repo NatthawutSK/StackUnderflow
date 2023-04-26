@@ -55,7 +55,7 @@ onMounted(forumStore.fetchTag)
                         class="text-h6 pa-1"
                         v-if="true"
                         ><v-btn
-                          href="/"
+                         
                           @click="
                             forumStore.deleteForum(id);
                           "
@@ -236,7 +236,7 @@ onMounted(forumStore.fetchTag)
                     />
           </v-card-text>
           <div class="d-flex justify-end">
-            <v-btn  @click="forumStore.addComment(forumStore.createComment.comm_content, userStore.loging.mem_id, forumStore.singlePost.post_id) " color="warning">Comment</v-btn>
+            <v-btn  @click="forumStore.addComment(forumStore.createComment.comm_content, userStore.user.mem_id, forumStore.singlePost.post_id) " color="warning">Comment</v-btn>
           </div>
         </v-card>
       </div>

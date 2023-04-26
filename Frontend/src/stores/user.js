@@ -2,10 +2,12 @@ import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import axios from '@/plugins/axios';
+import { useRouter } from "vue-router";
 
 export const useUserStore = defineStore('user', () => {
     const theme = useLocalStorage('theme', 'light')
     const token = useLocalStorage('token', '')
+    const user = useLocalStorage('user',{})
     const regisData = ref({
         fname : "",
         lname : "",
@@ -22,7 +24,7 @@ export const useUserStore = defineStore('user', () => {
         username:'Guest',
         password:'guest'
     })
-
+    const route = useRouter()
 
     
     function toggleTheme() {
@@ -36,26 +38,26 @@ export const useUserStore = defineStore('user', () => {
         // console.log(info);
         const fetchingData = await axios.post('/login', info)
         token.value = fetchingData.data.token
-        window.location = '/'
+        if(fetchingData.data.status == "ok"){
+            authen()
+            route.push('/')
+            
+        }else{
+            alert("login fail")
+
+        }
+        
+        
         // console.log(fetchingData.data);
     }
 
 
     const authen = async () =>{
-            const fetchingData = await axios.post('/authen', {}, 
-            { 
-                headers: 
-                    {"Authorization" : `Bearer ${token.value}`}
-            })
-            console.log(fetchingData);
-            if(fetchingData.data.status == "ok"){
-                alert("login success")
-                loging.value = fetchingData.data.decoded.user
-            }else{
-                window.location = ('/login')
-                alert("login fail")
-
-            }
+            const fetchingData = await axios.get('/user/me' )
+            user.value = fetchingData.data.user
+            // console.log(fetchingData.data);
+           
+            
     }
 
     const logout = () => {
@@ -73,7 +75,7 @@ export const useUserStore = defineStore('user', () => {
         authen,
         logout,
         loging,
-        guest
-        
+        guest,
+        user
     }
 })
