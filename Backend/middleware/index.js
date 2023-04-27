@@ -23,7 +23,7 @@ async function isLoggedIn (req, res, next) {
             // console.log(token);
             var decoded = jwt.verify(part2,secret);
             // res.json({decoded,status:'ok'})
-            console.log(decoded.user);
+            // console.log(decoded.user);
             req.user = decoded.user
 
     // // Check token

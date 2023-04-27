@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
+import Swal from 'sweetalert2'
+import axios from '@/plugins/axios';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -11,7 +12,7 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      meta:{guess:true},
+      meta: { guess: true },
       component: () => import('../views/LoginView.vue')
     },
     {
@@ -22,42 +23,61 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'about',
-      meta:{login:true},
+      meta: { login: true },
       component: () => import('../views/ProfileView.vue')
     },
     {
       path: '/addforum',
       name: 'addforum',
-      meta:{login:true},
+      meta: { login: true },
       component: () => import('../views/AddForumView.vue')
     },
     {
       path: '/admin',
       name: 'admin',
-      meta:{admin:true},
+      meta: { admin: true },
       component: () => import('../views/AdminView.vue')
     }
   ]
 })
 
-
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
+  const user = await axios.get('/admin/me')
   const isLoggedIn = !!localStorage.getItem('token')
   if (to.meta.login && !isLoggedIn) {
-    alert('Please login first!')
-    next({ path: '/login' })
+    const sweet = await Swal.fire({
+      title: 'Please Login First',
+      confirmButtonText: 'Login'
+    })
+    if (sweet) {
+      next({ path: '/login' })
+    }
   }
 
-  if (to.meta.admin && isLoggedIn) {
-    alert("You're not admin")
-    next({ path: '/'})
+  else if ((to.meta.admin && user.data.role != "admin")) {
+    // console.log(user.data);
+    const sour = await Swal.fire({
+      title: 'You Don\'t Have Permission To Do This Action',
+      confirmButtonText: 'back'
+
+    })
+    if (sour) {
+      next({ path: '/' })
+    }
   }
-  
-  if (to.meta.guess && isLoggedIn) {
-    alert("You're already login")
-    next({ path: '/'})
+
+  else if (to.meta.guess && isLoggedIn) {
+    const bitter = await Swal.fire({
+      title: 'You Alreaady Login Der Ja',
+      confirmButtonText: 'back'
+
+    })
+    if (bitter) {
+      next({ path: '/' })
+    }
   }
-  
-  next()
+  else {
+    next()
+  }
 })
 export default router
