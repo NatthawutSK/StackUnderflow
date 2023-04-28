@@ -1,8 +1,12 @@
 import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
+import { useVuelidate } from '@vuelidate/core'
+import { required,minLength,maxLength,sameAs,email } from '@vuelidate/validators'
 import axios from '@/plugins/axios';
 import { useRouter } from "vue-router";
+// import { useVuelidate } from '@vuelidate/core';
+// import { required, email, minLength, maxLength, sameAs } from '@vuelidate/validators';
 
 export const useUserStore = defineStore('user', () => {
     const theme = useLocalStorage('theme', 'light')
@@ -13,17 +17,58 @@ export const useUserStore = defineStore('user', () => {
         lname : "",
         username: "",
         email: "",
-        password: ""
+        password: "",
+        cpassword:""
     })
     const loginData = ref({
         username: "",
         password: ""
     })
     const loging = ref({})
-    const guest = ref({
-        username:'Guest',
-        password:'guest'
-    })
+
+    const complexPassword = (value) => {
+        if (!(value.match(/[a-z]/) && value.match(/[A-Z]/) && value.match(/[0-9]/))) {
+          return false
+        }
+        return true
+      }
+    const validationRules = {
+        fname:{
+            required,
+            minLength:minLength(5),
+            maxLength:maxLength(15),
+        },
+        lname:{
+            required,
+            minLength:minLength(5),
+            maxLength:maxLength(15),
+        },
+        username:{
+            required,
+            minLength:minLength(5),
+            maxLength:maxLength(15),
+        },
+        email:{
+            required,email
+        },
+        password:{
+             required,
+            minLength: minLength(8),
+            complex: complexPassword,
+        },
+        cpassword:{
+            required,
+          
+           sameAs:  function (val) {
+            return val == regisData.value.password || 
+            {
+                $error: { message: 'Passwords do not match' },
+            };
+        },
+            
+        }
+    }
+    const v$ = useVuelidate(validationRules, regisData)
     const route = useRouter()
 
     
@@ -76,7 +121,7 @@ export const useUserStore = defineStore('user', () => {
         authen,
         logout,
         loging,
-        guest,
-        user
+        user,
+        v$
     }
 })
