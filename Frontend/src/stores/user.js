@@ -25,7 +25,18 @@ export const useUserStore = defineStore('user', () => {
         password: ""
     })
     const loging = ref({})
-
+    const validationRule = {
+        username:{
+            required,
+            minLength:minLength(5),
+            maxLength:maxLength(15),
+        },
+        password:{
+            required,
+           minLength: minLength(8),
+        }
+    }
+    const v$ = useVuelidate(validationRule,loginData)
     const complexPassword = (value) => {
         if (!(value.match(/[a-z]/) && value.match(/[A-Z]/) && value.match(/[0-9]/))) {
           return false
@@ -58,17 +69,13 @@ export const useUserStore = defineStore('user', () => {
         },
         cpassword:{
             required,
-          
-           sameAs:  function (val) {
-            return val == regisData.value.password || 
-            {
-                $error: { message: 'Passwords do not match' },
-            };
+            sameAs:  function (val) {
+            return val == regisData.value.password 
         },
             
         }
     }
-    const v$ = useVuelidate(validationRules, regisData)
+    const v2$ = useVuelidate(validationRules, regisData)
     const route = useRouter()
 
     
@@ -122,6 +129,7 @@ export const useUserStore = defineStore('user', () => {
         logout,
         loging,
         user,
-        v$
+        v$,
+        v2$
     }
 })

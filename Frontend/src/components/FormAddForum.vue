@@ -2,7 +2,8 @@
 import { ref, onMounted } from "vue";
 import { useUserStore } from "@/stores/user";
 import { useForumStore } from "@/stores/forum";
-
+import { useVuelidate } from '@vuelidate/core'
+import { required,minLength,maxLength,sameAs,email } from '@vuelidate/validators'
 const forumStore = useForumStore();
 const userStore = useUserStore();
 onMounted(forumStore.fetchTag);
@@ -12,6 +13,7 @@ const forum = ref({
     mem_id: userStore.user.mem_id,
     tag_id: { tag_id: 0, tag_name: "Select Tag" },
 });
+
 // post_title, post_desc, mem_id, tag_id
 </script>
 <template>

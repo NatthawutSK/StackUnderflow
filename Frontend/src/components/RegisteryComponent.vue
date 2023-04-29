@@ -7,66 +7,7 @@ import { useUserStore } from "@/stores/user";
   const step = ref(1);
   const show = ref(false);
   const cshow = ref(false);
-  // const regisData = ref({
-  //       fname : "",
-  //       lname : "",
-  //       username: "",
-  //       email: "",
-  //       password: "",
-  //       cpassword:""
-  //   })
-  //   const complexPassword = (value) => {
-  //       if (!(value.match(/[a-z]/) && value.match(/[A-Z]/) && value.match(/[0-9]/))) {
-  //         return false
-  //       }
-  //       return true
-  //     }
-  //   const validationRules = {
-  //       fname:{
-  //           required,
-  //           minLength:minLength(5),
-  //           maxLength:maxLength(15),
-  //       },
-  //       lname:{
-  //           required,
-  //           minLength:minLength(5),
-  //           maxLength:maxLength(15),
-  //       },
-  //       username:{
-  //           required,
-  //           minLength:minLength(5),
-  //           maxLength:maxLength(15),
-  //       },
-  //       email:{
-  //           required,email
-  //       },
-  //       password:{
-  //            required,
-  //           minLength: minLength(8),
-  //           complex: complexPassword,
-  //       },
-  //       cpassword:{
-  //           required,
-  //           sameAs: function (val) {
-  //               return val == regisData.value.password;
-  //           },
-  //       }
-  //   }
-  //   const v$ = useVuelidate(validationRules, regisData)
-  // const regData = ref({
-  //     fname: '',
-  //     lname: '',
-  //     userName: '',
-  //     email: '',
-  //     password: ''
-  // })
-  // const loginData = ref({
-  //     userName: '',
-  //     password: ''
-  // })
-
-
-const test = ref(["hahahah"])
+  
 </script>
 <template>
 
@@ -94,6 +35,8 @@ const test = ref(["hahahah"])
                             color="blue"
                             autocomplete="false"
                             v-model="store.loginData.username"
+                            :error-messages="store.v$?.username?.$errors.map(e => e.$message)"
+                            @input="store.v$?.username?.$touch"
                            class="mt-16"
                           />
                           <v-text-field
@@ -104,6 +47,8 @@ const test = ref(["hahahah"])
                             color="blue"
                           autocomplete="false"
                           v-model="store.loginData.password"
+                          :error-messages="store.v$?.password?.$errors.map(e => e.$message)"
+                            @input="store.v$?.password?.$touch"
                           :type="show ?'text': 'password'"
                           :append-icon="show ?'mdi-eye':'mdi-eye-off'"   
                           @click:append="show=!show"
@@ -164,8 +109,8 @@ const test = ref(["hahahah"])
                             color="blue"
                             autocomplete="false"
                             v-model="store.regisData.fname"
-                            :error-messages="store.v$?.fname?.$errors.map(e => e.$message)"
-                            @input="store.v$?.fname?.$touch"
+                            :error-messages="store.v2$?.fname?.$errors.map(e => e.$message)"
+                            @input="store.v2$?.fname?.$touch"
                            
                            class="mt-4"
                           />
@@ -184,8 +129,8 @@ const test = ref(["hahahah"])
                             color="blue"
                             autocomplete="false"
                             v-model="store.regisData.lname"
-                            :error-messages="store.v$?.lname?.$errors.map(e => e.$message)"
-                            @input="store.v$?.lname?.$touch"
+                            :error-messages="store.v2$?.lname?.$errors.map(e => e.$message)"
+                            @input="store.v2$?.lname?.$touch"
                            
                            class="mt-4"
                           />
@@ -199,12 +144,12 @@ const test = ref(["hahahah"])
                             color="blue"
                             autocomplete="false"
                             v-model="store.regisData.username"
-                            :error-messages="store.v$?.username?.$errors.map(e => e.$message)"
-                            @input="store.v$?.username?.$touch"
+                            :error-messages="store.v2$?.username?.$errors.map(e => e.$message)"
+                            @input="store.v2$?.username?.$touch"
                            
                           />
-                          <!-- {{ store.v$?.fname?.$errors.map(e => e.$message) }} -->
-                          {{ store.v$?.cpassword?.$errors }}
+                          <!-- {{ store.v2$?.fname?.$errors.map(e => e.$message) }} -->
+                          {{ store.v2$?.cpassword?.$errors }}
                           <v-text-field
                           variant="outlined"
                             label="Email"
@@ -213,8 +158,8 @@ const test = ref(["hahahah"])
                             color="blue"
                             autocomplete="false"
                             v-model="store.regisData.email"
-                            :error-messages="store.v$?.email?.$errors.map(e => e.$message)"
-                            @input="store.v$?.email?.$touch"
+                            :error-messages="store.v2$?.email?.$errors.map(e => e.$message)"
+                            @input="store.v2$?.email?.$touch"
                            
                           />
                           <v-text-field
@@ -225,8 +170,8 @@ const test = ref(["hahahah"])
                             color="blue"
                             autocomplete="false"
                             v-model="store.regisData.password"
-                            :error-messages="store.v$?.password?.$errors.map(e => e.$message)"
-                            @input="store.v$?.password?.$touch"
+                            :error-messages="store.v2$?.password?.$errors.map(e => e.$message)"
+                            @input="store.v2$?.password?.$touch"
                             :type="show ? 'text' : 'password'"
                             :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                             @click:append="show = !show"
@@ -240,8 +185,8 @@ const test = ref(["hahahah"])
                             color="blue"
                             autocomplete="false"
                             v-model="store.regisData.cpassword"
-                            :error-messages="store.v$?.cpassword?.$errors.map(e => e.$message)"
-                            @input="store.v$?.cpassword?.$touch"
+                            :error-messages="store.v2$?.cpassword?.$errors.map(e => e.$message)"
+                            @input="store.v2$?.cpassword?.$touch"
                             :type="cshow ? 'text' : 'password'"
                             :append-icon="cshow ? 'mdi-eye' : 'mdi-eye-off'"
                             @click:append="cshow = !cshow"
