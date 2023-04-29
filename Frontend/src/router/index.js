@@ -42,10 +42,11 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const user = await axios.get('/admin/me')
+  const user = await axios.get('/user/me')
   const isLoggedIn = !!localStorage.getItem('token')
   if (to.meta.login && !isLoggedIn) {
     const sweet = await Swal.fire({
+      icon: 'error',
       title: 'Please Login First',
       confirmButtonText: 'Login'
     })
@@ -57,6 +58,7 @@ router.beforeEach(async (to, from, next) => {
   else if ((to.meta.admin && user.data.role != "admin")) {
     // console.log(user.data);
     const sour = await Swal.fire({
+      icon: 'error',
       title: 'You Don\'t Have Permission To Do This Action',
       confirmButtonText: 'back'
 
@@ -68,6 +70,7 @@ router.beforeEach(async (to, from, next) => {
 
   else if (to.meta.guess && isLoggedIn) {
     const bitter = await Swal.fire({
+      icon: 'error',
       title: 'You Alreaady Login Der Ja',
       confirmButtonText: 'back'
 

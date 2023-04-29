@@ -38,29 +38,6 @@ router.get("/user/me", isLoggedIn, async function (req, res, next) {
 
 });
 
-router.get("/admin/me", async function (req, res, next) {
-  try {
-    let authorization = req.headers.authorization
-
-    if (!authorization) {
-      return res.json({ role: "guess" })
-    } else {
-      let [part1, part2] = authorization.split(' ')
-      if (part1 !== 'Bearer' || !part2) {
-        return res.status(401).send('You are not logged in')
-      }
-      var decoded = jwt.verify(part2, secret);
-    
-      return res.json(decoded.user)
-    }
-
-
-  } catch (error) {
-    console.log(error);
-    next(error)
-  }
-
-});
 
 
 
