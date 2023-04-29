@@ -9,7 +9,7 @@ const userStore = useUserStore();
 onMounted(forumStore.fetchTag);
 const forum = ref({ 
     post_title: "",
-    post_desc: "",
+    post_desc: "<p><br></p>",
     mem_id: userStore.user.mem_id,
     tag_id: { tag_id: 0, tag_name: "Select Tag" },
 });
@@ -21,7 +21,7 @@ const description = (value) => {
 }
 
 const customValidation2 = (value) => {
-  if (value == { tag_id: 0, tag_name: "Select Tag" }) {
+  if (typeof value === 'object') {
     return false
   }
   return true;
@@ -90,7 +90,7 @@ const v$ = useVuelidate(rule,forum)
                         ]"
                         theme="snow"
                     />
-                    {{ v$?.post_desc?.$errors.map(e => e.$message) }}
+                    <v-alert v-if="v$.post_desc.$errors.length > 0" :text="v$?.post_desc?.$errors.map(e => e.$message)[0]" type="error"></v-alert>
                 </v-card-item>
                 <v-card-item>
                     <v-select
@@ -117,10 +117,11 @@ const v$ = useVuelidate(rule,forum)
                 <div></div>
                 <div class="d-flex justify-center">
                     <v-btn
-                        href="/"
+                        :href="v$.$invalid? '#':'/'"
                         class="mb-5 w-50"
                         color="warning"
-                        @click="forum.mem_id = userStore.user.mem_id,forumStore.addForum(forum)"
+                        @click="v$.$touch(),forum.mem_id = userStore.user.mem_id,forumStore.addForum(forum,v$.$invalid)"
+                      
                         >Create Post</v-btn
                     >
                 </div>

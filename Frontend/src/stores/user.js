@@ -84,12 +84,17 @@ export const useUserStore = defineStore('user', () => {
         theme.value = theme.value === 'light' ? 'dark' : 'light'
     }
     const register =  async (info) =>{
+        
+        if(!v2$.$invalid ){
         const fetchData = await axios.post('/register', info)
         const sweet = Swal.fire({
             icon: fetchData.data.status,
             title: fetchData.data.message,
             confirmButtonText: 'Close'
           })
+        // console.log("kuy au");
+        }
+        
     }
 
     const login =  async (info) =>{
