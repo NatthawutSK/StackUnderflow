@@ -2,7 +2,8 @@ import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { useVuelidate } from '@vuelidate/core'
-import { required,minLength,maxLength,sameAs,email } from '@vuelidate/validators'
+import Swal from 'sweetalert2'
+import { required,minLength,maxLength,sameAs,email,helpers } from '@vuelidate/validators'
 import axios from '@/plugins/axios';
 import { useRouter } from "vue-router";
 // import { useVuelidate } from '@vuelidate/core';
@@ -65,13 +66,13 @@ export const useUserStore = defineStore('user', () => {
         password:{
              required,
             minLength: minLength(8),
-            complex: complexPassword,
+            complex:  helpers.withMessage('Your password too ez', complexPassword),
         },
         cpassword:{
             required,
-            sameAs:  function (val) {
-            return val == regisData.value.password 
-        },
+            sameAs: helpers.withMessage('Your password not match', function (val) {
+                return val == regisData.value.password 
+            }),
             
         }
     }
@@ -83,33 +84,34 @@ export const useUserStore = defineStore('user', () => {
         theme.value = theme.value === 'light' ? 'dark' : 'light'
     }
     const register =  async (info) =>{
-        await axios.post('/register', info)
+        const fetchData = await axios.post('/register', info)
+        const sweet = Swal.fire({
+            icon: fetchData.data.status,
+            title: fetchData.data.message,
+            confirmButtonText: 'Close'
+          })
     }
 
     const login =  async (info) =>{
         // console.log(info);
         const fetchingData = await axios.post('/login', info)
         token.value = fetchingData.data.token
-        if(fetchingData.data.status == "ok"){
+
+        const sweet = await Swal.fire({
+            icon: fetchingData.data.status,
+            title: fetchingData.data.message,
+            confirmButtonText: 'Close'
+          })
+        if(fetchingData.data.status == "success"){
             authen()
             route.push('/')
-            
-        }else{
-            alert("login fail")
-
         }
-        
-        
-        // console.log(fetchingData.data);
     }
 
 
     const authen = async () =>{
             const fetchingData = await axios.get('/user/me' )
-            user.value = fetchingData.data
-           
-           
-            
+            user.value = fetchingData.data 
     }
 
     const logout = () => {
