@@ -43,6 +43,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const user = await axios.get('/user/me')
+  console.log(user);
   const isLoggedIn = !!localStorage.getItem('token')
   if (to.meta.login && !isLoggedIn) {
     const sweet = await Swal.fire({

@@ -96,7 +96,7 @@ export const useUserStore = defineStore('user', () => {
         // console.log(info);
         const fetchingData = await axios.post('/login', info)
         token.value = fetchingData.data.token
-
+        document.cookie = `token=${fetchingData.data.token}; max-age=86400; path=/;`;
         const sweet = await Swal.fire({
             icon: fetchingData.data.status,
             title: fetchingData.data.message,
@@ -117,6 +117,7 @@ export const useUserStore = defineStore('user', () => {
     const logout = () => {
         token.value = null
         user.value = {}
+        document.cookie = "token=; max-age=-1; path=/;";
     }
 
 
