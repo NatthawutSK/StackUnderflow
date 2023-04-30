@@ -11,7 +11,7 @@ import { useRouter } from "vue-router";
 
 export const useUserStore = defineStore('user', () => {
     const theme = useLocalStorage('theme', 'light')
-    const token = useLocalStorage('token', '')
+    // const token = useLocalStorage('token', '')
     const user = useLocalStorage('user',{})
     const regisData = ref({
         fname : "",
@@ -100,8 +100,8 @@ export const useUserStore = defineStore('user', () => {
     const login =  async (info) =>{
         // console.log(info);
         const fetchingData = await axios.post('/login', info)
-        token.value = fetchingData.data.token
-        document.cookie = `token=${fetchingData.data.token}; max-age=86400; path=/;`;
+        // token.value = fetchingData.data.token
+        document.cookie = `token=${fetchingData.data.token}; max-age=21600; path=/;`;
         const sweet = await Swal.fire({
             icon: fetchingData.data.status,
             title: fetchingData.data.message,
