@@ -7,6 +7,7 @@ import { ref, onMounted } from "vue";
 const route = useRoute()
 const {id} = route.params
 const forumStore = useForumStore();
+const userStore = useUserStore()
 const checkedit = ref(false)
 defineProps({
   comment: Object,
@@ -50,7 +51,7 @@ defineProps({
           <v-col cols="1">
             <v-menu
               location="end"
-              v-if="true"
+              v-if="userStore.user.mem_id === comment.mem_id || userStore.user.role === 'admin'"
             >
               <template v-slot:activator="{ props }">
                 <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>

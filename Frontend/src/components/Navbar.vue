@@ -15,11 +15,11 @@ const userStore = useUserStore()
         </v-btn>
         <v-spacer></v-spacer>
 
-        <h3 v-if="true" class="pr-5">Welcome User : </h3>
+        <h3 v-if="JSON.stringify(userStore.user) !== '{}'" class="pr-5">Welcome User : {{userStore.user.mem_user_name}}</h3>
 
         
-        <v-btn  v-if="true"  href="/addforum">Create Forum</v-btn>
-        <v-btn v-if="true " href="/admin">Manage User</v-btn>
+        <v-btn  v-if="JSON.stringify(userStore.user) !== '{}'"  href="/addforum">Create Forum</v-btn>
+        <v-btn v-if="userStore.user?.role === 'admin' " href="/admin">Manage User</v-btn>
         
         
 
@@ -28,12 +28,11 @@ const userStore = useUserStore()
           @click="userStore.toggleTheme()"
         />
 
-        <v-btn v-if="true" variant="tonal"  href="/login"  >log in</v-btn>
-        <v-btn href="/"  @click="userStore.logout()" variant="tonal"  >log out</v-btn>
+        <v-btn v-if="JSON.stringify(userStore.user) === '{}'" variant="tonal"  href="/login"  >log in / sign up</v-btn>
+        <v-btn v-else href='/'  @click="userStore.logout()" variant="tonal"  >log out</v-btn>
         <v-btn href="/profile">
           <v-avatar >
             <v-img  src="https://www.pngitem.com/pimgs/m/279-2799324_transparent-guest-png-become-a-member-svg-icon.png"/>
-
           </v-avatar>
         </v-btn>
       </v-app-bar>

@@ -4,11 +4,11 @@ import { useUserStore } from '../stores/user';
 const userStore = useUserStore();
 const show = ref(false);
 const edited = ref({
-  fname : userStore.logingUser.fname,
-  lname : userStore.logingUser.lname,
-  userName : userStore.logingUser.userName,
-  email : userStore.logingUser.email,
-  password: userStore.logingUser.password
+  fname : userStore.logingUser?.fname,
+  lname : userStore.logingUser?.lname,
+  userName : userStore.logingUser?.userName,
+  email : userStore.logingUser?.email,
+  password: userStore.logingUser?.password
 })
 </script>
 <template>

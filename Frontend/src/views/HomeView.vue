@@ -5,7 +5,7 @@ import { useUserStore } from "@/stores/user";
 import CardForum from "@/components/CardForum.vue"
 const forumStore = useForumStore()
 const userStore = useUserStore()
-onMounted(userStore.authen)
+// onMounted(userStore.authen)
 onMounted(forumStore.fetchPost)
 onMounted(forumStore.fetchTag)
 onMounted(forumStore.fetchSinglePost)
