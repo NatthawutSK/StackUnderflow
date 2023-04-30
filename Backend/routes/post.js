@@ -1,5 +1,6 @@
 const express = require('express');
 const pool = require('../config.js')
+const Joi = require('joi')
 const { isLoggedIn } = require('../middleware/index.js')
 const blogOwner = async (req, res, next) => {
   if (req.user.role === 'admin') {
@@ -12,12 +13,54 @@ const blogOwner = async (req, res, next) => {
   }
   next()
 }
+
+const tagValidator = async (value, helpers) => {
+  const [rows, _] = await pool.query(
+    "SELECT * FROM tag WHERE tag_id = ?", 
+    [value]
+  )
+  if (rows.length == 0) {
+      const message = 'This tag is not available'
+      throw new Joi.ValidationError(message, { message })
+  }
+  return value
+}
+
+const memberValidator = async (value, helpers) => {
+  const [rows, _] = await pool.query(
+    "SELECT mem_user_name  FROM member WHERE mem_id = ?", 
+    [value]
+  )
+  if (rows.length == 0) {
+      const message = 'This member is not found'
+      throw new Joi.ValidationError(message, { message })
+  }
+  return value
+}
+
+
+const forumSchema = Joi.object({
+  post_desc: Joi.string().required().min(20),
+  post_title: Joi.string().required().min(20),
+  tag_id: Joi.string().required().external(tagValidator),
+  mem_id: Joi.string().required().external(memberValidator)
+  
+}) 
+
+
 // router = express.Router();
 // router.use(isLoggedIn)
 router.post("/post/create", async function (req, res, next) {
+  try {
+    await forumSchema.validateAsync(req.body,  { abortEarly: false })
+  } catch (err) {
+    return res.status(400).json(err)
+  }
+
     // Your code here
+    // console.log(req.body);
     const {post_title, post_desc, mem_id, tag_id} = req.body
-    // console.log(post_title, post_desc, mem_id, tag_id);
+    console.log(post_title, post_desc, mem_id, tag_id);
     try {
         const [rows, fields] = await pool.query('INSERT INTO post(post_title,post_desc,mem_id,tag_id) VALUES (?,?,?,?)',
         [post_title, post_desc, mem_id, tag_id])

@@ -115,9 +115,8 @@ import { useUserStore } from "@/stores/user";
                            class="mt-4"
                           />
                           <div>
-                            
                           </div>
-                        
+                        {{  store.v2$.$invalid}} 666666666
 
                            </v-col>
                            <v-col cols="12" sm="6">
@@ -149,7 +148,7 @@ import { useUserStore } from "@/stores/user";
                            
                           />
                           <!-- {{ store.v2$?.fname?.$errors.map(e => e.$message) }} -->
-                          {{ store.v2$?.cpassword?.$errors }}
+                          <!-- {{ store.v2$?.cpassword?.$errors }} -->
                           <v-text-field
                           variant="outlined"
                             label="Email"
@@ -192,7 +191,7 @@ import { useUserStore } from "@/stores/user";
                             @click:append="cshow = !cshow"
                           ></v-text-field>
 
-                          <v-btn @click="store.register(store.regisData),step--" color="blue" dark block tile>Sign up</v-btn>
+                          <v-btn @click="store.v2$.$touch(), (!store.v2$.$invalid ?  store.register(store.regisData) : undefined) , (!store.v2$.$invalid ?  step-- : undefined) " color="blue" dark block tile>Sign up</v-btn>
                           </v-col>
                         </v-row>  
                       </v-card-text>

@@ -62,9 +62,21 @@ export const useForumStore = defineStore('forum', () => {
     }
 
 
-    const addForum = async (forum) =>{
-       
+    const addForum = async (forum,invalid) =>{
+        console.log(forum,invalid);
+        if(!invalid){
         await axios.post('/post/create', forum)
+        Swal.fire({
+            icon: 'success',
+            title: 'Create Success'
+        })
+        }else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Please fill out'
+            })
+        }
+        
     }
 
     const fetchSinglePost = async (id) => {
