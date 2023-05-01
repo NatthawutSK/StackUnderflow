@@ -115,6 +115,7 @@ const v$ = useVuelidate(rule,forum)
                 {{ forum.mem_id }}<br />
                 {{ forum.tag_id }}
                 <div></div>
+                <!-- :href="v$.$invalid? '#':'/'" -->
                 <div class="d-flex justify-center">
                     <v-btn
                         :href="v$.$invalid? '#':'/'"
