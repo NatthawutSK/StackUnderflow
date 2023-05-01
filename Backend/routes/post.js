@@ -40,15 +40,15 @@ const memberValidator = async (value, helpers) => {
 
 
 const forumSchema = Joi.object({
-  post_desc: Joi.string().required().min(20),
+ post_desc: Joi.required(),
   post_title: Joi.string().required().min(20),
-  tag_id: Joi.string().required().external(tagValidator),
-  mem_id: Joi.string().required().external(memberValidator)
+  tag_id: Joi.required().external(tagValidator),
+  mem_id: Joi.required().external(memberValidator)
   
 }) 
 
 
-// router = express.Router();
+router = express.Router();
 // router.use(isLoggedIn)
 router.post("/post/create", async function (req, res, next) {
   try {

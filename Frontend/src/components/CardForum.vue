@@ -7,7 +7,7 @@ const forumStore = useForumStore()
   
 </script>
 <template>
-
+  
   <v-card class="pa-2 my-4" variant="outlined" style="z-index:1" >
     <v-card-title primary-title >
       <div>
@@ -31,7 +31,7 @@ const forumStore = useForumStore()
             image="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
           ></v-avatar>
         </template>
-        <v-list-item-title class="text-h6 my-1">{{forum.mem_fname}}</v-list-item-title>
+        <v-list-item-title class="text-h6 my-1">{{forum.mem_user_name}}</v-list-item-title>
         <v-chip>{{ forum.tag_name }}</v-chip>
         <template v-slot:append>
           <div class="justify-self-end">

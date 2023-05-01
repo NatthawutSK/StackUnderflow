@@ -4,9 +4,9 @@ import { useUserStore } from "@/stores/user";
 import Comment from "@/components/Comment.vue";
 import { ref, onMounted, } from "vue";
 import { useForumStore } from "@/stores/forum";
-// import { useReportStore } from "@/stores/report";
+import { useReportStore } from "@/stores/report";
 const forumStore = useForumStore();
-// const reportStore = useReportStore();
+const reportStore = useReportStore();
 const route = useRoute()
 const {id} = route.params
 const dialog = ref(false);
@@ -72,7 +72,7 @@ onMounted(forumStore.fetchTag)
                       >
                         <v-dialog
                           v-model="dialog"
-                          width="auto"
+                          width="50%"
                           transition="dialog-bottom-transition"
                         >
                           <template v-slot:activator="{ props }">
@@ -83,27 +83,8 @@ onMounted(forumStore.fetchTag)
                               <span class="text-h6">Report</span>
                             </v-card-title>
                             <v-card-text>
-                              <v-container>
-                                <v-checkbox
-                                  v-model="report"
-                                  label="Harassment"
-                                  value="Harassment"
-                                ></v-checkbox>
-                                <v-checkbox
-                                  v-model="report"
-                                  label="Threatening violence"
-                                  value="Threatening violence"
-                                ></v-checkbox>
-                                <v-checkbox
-                                  v-model="report"
-                                  label="break rule"
-                                  value="break rule"
-                                ></v-checkbox>
-                                <v-checkbox
-                                  v-model="report"
-                                  label="Spam"
-                                  value="Spam"
-                                ></v-checkbox>
+                              <v-container >
+                                <v-textarea label="Enter detail here" v-model="report"></v-textarea>
                               </v-container>
                             </v-card-text>
                             <v-card-actions>
@@ -219,8 +200,7 @@ onMounted(forumStore.fetchTag)
           {{useUserStore.user}}
           <v-card-title>Write Comment </v-card-title>
           <v-card-text class="pb-10">
-            <!-- <v-textarea  variant="outlined" v-model="forumStore.createComment.comm_content" ></v-textarea> -->
-            
+          
             <QuillEditor
                         content-type="html"
                         v-model:content="forumStore.createComment.comm_content"

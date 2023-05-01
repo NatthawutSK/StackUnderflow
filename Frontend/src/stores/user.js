@@ -13,6 +13,7 @@ export const useUserStore = defineStore('user', () => {
     const theme = useLocalStorage('theme', 'light')
     // const token = useLocalStorage('token', '')
     const user = useLocalStorage('user',{})
+    const user2 = JSON.parse(document.cookie.split('=')[2] || null);
     const regisData = ref({
         fname : "",
         lname : "",
@@ -117,12 +118,13 @@ export const useUserStore = defineStore('user', () => {
     const authen = async () =>{
             const fetchingData = await axios.get('/user/me' )
             user.value = fetchingData.data 
+            document.cookie = `user=${JSON.stringify(fetchingData.data)}; max-age=21600; path=/;`
     }
 
     const logout = () => {
-        token.value = null
         user.value = {}
         document.cookie = "token=; max-age=-1; path=/;";
+        document.cookie = "user=; max-age=-1; path=/;";
     }
 
 
@@ -138,6 +140,7 @@ export const useUserStore = defineStore('user', () => {
         loging,
         user,
         v$,
-        v2$
+        v2$,
+        user2
     }
 })
