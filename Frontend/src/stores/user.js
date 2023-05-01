@@ -120,7 +120,6 @@ export const useUserStore = defineStore('user', () => {
     }
 
     const logout = () => {
-        token.value = null
         user.value = {}
         document.cookie = "token=; max-age=-1; path=/;";
     }
