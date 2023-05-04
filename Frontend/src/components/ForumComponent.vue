@@ -99,7 +99,7 @@ onMounted(forumStore.fetchTag)
                               <v-btn
                                 color="blue-darken-1"
                                 variant="text"
-                                @click="dialog = false,  reportStore.addReport(report, id)"
+                                @click="dialog = false,  reportStore.addReport(report, id),report=''"
                               >
                                 Send
                               </v-btn>

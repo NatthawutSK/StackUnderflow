@@ -66,7 +66,7 @@ router.post("/post/create", async function (req, res, next) {
         [post_title, post_desc, mem_id, tag_id])
         return res.json(rows)
     } catch (error) {
-        console.log(error);
+        next(error)
     }
   });
 
@@ -119,7 +119,6 @@ router.post("/post/create", async function (req, res, next) {
             postId : post_id,
             likeNum : post_like
         });
-    
       } catch (err) {
         console.log(err)
         return next(err);

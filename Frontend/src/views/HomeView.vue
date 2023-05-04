@@ -19,8 +19,8 @@ onMounted(forumStore.fetchSinglePost)
 <template>
   <v-main>
     {{ userStore.loging }}
-    {{ (userStore.user2).mem_id }}
-    {{ userStore.user2.mem_id }}
+    <!-- {{ (userStore.user2).mem_id }}
+    {{ userStore.user2.mem_id }} -->
     <!-- <v-btn @click="forumStore.fetchSinglePost">test</v-btn> -->
     <!-- {{ forumStore.allTag }}<br/>
     {{ forumStore.selectTag }}<br/>
