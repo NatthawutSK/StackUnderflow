@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { computed, ref, reactive } from "vue";
+import { computed, ref, reactive, watch } from "vue";
 import axios from '@/plugins/axios';
 import { useRouter } from "vue-router";
 import Swal from 'sweetalert2'
@@ -39,22 +39,33 @@ export const useForumStore = defineStore('forum', () => {
         createTag.value = fetchingData.data;
         editTag.value = fetchingData.data;
       }
+
+
+
     const fetchPost = async () => {
-        const fetchingData = await axios.get('')
-        post.value = fetchingData.data;
-      }
+        const fetchingData = await axios.get('', {
+            params: {
+                page: currentPage.value,
+                pageSize: pageSize.value,
+                tag:selectTag.value.tag_name
+            }
+          })
+        post.value = fetchingData.data.post;
+        totalPages.value = fetchingData.data.cnt 
+        // console.log(post.value, totalPages.value);     
+    }
+
+
       async function fetchSinglePostData(id){
         singlePost.value = await fetchSinglePost(id)
       }
-    const filterForum = computed(() => {
-        if (selectTag.value.tag_name == 'All') {
-            return post.value
-        } else {
-            return post.value.filter(item => {
-                return item.tag_name == selectTag.value.tag_name
-            })
-        }
-    })
+
+      watch(selectTag, (newValue, oldValue) => {
+        console.log(`Selected forum changed from ${oldValue.tag_name} to ${newValue.tag_name}`);
+        fetchPost()
+        return post.value
+      });
+    
 
     const editForum = async (forum, id) =>{
         // console.log(forum, id);
@@ -137,11 +148,33 @@ export const useForumStore = defineStore('forum', () => {
 
 
 
+
+    // pagination
+    const totalPages = ref(0);
+    const currentPage = ref(1);
+    const pageSize = ref(3);
+    const prevPage = () => {
+        // console.log("prev");
+        if (currentPage.value > 1) {
+          currentPage.value--;
+          fetchPost();
+        }
+      };
+      
+      const nextPage = () => {
+        // console.log("next");
+        if (currentPage.value < totalPages.value) {
+          currentPage.value++;
+          fetchPost();
+        }
+      };
+
+      
+
     return {
         fetchPost,
         fetchSinglePost,
         post,
-        filterForum,
         selectTag,
         addForum,
         fetchTag,
@@ -159,6 +192,11 @@ export const useForumStore = defineStore('forum', () => {
         createComment,
         addComment,
         editComment,
-        delComment
+        delComment,
+        prevPage,
+        nextPage,
+        totalPages,
+        currentPage,
+        pageSize
     }
 })
