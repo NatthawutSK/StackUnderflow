@@ -19,14 +19,12 @@ const description = (value) => {
   }
   return true;
 }
-
 const customValidation2 = (value) => {
   if (typeof value === 'object') {
     return false
   }
   return true;
 }
-
 const rule = {
     post_title:{
         required,
