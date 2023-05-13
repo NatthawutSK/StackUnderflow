@@ -19,14 +19,12 @@ const description = (value) => {
   }
   return true;
 }
-
 const customValidation2 = (value) => {
   if (typeof value === 'object') {
     return false
   }
   return true;
 }
-
 const rule = {
     post_title:{
         required,
@@ -115,6 +113,7 @@ const v$ = useVuelidate(rule,forum)
                 {{ forum.mem_id }}<br />
                 {{ forum.tag_id }}
                 <div></div>
+                <!-- :href="v$.$invalid? '#':'/'" -->
                 <div class="d-flex justify-center">
                     <v-btn
                         :href="v$.$invalid? '#':'/'"

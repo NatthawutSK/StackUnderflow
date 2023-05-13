@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useForumStore } from "@/stores/forum";
 import { useUserStore } from "@/stores/user";
 import CardForum from "@/components/CardForum.vue"
@@ -11,16 +11,17 @@ onMounted(forumStore.fetchTag)
 onMounted(forumStore.fetchSinglePost)
 
 
-
-
-
 </script>
 
 <template>
   <v-main>
     {{ userStore.loging }}
+
     <!-- {{ (userStore.user2).mem_id }}
     {{ userStore.user2.mem_id }} -->
+
+    {{ Math.ceil(forumStore.totalPages/forumStore.pageSize) }}
+
     <!-- <v-btn @click="forumStore.fetchSinglePost">test</v-btn> -->
     <!-- {{ forumStore.allTag }}<br/>
     {{ forumStore.selectTag }}<br/>
@@ -31,12 +32,18 @@ onMounted(forumStore.fetchSinglePost)
       <!-- <v-btn @click="forumStore.kuy()">test</v-btn> -->
       <v-select  variant="outlined" class=" d-flex flex-row-reverse" item-title="tag_name" item-value="tag_id" v-model="forumStore.selectTag" chips label="Tag"
         :items="forumStore.allTag" return-object></v-select>
-      <CardForum  v-for="forum in forumStore.filterForum" :forum="forum"  />
+      <CardForum  v-for="forum in forumStore.post" :forum="forum"  />
+
     </v-container>
-    
-    
+
+    <div>
+      <div>
+        <v-btn @click="forumStore.prevPage()" :disabled="forumStore.currentPage === 1">Prev </v-btn>
+        <v-btn @click="forumStore.nextPage()" :disabled="forumStore.currentPage === Math.ceil(forumStore.totalPages/forumStore.pageSize) || Math.ceil(forumStore.totalPages/forumStore.pageSize) === 0 ">Next</v-btn>
+      </div>
+    </div>
+
   </v-main>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

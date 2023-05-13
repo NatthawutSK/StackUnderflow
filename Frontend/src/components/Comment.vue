@@ -11,13 +11,15 @@ const userStore = useUserStore()
 const checkedit = ref(false)
 defineProps({
   comment: Object,
+  index: Number
 });
 
 
 </script>
 
 <template>
-  {{ comment }}
+  {{ index }}
+  <!-- {{ forumStore.singlePost }} -->
   <v-card variant="outlined" class="pa-2 my-4">
     <v-card-title primary-title>
       <div>
@@ -89,14 +91,20 @@ defineProps({
 
         <template v-slot:append>
           <div class="justify-self-end">
-            <v-btn @click="forumStore.addLikeComment(comment.comm_id)" >
-              <v-icon class="me-1" icon="mdi-heart"></v-icon>
-              <span class="subheading me-2">{{ comment.comm_like }}</span>
-              </v-btn>
-          </div>
+                  <v-btn  @click="forumStore.commVoteUp(userStore.user.mem_id, comment.comm_id, forumStore.singlePost.mem_id, index)"
+                    ><v-icon class="me-1" icon="mdi-arrow-up-drop-circle"></v-icon>
+                  </v-btn>
+                  <h3>{{comment.comm_vote}}</h3>
+                  <v-btn @click="forumStore.commVoteDown(userStore.user.mem_id, comment.comm_id, forumStore.singlePost.mem_id, index)"
+                    ><v-icon class="me-1" icon="mdi-arrow-down-drop-circle"></v-icon>
+                  </v-btn>
+                </div>
         </template>
       </v-list-item>
     </v-card-actions>
+
+    <v-btn v-if="userStore.user.mem_id == forumStore.singlePost.mem_id && comment.mem_id != forumStore.singlePost.mem_id "
+         @click="forumStore.acceptAnswer(forumStore.singlePost.post_id, comment.mem_id)">accept</v-btn>
   </v-card>
 </template>
 <style>

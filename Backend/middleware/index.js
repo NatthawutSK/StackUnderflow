@@ -8,12 +8,12 @@ async function isLoggedIn (req, res, next) {
     // console.log(authorization);
 
     if (!authorization) {
-        return res.json({ role: "guess" })
+        return res.json({ role: "guess", message:"You Are Not Login" })
     }
     
     let [part1, part2] = authorization.split(' ')
     if (part1 !== 'Bearer' || !part2) {
-        return res.json({ role: "guess" })
+        return res.json({ role: "guess", message:"You Are Not Login"})
     }
     var decoded = jwt.verify(part2,secret);
     req.user = decoded.user
