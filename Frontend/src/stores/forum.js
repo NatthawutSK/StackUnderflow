@@ -162,10 +162,10 @@ export const useForumStore = defineStore('forum', () => {
             post_id: post_id, 
             gotVote_id: gotVote_id
         })
-        if(fetchData.data.role == "guess"){
+        if(fetchData.data.role == "guess" || fetchData.data.status == "error"){
             const sweet = await Swal.fire({
                 icon: "error",
-                title: "You have to login Before vote",
+                title: fetchData.data.message,
                 confirmButtonText: 'Close'
               })
         }
@@ -181,10 +181,10 @@ export const useForumStore = defineStore('forum', () => {
             post_id: post_id, 
             gotVote_id: gotVote_id
         })
-        if(fetchData.data.role == "guess"){
+        if(fetchData.data.role == "guess" || fetchData.data.status == "error"){
             const sweet = await Swal.fire({
                 icon: "error",
-                title: "You have to login Before vote",
+                title: fetchData.data.message,
                 confirmButtonText: 'Close'
               })
         }
@@ -203,10 +203,10 @@ export const useForumStore = defineStore('forum', () => {
             comm_id: comm_id, 
             gotVote_id: gotVote_id
         })
-        if(fetchData.data.role == "guess"){
+        if(fetchData.data.role == "guess" || fetchData.data.status == "error"){
             const sweet = await Swal.fire({
                 icon: "error",
-                title: "You have to login Before vote",
+                title: fetchData.data.message,
                 confirmButtonText: 'Close'
               })
         }
@@ -222,10 +222,10 @@ export const useForumStore = defineStore('forum', () => {
             comm_id: comm_id, 
             gotVote_id: gotVote_id
         })
-        if(fetchData.data.role == "guess"){
+        if(fetchData.data.role == "guess" || fetchData.data.status == "error"){
             const sweet = await Swal.fire({
                 icon: "error",
-                title: "You have to login Before vote",
+                title: fetchData.data.message,
                 confirmButtonText: 'Close'
               })
         }
