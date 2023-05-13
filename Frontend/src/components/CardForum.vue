@@ -8,8 +8,9 @@ const forumStore = useForumStore()
 </script>
 <template>
   
-  <v-card class="pa-2 my-4" variant="outlined" style="z-index:1" >
-    <v-card-title primary-title >
+  <v-card class="pa-2 my-4" variant="outlined"  style="z-index:1" >
+    <router-link style="text-decoration: none; color: inherit;" :to="{ name: 'forum', params: { id: parseInt(forum.post_id) }}">
+    <v-card-title primary-title>
       <div>
         <v-row class="my-1">
           <v-col cols="11" style="white-space: normal">
@@ -22,7 +23,7 @@ const forumStore = useForumStore()
         style="max-width: 100%">{{ forum.post_desc }}</div> -->
         <small>{{ forumStore.convertTime(forum.post_created_at) }}</small>
       </div>
-    </v-card-title>
+    </v-card-title></router-link>
     <v-card-actions>
       <v-list-item class="w-100">
         <template v-slot:prepend>

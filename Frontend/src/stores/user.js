@@ -22,6 +22,7 @@ export const useUserStore = defineStore('user', () => {
         password: "",
         cpassword:""
     })
+    const profiledata = ref([])
     const loginData = ref({
         username: "",
         password: ""
@@ -127,7 +128,14 @@ export const useUserStore = defineStore('user', () => {
         document.cookie = "user=; max-age=-1; path=/;";
     }
 
-
+    const getprofiledata = async() =>{
+        const fetchData = await axios.get('/getprofile')
+        profiledata.value =  fetchData.data
+    }
+    const follow = async(follow,followby)=>{
+        const fetchData = await axios.post('/follow',{mem_id:follow,followby_id:followby})
+            profiledata.value.followby = fetchData.data.follow
+    }
     return {
         toggleTheme,
         theme,
@@ -141,6 +149,9 @@ export const useUserStore = defineStore('user', () => {
         user,
         v$,
         v2$,
-        user2
+        user2,
+        getprofiledata,
+        profiledata,
+        follow
     }
 })

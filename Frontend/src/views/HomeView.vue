@@ -31,7 +31,7 @@ onMounted(forumStore.fetchSinglePost)
       <!-- <v-btn @click="forumStore.kuy()">test</v-btn> -->
       <v-select  variant="outlined" class=" d-flex flex-row-reverse" item-title="tag_name" item-value="tag_id" v-model="forumStore.selectTag" chips label="Tag"
         :items="forumStore.allTag" return-object></v-select>
-      <CardForum  v-for="forum in forumStore.filterForum" :forum="forum" :to="{ name: 'forum', params: { id: parseInt(forum.post_id) }}" />
+      <CardForum  v-for="forum in forumStore.filterForum" :forum="forum"  />
     </v-container>
     
     
