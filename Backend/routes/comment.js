@@ -3,7 +3,6 @@ const pool = require('../config.js')
 const { isLoggedIn } = require('../middleware/index.js')
 
 router = express.Router();
-// router.use(isLoggedIn)
 
 const commentOwner = async (req, res, next) => {
   
@@ -15,7 +14,6 @@ const commentOwner = async (req, res, next) => {
   console.log(comment.mem_id);
   console.log(req.user.mem_id);
   if (comment.mem_id !== req.user.mem_id) {
-    // console.log("555");
     return res.json({message:'You do not have permission to perform this action'})
   }else{
     next()
@@ -47,7 +45,7 @@ router.post("/comment/create",isLoggedIn,  async function (req, res, next) {
         [comm_content, post_id, mem_id])
       const insertId = rows.insertId
       // console.log(insertId);
-        const [rows1, fields1] = await pool.query("SELECT * FROM comment WHERE comm_id = ?",
+        const [rows1, fields1] = await pool.query("SELECT * FROM comment c join member m on (c.mem_id = m.mem_id) WHERE comm_id = ?",
          [insertId]);
 
         return res.json(rows1)

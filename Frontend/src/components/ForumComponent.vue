@@ -26,10 +26,12 @@ onMounted(forumStore.fetchTag)
 <template>
     <v-main>
     <v-container class="mt-5 pa-10">
-      {{ userStore.user }}
-      
+      voter : {{ userStore.user.mem_id }}
+      <br>
+      vote : {{  forumStore.singlePost.post_vote }} <br>
     <!-- {{ forumStore.commentPost }} -->
-    <!-- {{ singlePost }} -->
+    gotVoted : {{ forumStore.singlePost.mem_id }}<br>
+    postId : {{ forumStore.singlePost.post_id }}
     <!-- {{   forumStore.editTag }} -->
     <div>
       <v-card variant="outlined">
@@ -204,10 +206,13 @@ onMounted(forumStore.fetchTag)
 
               <template v-slot:append>
                 <div class="justify-self-end">
-                  <v-btn @click="forumStore.addLikePost(id)"
-                    ><v-icon class="me-1" icon="mdi-heart"></v-icon>
-                    <span class="subheading me-2">{{ forumStore.singlePost.post_like }}</span></v-btn
-                  >
+                  <v-btn  @click="forumStore.postVoteUp(userStore.user.mem_id, forumStore.singlePost.post_id, forumStore.singlePost.mem_id)"
+                    ><v-icon class="me-1" icon="mdi-arrow-up-drop-circle"></v-icon>
+                  </v-btn>
+                  <h3>{{forumStore.singlePost.post_vote}}</h3>
+                  <v-btn @click="forumStore.postVoteDown(userStore.user.mem_id, forumStore.singlePost.post_id, forumStore.singlePost.mem_id)"
+                    ><v-icon class="me-1" icon="mdi-arrow-down-drop-circle"></v-icon>
+                  </v-btn>
                 </div>
               </template>
             </v-list-item>
@@ -248,10 +253,11 @@ onMounted(forumStore.fetchTag)
             forumStore.commentPost.length
           }})
         </h1>
-        
+        <!-- {{ forumStore.commentPost }} -->
         <Comment
-          v-for="comment in forumStore.commentPost"
+          v-for="comment,index in forumStore.commentPost"
           :comment="comment"
+          :index="index"
         
         ></Comment>
       </div>
