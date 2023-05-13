@@ -19,11 +19,23 @@ async function checkRepVoteDown(req, res, next) {
     next()
 }
 
-
+async function ownerQuestion(req, res, next) {
+    const {post_id, answer_id} = req.body
+    const [[owner]] = await pool.query('SELECT * FROM post WHERE post_id=?', [post_id])
+    
+    if (owner.mem_id == answer_id) {
+      return res.json({message:'Owner can not accept urself Question', status:"error"})
+    }
+    else if (owner.mem_id !== req.user.mem_id) {
+      return res.json({message:'You are not owner of question', status:"error"})
+    }
+    next()
+  }
 
 module.exports = {
     checkRepVoteUp,
     checkRepVoteDown,
+    ownerQuestion
 
 }
 
