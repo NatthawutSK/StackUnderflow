@@ -48,7 +48,7 @@ const forumSchema = Joi.object({
 }) 
 
 
-// router = express.Router();
+router = express.Router();
 // router.use(isLoggedIn)
 router.post("/post/create", async function (req, res, next) {
   try {
@@ -66,7 +66,7 @@ router.post("/post/create", async function (req, res, next) {
         [post_title, post_desc, mem_id, tag_id])
         return res.json(rows)
     } catch (error) {
-        console.log(error);
+        next(error)
     }
   });
 
@@ -103,7 +103,6 @@ router.post("/post/create", async function (req, res, next) {
         return next(err);
       }
   });
-
 
 
 

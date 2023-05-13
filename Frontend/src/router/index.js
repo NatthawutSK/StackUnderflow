@@ -45,6 +45,7 @@ router.beforeEach(async (to, from, next) => {
   const user = await axios.get('/user/me')
   console.log(user);
   const isLoggedIn = !!document.cookie
+
   if(!isLoggedIn){
     console.log("555555")
     localStorage.setItem('user', JSON.stringify({}))

@@ -18,7 +18,7 @@ const userStore = useUserStore()
         <h3 v-if="JSON.stringify(userStore.user) !== '{}'" class="pr-5">Welcome User : {{userStore.user.mem_user_name}}</h3>
 
         
-        <v-btn  v-if="JSON.stringify(userStore.user) !== '{}'"  href="/addforum">Create Forum</v-btn>
+        <v-btn  v-if="JSON.stringify(userStore.user) !== '{}' && userStore.user?.role !== 'admin'"  href="/addforum">Create Forum</v-btn>
         <v-btn v-if="userStore.user?.role === 'admin' " href="/admin">Manage User</v-btn>
         
         

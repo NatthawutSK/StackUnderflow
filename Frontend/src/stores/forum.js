@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref, reactive, watch } from "vue";
 import axios from '@/plugins/axios';
+import Swal from 'sweetalert2'
 import { useRouter } from "vue-router";
 import Swal from 'sweetalert2'
 export const useForumStore = defineStore('forum', () => {

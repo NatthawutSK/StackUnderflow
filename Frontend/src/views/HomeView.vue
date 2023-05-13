@@ -16,7 +16,12 @@ onMounted(forumStore.fetchSinglePost)
 <template>
   <v-main>
     {{ userStore.loging }}
+
+    <!-- {{ (userStore.user2).mem_id }}
+    {{ userStore.user2.mem_id }} -->
+
     {{ Math.ceil(forumStore.totalPages/forumStore.pageSize) }}
+
     <!-- <v-btn @click="forumStore.fetchSinglePost">test</v-btn> -->
     <!-- {{ forumStore.allTag }}<br/>
     {{ forumStore.selectTag }}<br/>
@@ -25,10 +30,10 @@ onMounted(forumStore.fetchSinglePost)
     <!-- {{ forumStore.post[0].post_created_at }} -->
     <v-container>
       <!-- <v-btn @click="forumStore.kuy()">test</v-btn> -->
-      <v-select variant="outlined" class=" d-flex flex-row-reverse" item-title="tag_name" item-value="tag_id"
-        v-model="forumStore.selectTag" chips label="Tag" :items="forumStore.allTag" return-object></v-select>
-      <CardForum v-for="forum in forumStore.post" :forum="forum"
-        :to="{ name: 'forum', params: { id: parseInt(forum.post_id) } }" />
+      <v-select  variant="outlined" class=" d-flex flex-row-reverse" item-title="tag_name" item-value="tag_id" v-model="forumStore.selectTag" chips label="Tag"
+        :items="forumStore.allTag" return-object></v-select>
+      <CardForum  v-for="forum in forumStore.post" :forum="forum"  />
+
     </v-container>
 
     <div>
