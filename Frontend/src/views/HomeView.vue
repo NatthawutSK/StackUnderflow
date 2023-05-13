@@ -34,7 +34,7 @@ onMounted(forumStore.fetchSinglePost)
     <div>
       <div>
         <v-btn @click="forumStore.prevPage()" :disabled="forumStore.currentPage === 1">Prev </v-btn>
-        <v-btn @click="forumStore.nextPage()" :disabled="forumStore.currentPage === Math.ceil(forumStore.totalPages/forumStore.pageSize)">Next</v-btn>
+        <v-btn @click="forumStore.nextPage()" :disabled="forumStore.currentPage === Math.ceil(forumStore.totalPages/forumStore.pageSize) || Math.ceil(forumStore.totalPages/forumStore.pageSize) === 0 ">Next</v-btn>
       </div>
     </div>
 

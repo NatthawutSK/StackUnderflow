@@ -26,10 +26,10 @@ onMounted(forumStore.fetchTag)
 <template>
     <v-main>
     <v-container class="mt-5 pa-10">
-      {{ userStore.user }}
+      <!-- {{ userStore.user }} -->
       
     <!-- {{ forumStore.commentPost }} -->
-    <!-- {{ singlePost }} -->
+    {{ forumStore.singlePost }}
     <!-- {{   forumStore.editTag }} -->
     <div>
       <v-card variant="outlined">
@@ -248,7 +248,7 @@ onMounted(forumStore.fetchTag)
             forumStore.commentPost.length
           }})
         </h1>
-        
+        {{ forumStore.commentPost }}
         <Comment
           v-for="comment in forumStore.commentPost"
           :comment="comment"
