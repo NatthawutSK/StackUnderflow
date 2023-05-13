@@ -23,11 +23,13 @@ router.get("/report", async(req,res,next)=>{
 })
 router.post("/report",async(req,res)=>{
     const {content, postId} = req.body
+    console.log(content, postId);
     try{
        const [rows,field] = await pool.query('INSERT INTO report(report_content,post_id) VALUES(?,?)',[content,postId])
        return res.json({status:"success"})
     }catch(err){
         console.log(err);
+        next(err)
     }
 })
 router.put("/report",isLoggedIn,isAdmin,async(req,res)=>{

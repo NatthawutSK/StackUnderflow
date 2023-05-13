@@ -43,7 +43,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const user = await axios.get('/user/me')
-  console.log(user);
+  // console.log(user);
   const isLoggedIn = !!document.cookie
 
   if(!isLoggedIn){
