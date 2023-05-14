@@ -27,17 +27,22 @@ const forumStore = useForumStore()
     <v-card-actions>
       <v-list-item class="w-100">
         <template v-slot:prepend>
+          <router-link :to="{path:`/profile/${forum.mem_id}`}" class="text-decoration-none">
           <v-avatar
             color="grey-darken-3"
+            class="mr-5"
             image="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
           ></v-avatar>
+          </router-link>
         </template>
-        <v-list-item-title class="text-h6 my-1">{{forum.mem_user_name}}</v-list-item-title>
+        <router-link :to="{path:`/profile/${forum.mem_id}`}" class="text-decoration-none">
+          <v-list-item-title class="text-h6 my-1 text-black">{{forum.mem_user_name}}</v-list-item-title>
+        </router-link>
         <v-chip>{{ forum.tag_name }}</v-chip>
         <template v-slot:append>
           <div class="justify-self-end">
-            <v-btn  style="z-index: 0;"><v-icon class="me-1" icon="mdi-heart"></v-icon>
-              <span class="subheading me-2">{{forum.post_like}}</span></v-btn>
+            <!-- <v-btn  style="z-index: 0;"><v-icon class="me-1" icon="mdi-heart"></v-icon>
+              <span class="subheading me-2">{{forum.post_like}}</span></v-btn> -->
           </div>
         </template>
       </v-list-item>

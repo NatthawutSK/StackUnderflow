@@ -1,10 +1,14 @@
 <script setup>
 import { ref, onMounted,computed } from "vue";
 import { useUserStore } from "../stores/user";
+import { useRoute } from "vue-router";
 const userStore = useUserStore();
+
 const show = ref(false);
 const dialog = ref(false)
 const dialog2 = ref(false)
+const route = useRoute()
+const {id} = route.params
 const edited = ref({
     fname: userStore.logingUser?.fname,
     lname: userStore.logingUser?.lname,
@@ -12,11 +16,15 @@ const edited = ref({
     email: userStore.logingUser?.email,
     password: userStore.logingUser?.password,
 });
-onMounted(userStore.getprofiledata);
+onMounted(async()=>{
+  userStore.profiledata = await userStore.getprofiledata(id)
+});
 </script>
 <template>
     <v-container>
         <v-main>
+          {{ userStore.user }}<br>
+          {{ userStore.profiledata.user }}
             <v-row>
                 <v-col>
                     <v-card class="mx-auto mb-6 d-flex pa-5" rounded="0">
@@ -30,14 +38,20 @@ onMounted(userStore.getprofiledata);
                         </div>
                         <div>
                             <v-card-title class="mt-5">
-                                Name: {{ userStore.user.mem_user_name }}
+                                Name: {{  userStore.profiledata.user?.mem_user_name }}
                             </v-card-title>
                             <v-card-title>
-                                Email: {{ userStore.user.mem_email }}
+                                Email: {{ userStore.profiledata.user?.mem_email }}
                             </v-card-title>
                             <v-card-title>
-                                Role: {{ userStore.user.role }}
+                                Role: {{ userStore.profiledata.user?.role }}
                             </v-card-title>
+                           
+                            {{ !!userStore.profiledata.follower?.find(({mem_id})=>{return mem_id == userStore.user.mem_id}) }}
+                            <div v-if="id != userStore.user.mem_id">
+                              <v-btn v-if="!!!userStore.profiledata.follower?.find(({mem_id})=>{return mem_id == userStore.user.mem_id})" @click="userStore.follow(userStore.profiledata.user.mem_id,userStore.user.mem_id)">Follow</v-btn>
+                              <v-btn v-if="!!userStore.profiledata.follower?.find(({mem_id})=>{return mem_id == userStore.user.mem_id})" @click="userStore.follow(userStore.profiledata.user.mem_id,userStore.user.mem_id)">Unfollow</v-btn>
+                            </div>
                         </div>
                     </v-card>
                 </v-col>
@@ -50,7 +64,7 @@ onMounted(userStore.getprofiledata);
                                     Follower
                                 </v-card-title>
                                 <v-card-text class="text-h6">
-                                    {{ userStore.profiledata.follower }}
+                                    {{ userStore.follower }}
                                 </v-card-text> -->
                                 <v-dialog
       v-model="dialog"
@@ -72,16 +86,13 @@ onMounted(userStore.getprofiledata);
         <v-card-title>Follower</v-card-title>
         <v-row v-for="follower in userStore.profiledata.follower">
         <v-col>
-        <v-card-text>
+          <router-link :to="{path:`/profile/${follower.mem_id}`}" class="text-decoration-none">
+        <v-card-text class="text-black">
           {{ follower.mem_user_name }}
         </v-card-text>
+          </router-link>
       </v-col>
-      <v-col>
-        {{ userStore.profiledata.followby }}
-       {{ !!userStore.profiledata.followby.find(({mem_id})=>{return mem_id == follower.mem_id}) }}
-        <v-btn v-if="!!userStore.profiledata.followby.find(({mem_id})=>{return mem_id == follower.mem_id})" @click="userStore.follow(follower.mem_id,userStore.user.mem_id)">Unfollow</v-btn>
-        <v-btn v-else @click="userStore.follow(follower.mem_id,userStore.user.mem_id)">Follow</v-btn>
-      </v-col>
+     
     </v-row>
         <v-card-actions>
           <v-btn color="primary" block @click="dialog = false">Close</v-btn>
@@ -110,12 +121,11 @@ onMounted(userStore.getprofiledata);
         <v-card-title>Follower</v-card-title>
         <v-row v-for="followby in userStore.profiledata.followby">
         <v-col>
-        <v-card-text>
+          <router-link :to="{path:`/profile/${followby.mem_id}`}" class="text-decoration-none">
+        <v-card-text class="text-black">
           {{ followby.mem_user_name }}
         </v-card-text>
-      </v-col>
-      <v-col>
-        <v-btn @click="userStore.follow(follower.mem_id,useUserStore.user.mem_id)">Unfollow</v-btn>
+      </router-link>
       </v-col>
     </v-row>
         <v-card-actions>

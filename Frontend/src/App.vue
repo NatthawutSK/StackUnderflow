@@ -10,7 +10,7 @@ const userStore = useUserStore()
 <template>
   <v-app :theme="userStore.theme">
     <Navbar></Navbar>
-    <RouterView></RouterView>
+    <RouterView :key="$route.path"></RouterView>
   </v-app>
 </template>
 
