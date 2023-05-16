@@ -6,6 +6,7 @@ import { useRouter } from "vue-router";
 export const useForumStore = defineStore('forum', () => {
     const route = useRouter()
     const post = ref([])
+    const postfollowing = ref([])
     const selectTag = ref({
         tag_id: 1,
         tag_name: "All"
@@ -54,6 +55,17 @@ export const useForumStore = defineStore('forum', () => {
         totalPages.value = fetchingData.data.cnt
     }
 
+    const fetchPostFollowing = async() => {
+        const fetchingData = await axios.get('/postfollowing',
+        {
+            params: {
+                page: currentPage2.value,
+                pageSize: pageSize2.value,
+            }
+        })
+        postfollowing.value = fetchingData.data.post;
+        totalPages2.value = fetchingData.data.cnt
+    }
 
     watch(selectTag, (newValue, oldValue) => {
         fetchPost()
@@ -151,6 +163,29 @@ export const useForumStore = defineStore('forum', () => {
             fetchPost();
         }
     };
+
+
+    // pagination2
+    const totalPages2 = ref(0);
+    const currentPage2 = ref(1);
+    const pageSize2 = ref(3);
+    const prevPage2 = () => {
+        // console.log("prev");
+        if (currentPage2.value > 1) {
+            currentPage2.value--;
+            fetchPostFollowing();
+        }
+    };
+
+    const nextPage2 = () => {
+        // console.log("next");
+        if (currentPage2.value < totalPages2.value) {
+            currentPage2.value++;
+            fetchPostFollowing();
+        }
+    };
+
+
 
 
 
@@ -257,8 +292,10 @@ export const useForumStore = defineStore('forum', () => {
 
     return {
         fetchPost,
+        fetchPostFollowing,
         fetchSinglePost,
         post,
+        postfollowing,
         selectTag,
         addForum,
         fetchTag,
@@ -284,6 +321,11 @@ export const useForumStore = defineStore('forum', () => {
         postVoteDown,
         commVoteUp,
         commVoteDown,
-        acceptAnswer
+        acceptAnswer,
+        prevPage2,
+        nextPage2,
+        totalPages2,
+        currentPage2,
+        pageSize2,
     }
 })
