@@ -36,7 +36,7 @@ const forumStore = useForumStore()
           </router-link>
         </template>
         <router-link :to="{path:`/profile/${forum.mem_id}`}" class="text-decoration-none">
-          <v-list-item-title class="text-h6 my-1 text-black">{{forum.mem_user_name}}</v-list-item-title>
+          <v-list-item-title class="text-h6 my-1">{{forum.mem_user_name}}</v-list-item-title>
         </router-link>
         <v-chip>{{ forum.tag_name }}</v-chip>
         <template v-slot:append>

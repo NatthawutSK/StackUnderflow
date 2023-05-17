@@ -271,15 +271,30 @@ export const useForumStore = defineStore('forum', () => {
     }
 
     //accept Answer Correct
-    const acceptAnswer = async (post_id, answer_id) => {
+    const acceptAnswer = async (post_id, answer_id,comm_id) => {
         // console.log(post_id, answer_id);
         const fetchData = await axios.put('/answer/accept', {
             post_id: post_id,
-            answer_id: answer_id
+            answer_id: answer_id,
+            comm_id:comm_id
         })
         if(fetchData.data.status == "success"){
             const sweet = await Swal.fire({
                 icon: "success",
+                title: fetchData.data.message,
+                confirmButtonText: 'Close'
+              })
+            commentPost.value = commentPost.value.map((val)=>{
+                console.log(val);
+                if(val.comm_id === comm_id){
+                     val.accept = 1
+            }
+                return val
+            })
+            console.log(commentPost.value);
+        }else{
+            const sweet = await Swal.fire({
+                icon: "error",
                 title: fetchData.data.message,
                 confirmButtonText: 'Close'
               })

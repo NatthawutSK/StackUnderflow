@@ -125,13 +125,20 @@ router.put("/comm/vote/down", isLoggedIn, checkRepVoteDown, async function (req,
 
 
 router.put("/answer/accept", isLoggedIn, ownerQuestion, async function (req, res, next) {
-  const { answer_id } = req.body
+  const { answer_id,post_id,comm_id } = req.body
   // console.log(req.body);
   try {
     const [rows0, fields0] = await pool.query('SELECT reputation FROM member where mem_id = ? ', [answer_id])
     const rep = rows0[0].reputation + 15
+    const [row,field] = await pool.query('SELECT * FROM comment where accept = ? and post_id = ?',[1,post_id])
+    if(row.length > 0){
+      return res.json({status:"failed",message:"You already accept Answer"})
+    }
+    else{
+    const [row2,field2] = await pool.query('update comment set accept = ? where comm_id = ?',[1,comm_id])
     const [rows1, fields1] = await pool.query('update member set reputation = ? where mem_id = ?', [rep, answer_id])
     return res.json({ status: "success", message: "You got Correctly Answer" })
+    }
 
   } catch (error) {
     next(error)

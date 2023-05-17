@@ -189,7 +189,7 @@ onMounted(forumStore.fetchTag)
               
                   <div>
                     <router-link :to="{path:`/profile/${forumStore.singlePost.mem_id}`}" class="text-decoration-none">
-                      <v-list-item-title class="text-h6 my-1 text-black">{{forumStore.singlePost.mem_user_name}}</v-list-item-title>
+                      <v-list-item-title class="text-h6 my-1">{{forumStore.singlePost.mem_user_name}}</v-list-item-title>
                     </router-link>
                     <v-chip>{{ forumStore.singlePost.tag_name }}</v-chip>
                  </div>
@@ -238,6 +238,7 @@ onMounted(forumStore.fetchTag)
       </div>
       {{ forumStore.createComment.comm_content }}
       <div class="mt-5">
+        
         <h1>
           Comments({{
             forumStore.commentPost.length

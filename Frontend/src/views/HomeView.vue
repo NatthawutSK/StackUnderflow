@@ -45,7 +45,10 @@ onMounted(forumStore.fetchPostFollowing)
       </div>
             </v-window-item>
             <v-window-item :value="2">
-              <h1>Following</h1>
+              <div class="ma-5">
+              <h1 v-if="forumStore.postfollowing.length===0">You did not follow anyone</h1>
+              <h1 v-else>Following</h1>
+            </div>
               <CardForum  v-for="forum in forumStore.postfollowing" :forum="forum"  />
               <div>
                 <div>

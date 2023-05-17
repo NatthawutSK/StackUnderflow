@@ -87,7 +87,7 @@ onMounted(async()=>{
         <v-row v-for="follower in userStore.profiledata.follower">
         <v-col>
           <router-link :to="{path:`/profile/${follower.mem_id}`}" class="text-decoration-none">
-        <v-card-text class="text-black">
+        <v-card-text>
           {{ follower.mem_user_name }}
         </v-card-text>
           </router-link>
@@ -122,7 +122,7 @@ onMounted(async()=>{
         <v-row v-for="followby in userStore.profiledata.followby">
         <v-col>
           <router-link :to="{path:`/profile/${followby.mem_id}`}" class="text-decoration-none">
-        <v-card-text class="text-black">
+        <v-card-text >
           {{ followby.mem_user_name }}
         </v-card-text>
       </router-link>
