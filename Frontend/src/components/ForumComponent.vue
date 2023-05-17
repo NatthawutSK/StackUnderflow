@@ -17,8 +17,8 @@ const userStore = useUserStore()
 // onMounted(userStore.authen)
 onMounted(async () => {
   forumStore.singlePost = await forumStore.fetchSinglePost(id)
-  forumStore.commentPost = await forumStore.fetchMoreComment(id)
-  // forumStore.totalcomment = await forumStore.fetchMoreComment(id)
+  forumStore.commentPost = await forumStore.fetchComment(id)
+  forumStore.arrayCom = forumStore.commentPost.slice(0, 2)
 })
 onMounted(forumStore.fetchTag)
 
@@ -30,7 +30,7 @@ onMounted(forumStore.fetchTag)
       voter : {{ userStore.user.mem_id }}
       <br>
       vote : {{  forumStore.singlePost.post_vote }} <br>
-    {{ forumStore.commentPost }}
+    <!-- {{ forumStore.commentPost }} -->
     gotVoted : {{ forumStore.singlePost.mem_id }}<br>
     postId : {{ forumStore.singlePost.post_id }}
     <!-- {{   forumStore.editTag }} -->
@@ -231,17 +231,18 @@ onMounted(forumStore.fetchTag)
       <div class="mt-5">
         <h1>
           Comments({{
-            forumStore.commentPost[1]
+            forumStore.computeComm
           }})
         </h1>
-        <!-- {{ forumStore.commentPost }} -->
+        {{ forumStore.cntLoad }}
+        {{ forumStore.computeComm }}
         <Comment
-          v-for="comment,index in forumStore.commentPost[0]"
+          v-for="comment,index in forumStore.arrayCom"
           :comment="comment"
           :index="index"
         
         ></Comment>
-        <v-btn v-if="forumStore.currentComment !== Math.ceil(forumStore.totalcomment/forumStore.commentSize) && forumStore.commentPost[1] != 0 " @click="forumStore.loadMoreComment(id)">load more</v-btn>
+        <v-btn v-if="forumStore.computeComm > forumStore.cntLoad" @click="forumStore.loadMoreComment(id)">load more</v-btn>
       </div>
     </v-container>
   </v-main>

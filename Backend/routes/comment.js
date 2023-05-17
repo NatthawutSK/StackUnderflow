@@ -23,20 +23,15 @@ const commentOwner = async (req, res, next) => {
 }
 
 router.get("/comment/:postId", async function (req, res, next) {
-  const { startAt, commSize } = req.query;
-  const offset = (startAt - 1) * commSize;
-  const limit = parseInt(commSize);
+  // Your code here
+  // const {comm_content, post_id, mem_id} = req.body
+  // console.log(comm_content, post_id, mem_id);
   try {
-    const [rows, fields] = await pool.query('select * from comment c join member m on(m.mem_id = c.mem_id) where  c.post_id = ? LIMIT ? OFFSET ?',
-      [req.params.postId, limit, offset])
-    const [[{ cnt }]] = await pool.query('select count(*) as cnt from comment c join member m on(m.mem_id = c.mem_id) where  c.post_id = ? ',
+      const [rows, fields] = await pool.query('select * from comment c join member m on(m.mem_id = c.mem_id) where  c.post_id = ?',
       [req.params.postId])
-    return res.json({
-      moreComm: rows, 
-      cnt: cnt
-    })
+      return res.json(rows)
   } catch (error) {
-    console.log(error);
+      console.log(error);
   }
 });
 
