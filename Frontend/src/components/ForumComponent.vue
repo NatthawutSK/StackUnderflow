@@ -245,7 +245,4 @@ onMounted(forumStore.fetchTag)
       </div>
     </v-container>
   </v-main>
-  <!-- totalcomment,
-        currentComment,
-        commentSize -->
 </template>

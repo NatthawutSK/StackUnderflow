@@ -2,11 +2,12 @@ const express = require("express")
 require('dotenv').config()
 const cors = require("cors")
 const app = express();
-const {isLoggedIn} = require('./middleware/index')
+
+app.use(express.static('static'))
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 app.use(cors())
-// app.use(isLoggedIn)
+
 
 // routers
 const indexRouter = require('./routes/index')
@@ -17,7 +18,6 @@ const registerRouter = require('./routes/registration')
 const reportRouter = require('./routes/report')
 const reputationRouter = require('./routes/reputation')
 
-// commentRouter.router.use(isLoggedIn)
 app.use(indexRouter.router)
 app.use(postRouter.router)
 app.use(commentRouter.router)

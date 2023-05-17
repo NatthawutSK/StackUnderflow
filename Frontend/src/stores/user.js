@@ -119,7 +119,7 @@ export const useUserStore = defineStore('user', () => {
     const authen = async () =>{
             const fetchingData = await axios.get('/user/me' )
             user.value = fetchingData.data 
-            document.cookie = `user=${JSON.stringify(fetchingData.data)}; max-age=21600; path=/;`
+            document.cookie = `user=${JSON.stringify(fetchingData.data)}; max-age=86400000; path=/;`
     }
 
     const logout = () => {
@@ -136,6 +136,63 @@ export const useUserStore = defineStore('user', () => {
         const fetchData = await axios.post('/follow',{mem_id:follow,followby_id:followby})
             profiledata.value.followby = fetchData.data.follow
     }
+
+
+
+
+    // profile image
+
+    const fileImg = ref(null);
+    const imageURL = ref(null);
+      async function previewImage(event) {
+        const file = event.target.files[0];
+        fileImg.value = event.target.files[0];
+        const maxFileSize = 1048576; // 1 MB file size limit
+        if(file.size > maxFileSize){
+            const sweet = await Swal.fire({
+                icon: "error",
+                title: "image size can not more than 1 MB",
+                confirmButtonText: 'Close'
+              })
+              imageURL.value = null;
+
+        } else if (file && file.type.startsWith('image/')) {
+          const reader = new FileReader();
+  
+          reader.onload = () => {
+            imageURL.value = reader.result;
+          };
+  
+          reader.readAsDataURL(file);
+        } else {
+          imageURL.value = null;
+          const sweet = await Swal.fire({
+            icon: "error",
+            title: "Invalid file. Please select an image.",
+            confirmButtonText: 'Close'
+          })
+          
+        }
+      }
+
+      
+      const changePic = async(mem_id) =>{
+        console.log(fileImg.value);
+        const fetchData = await axios.post('/profile/pic',
+        {
+            mem_pic: fileImg.value,
+            mem_id: mem_id
+        },{
+            headers: {
+            'Content-Type': 'multipart/form-data'
+            }
+        })
+        // console.log(fetchData.data.mem_pic);
+        user.value.mem_pic = fetchData.data.mem_pic.replace(/\\/g, "/");
+        
+      }
+
+
     return {
         toggleTheme,
         theme,
@@ -152,6 +209,10 @@ export const useUserStore = defineStore('user', () => {
         user2,
         getprofiledata,
         profiledata,
-        follow
+        follow,
+        previewImage,
+        imageURL,
+        changePic,
+        
     }
 })

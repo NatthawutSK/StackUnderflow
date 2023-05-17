@@ -1,7 +1,48 @@
 const express = require('express');
 const pool = require('../config.js')
 const { isLoggedIn } = require('../middleware')
+const path = require("path");
 router = express.Router();
+
+
+// Require multer for file upload
+const multer = require("multer");
+// SET STORAGE
+var storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, "./static/uploads");
+  },
+  filename: function (req, file, callback) {
+    callback(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+const upload = multer({ storage: storage, limits: { fileSize: 1048576 }  });
+
+
+router.post("/profile/pic", isLoggedIn, upload.single("mem_pic"),  async function (req, res, next) {
+  const file = req.file;
+  const mem_id = req.body.mem_id
+  // console.log(file.path.substr(6));
+  try {
+    const [rows, fields] = await pool.query('update member set mem_pic = ? where mem_id = ?', [file.path.substr(6), mem_id])
+    const [rows1, fields1] = await pool.query('select mem_pic from member where mem_id = ?', [mem_id])
+    
+    return res.json(rows1[0])
+
+
+
+
+  } catch (error) {
+    console.log(error);
+    next(error)
+  }
+
+});
+
+
 
 router.get("/tag", async function (req, res, next) {
   try {
