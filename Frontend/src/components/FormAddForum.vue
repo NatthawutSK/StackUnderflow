@@ -3,7 +3,7 @@ import { ref, onMounted } from "vue";
 import { useUserStore } from "@/stores/user";
 import { useForumStore } from "@/stores/forum";
 import { useVuelidate } from '@vuelidate/core'
-import { required,minLength,helpers } from '@vuelidate/validators'
+import { required,minLength,helpers,maxLength } from '@vuelidate/validators'
 const forumStore = useForumStore();
 const userStore = useUserStore();
 onMounted(forumStore.fetchTag);

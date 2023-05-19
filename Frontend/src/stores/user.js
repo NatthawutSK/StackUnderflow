@@ -142,6 +142,45 @@ export const useUserStore = defineStore('user', () => {
         const fetchData = await axios.get(`/following/`)
         following.value = fetchData.data
     }
+    
+    const updateprofile = async(data,invalid)=>{
+        console.log(invalid);
+        if(!invalid){
+        const fetchData = await axios.put('/updateuser',data)
+        const sweet = await Swal.fire({
+            icon: fetchData.data.status,
+            title: fetchData.data.message,
+            confirmButtonText: 'Close'
+          })
+        user.value.mem_fname = data.fname
+        user.value.mem_lname = data.lname
+        user.value.mem_email = data.email
+        user.value.mem_user_name = data.username
+        }
+        else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Please fill out'
+            })
+        }
+    }
+    const changePassword = async(data,invalid)=>{
+        if(!invalid){
+        const fetchData = await axios.put('/changepassword',data)
+        console.log(fetchData.data);
+        const sweet = await Swal.fire({
+            icon: fetchData.data.status,
+            title: fetchData.data.message,
+            confirmButtonText: 'Close'
+          })
+        }
+        else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Please fill out'
+            })
+        }
+    }
     return {
         toggleTheme,
         theme,
@@ -160,6 +199,8 @@ export const useUserStore = defineStore('user', () => {
         profiledata,
         follow,
         getfollowing,
-        following
+        following,
+        updateprofile,
+        changePassword
     }
 })
