@@ -128,3 +128,9 @@ const v$ = useVuelidate(rule,forum)
         </v-form>
     </v-main>
 </template>
+<style>
+    .ql-editor{
+        min-height: 150px;
+    }
+
+</style>

@@ -255,3 +255,8 @@ onMounted(forumStore.fetchTag)
     </v-container>
   </v-main>
 </template>
+<style>
+    .ql-editor{
+        min-height: 150px;
+    }
+</style>

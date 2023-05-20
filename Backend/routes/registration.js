@@ -125,7 +125,7 @@ router.put('/changepassword',isLoggedIn,async(req,res,next)=>{
         }
         else{
             console.log(err);
-            res.json({status: 'error', message:"Password doesn't match"})
+            res.json({status: 'error', message:"Password Wrong"})
         }
     })
 }

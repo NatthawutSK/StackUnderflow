@@ -30,11 +30,11 @@ onMounted(forumStore.fetchPostFollowing)
     <!-- {{ formattedDate }} -->
     <!-- {{ forumStore.post[0].post_created_at }} -->
     <v-container>
-      <v-btn @click="step=1">All Post</v-btn>      <v-btn @click="step=2">Following</v-btn>
+      <v-btn  @click="step=1">All Post</v-btn>      <v-btn @click="step=2">Following</v-btn>
 
       <v-window v-model="step">
         <v-window-item :value="1">
-            <v-select  variant="outlined" class=" d-flex flex-row-reverse" item-title="tag_name" item-value="tag_id" v-model="forumStore.selectTag" chips label="Tag"
+            <v-select  variant="outlined" class=" d-flex flex-row-reverse mt-5" item-title="tag_name" item-value="tag_id" v-model="forumStore.selectTag" chips label="Tag"
               :items="forumStore.allTag" return-object></v-select>
       <CardForum  v-for="forum in forumStore.post" :forum="forum"  />
       <div>
