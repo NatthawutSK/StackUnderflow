@@ -14,9 +14,9 @@ const indexRouter = require('./routes/index')
 const postRouter = require('./routes/post')
 const commentRouter = require('./routes/comment')
 const registerRouter = require('./routes/registration')
-
 const reportRouter = require('./routes/report')
 const reputationRouter = require('./routes/reputation')
+const replyRouter = require('./routes/reply')
 
 app.use(indexRouter.router)
 app.use(postRouter.router)
@@ -24,6 +24,7 @@ app.use(commentRouter.router)
 app.use(registerRouter.router)
 app.use(reportRouter.router)
 app.use(reputationRouter.router)
+app.use(replyRouter.router)
 
 
 app.listen(3000, () => {

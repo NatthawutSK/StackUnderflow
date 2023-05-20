@@ -54,6 +54,7 @@ router.post("/post/create", async function (req, res, next) {
   try {
     await forumSchema.validateAsync(req.body,  { abortEarly: false })
   } catch (err) {
+    console.log(err);
     return res.status(400).json(err)
   }
 
@@ -64,6 +65,7 @@ router.post("/post/create", async function (req, res, next) {
     try {
         const [rows, fields] = await pool.query('INSERT INTO post(post_title,post_desc,mem_id,tag_id) VALUES (?,?,?,?)',
         [post_title, post_desc, mem_id, tag_id])
+        // console.log(rows);
         return res.json(rows)
     } catch (error) {
         next(error)

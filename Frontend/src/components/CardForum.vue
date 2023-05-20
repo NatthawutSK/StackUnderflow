@@ -4,10 +4,10 @@ const forumStore = useForumStore()
  defineProps({
   forum:Object
  })
-  
+  //:image=" forumStore.singlePost?.mem_pic != null  ? 'http://localhost:3000/' + forumStore.singlePost?.mem_pic : 'https://www.pngitem.com/pimgs/m/279-2799324_transparent-guest-png-become-a-member-svg-icon.png'">
 </script>
 <template>
-  
+  <!-- {{ forum }} -->
   <v-card class="pa-2 my-4" variant="outlined"  style="z-index:1" >
     <router-link style="text-decoration: none; color: inherit;" :to="{ name: 'forum', params: { id: parseInt(forum.post_id) }}">
     <v-card-title primary-title>
@@ -31,7 +31,7 @@ const forumStore = useForumStore()
           <v-avatar
             color="grey-darken-3"
             class="mr-5"
-            image="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+            :image=" forum?.mem_pic != null  ? 'http://localhost:3000/' + forum?.mem_pic : 'https://www.pngitem.com/pimgs/m/279-2799324_transparent-guest-png-become-a-member-svg-icon.png'">
           ></v-avatar>
           </router-link>
         </template>

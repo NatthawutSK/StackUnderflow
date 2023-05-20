@@ -131,7 +131,7 @@ export const useUserStore = defineStore('user', () => {
 
     const getprofiledata = async(id) =>{
         const fetchData = await axios.get(`/getprofile/${id}`)
-        console.log(fetchData);
+        // console.log(fetchData);
         return fetchData.data
     }
     const follow = async(follow,followby)=>{
@@ -152,9 +152,9 @@ export const useUserStore = defineStore('user', () => {
             title: fetchData.data.message,
             confirmButtonText: 'Close'
           })
+          console.log(fetchData.data);
         user.value.mem_fname = data.fname
         user.value.mem_lname = data.lname
-        user.value.mem_email = data.email
         user.value.mem_user_name = data.username
         }
         else{
@@ -258,7 +258,7 @@ export const useUserStore = defineStore('user', () => {
         getfollowing,
         following,
         updateprofile,
-        changePassword
+        changePassword,
         previewImage,
         imageURL,
         changePic,

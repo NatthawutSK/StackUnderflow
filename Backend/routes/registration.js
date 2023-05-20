@@ -73,7 +73,7 @@ router.post('/login', async (req,res,next) =>{
                 if(isLogin){
 
 
-                    const [rows1, fields1] = await pool.query('SELECT mem_id, mem_fname,mem_email,mem_user_name,role,mem_pic FROM member WHERE mem_user_name = ?',
+                    const [rows1, fields1] = await pool.query('SELECT mem_id, mem_fname, mem_lname,mem_email,mem_user_name,role,mem_pic FROM member WHERE mem_user_name = ?',
                     [username])
                     var token = jwt.sign({ user: rows1[0] }, secret);
                     res.json({status:'success',token:token, message:"Successfully Login"})

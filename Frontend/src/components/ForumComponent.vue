@@ -22,6 +22,7 @@ onMounted(async () => {
 })
 onMounted(forumStore.fetchTag)
 
+const menu = ref(false)
 </script>
 
 <template>
@@ -36,6 +37,7 @@ onMounted(forumStore.fetchTag)
     postId : {{ forumStore.singlePost.post_id }}
     <!-- {{   forumStore.editTag }} -->
     {{ forumStore.singlePost }}
+    <!-- {{ userStore.singlePost?.mem_pic }} -->
     <div>
       <v-card variant="outlined">
         <v-card-title >
@@ -174,7 +176,8 @@ onMounted(forumStore.fetchTag)
             </div>
 
            
-
+            
+      
           </v-card-text>
           <v-card-actions>
             <v-list-item class="w-100 pa-4">
@@ -183,7 +186,7 @@ onMounted(forumStore.fetchTag)
                 <v-avatar
                 class="mr-3"
                   color="grey-darken-3"
-                  image="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+                  :image=" forumStore.singlePost?.mem_pic != null  ? 'http://localhost:3000/' + forumStore.singlePost?.mem_pic : 'https://www.pngitem.com/pimgs/m/279-2799324_transparent-guest-png-become-a-member-svg-icon.png'">
                 ></v-avatar>
               </router-link>
               </template>
@@ -196,17 +199,18 @@ onMounted(forumStore.fetchTag)
                  </div>
                  
                  
-              <template v-slot:append>
-                <div class="justify-self-end">
-                  <v-btn  @click="forumStore.postVoteUp(userStore.user.mem_id, forumStore.singlePost.post_id, forumStore.singlePost.mem_id)"
-                    ><v-icon class="me-1" icon="mdi-arrow-up-drop-circle"></v-icon>
-                  </v-btn>
-                  <h3>{{forumStore.singlePost.post_vote}}</h3>
-                  <v-btn @click="forumStore.postVoteDown(userStore.user.mem_id, forumStore.singlePost.post_id, forumStore.singlePost.mem_id)"
+                 <template v-slot:append>
+                   <div class="justify-self-end">
+                     <v-btn  @click="forumStore.postVoteUp(userStore.user.mem_id, forumStore.singlePost.post_id, forumStore.singlePost.mem_id)"
+                     ><v-icon class="me-1" icon="mdi-arrow-up-drop-circle"></v-icon>
+                    </v-btn>
+                    <h3>{{forumStore.singlePost.post_vote}}</h3>
+                    <v-btn @click="forumStore.postVoteDown(userStore.user.mem_id, forumStore.singlePost.post_id, forumStore.singlePost.mem_id)"
                     ><v-icon class="me-1" icon="mdi-arrow-down-drop-circle"></v-icon>
                   </v-btn>
                 </div>
               </template>
+              <small>{{ forumStore.convertTime(forumStore.singlePost.post_created_at) }}</small>
             </v-list-item>
           </v-card-actions>
         </v-card>

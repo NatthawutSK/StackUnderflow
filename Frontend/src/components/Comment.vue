@@ -3,6 +3,7 @@ import { useRoute } from "vue-router";
 import { useUserStore } from "../stores/user";
 import { useForumStore } from "../stores/forum";
 import { ref, onMounted } from "vue";
+import Reply from "./reply.vue";
 // const { logingUser } = useUserStore();
 const route = useRoute()
 const {id} = route.params
@@ -82,7 +83,7 @@ defineProps({
           <router-link :to="{path:`/profile/${comment.mem_id}`}" class="text-decoration-none">
           <v-avatar
             color="grey-darken-3"
-            image="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+            :image=" comment.mem_pic != null  ? 'http://localhost:3000/' + comment.mem_pic : 'https://www.pngitem.com/pimgs/m/279-2799324_transparent-guest-png-become-a-member-svg-icon.png'">
           ></v-avatar>
         </router-link>
         </template>
@@ -91,7 +92,6 @@ defineProps({
           comment.mem_user_name
         }}</v-list-item-title>
         </router-link>
-
         <template v-slot:append>
           <div class="justify-self-end">
                   <v-btn  @click="forumStore.commVoteUp(userStore.user.mem_id, comment.comm_id, forumStore.singlePost.mem_id, index)"
@@ -102,13 +102,19 @@ defineProps({
                     ><v-icon class="me-1" icon="mdi-arrow-down-drop-circle"></v-icon>
                   </v-btn>
                 </div>
-        </template>
-      </v-list-item>
+              </template>
+              <small class="ml-5">{{ forumStore.convertTime(comment.comm_created_at) }}</small>
+            </v-list-item>
     </v-card-actions>
     <v-btn v-if="userStore.user.mem_id == forumStore.singlePost.mem_id && comment.mem_id != forumStore.singlePost.mem_id && !!!forumStore.commentPost.find((val)=>{return val.accept==1})"
-         @click="forumStore.acceptAnswer(forumStore.singlePost.post_id, comment.mem_id,comment.comm_id)"
-         >Accept</v-btn>
-  </v-card>
+      @click="forumStore.acceptAnswer(forumStore.singlePost.post_id, comment.mem_id,comment.comm_id)"
+      >Accept</v-btn>
+    </v-card>
+
+    
+    <Reply/>
+
+
 </template>
 <style>
 .ql-syntax{
