@@ -57,6 +57,7 @@ onMounted(reportStore.getReport)
                             <v-card-title class="text-wrap">Title: {{item.post_title}}</v-card-title>
                             <v-card-title>Description:</v-card-title>
                             <v-card-text class="text-h6" v-html="item.post_desc"></v-card-text>
+                            <v-card-title>Report Content: {{item.report_content}}</v-card-title>
                             <div class="d-flex justify-end" >
                                 <v-btn class="ma-3" @click="reportStore.updateStatus('Guilty',item.report_id),item.status = 'Guilty'">Guilty</v-btn>
                                 <v-btn class="ma-3" @click="reportStore.updateStatus('Innocent',item.report_id)">Innocent</v-btn>

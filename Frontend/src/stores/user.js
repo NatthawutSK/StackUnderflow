@@ -23,6 +23,7 @@ export const useUserStore = defineStore('user', () => {
         cpassword:""
     })
     const profiledata = ref([])
+    const following = ref([])
     const loginData = ref({
         username: "",
         password: ""
@@ -128,13 +129,57 @@ export const useUserStore = defineStore('user', () => {
         // document.cookie = "user=; max-age=-1; path=/;";
     }
 
-    const getprofiledata = async() =>{
-        const fetchData = await axios.get('/getprofile')
-        profiledata.value =  fetchData.data
+    const getprofiledata = async(id) =>{
+        const fetchData = await axios.get(`/getprofile/${id}`)
+        console.log(fetchData);
+        return fetchData.data
     }
     const follow = async(follow,followby)=>{
         const fetchData = await axios.post('/follow',{mem_id:follow,followby_id:followby})
-            profiledata.value.followby = fetchData.data.follow
+            profiledata.value.follower = fetchData.data.follow
+    }
+    const getfollowing = async() =>{
+        const fetchData = await axios.get(`/following/`)
+        following.value = fetchData.data
+    }
+    
+    const updateprofile = async(data,invalid)=>{
+        console.log(invalid);
+        if(!invalid){
+        const fetchData = await axios.put('/updateuser',data)
+        const sweet = await Swal.fire({
+            icon: fetchData.data.status,
+            title: fetchData.data.message,
+            confirmButtonText: 'Close'
+          })
+        user.value.mem_fname = data.fname
+        user.value.mem_lname = data.lname
+        user.value.mem_email = data.email
+        user.value.mem_user_name = data.username
+        }
+        else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Please fill out'
+            })
+        }
+    }
+    const changePassword = async(data,invalid)=>{
+        if(!invalid){
+        const fetchData = await axios.put('/changepassword',data)
+        console.log(fetchData.data);
+        const sweet = await Swal.fire({
+            icon: fetchData.data.status,
+            title: fetchData.data.message,
+            confirmButtonText: 'Close'
+          })
+        }
+        else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Please fill out'
+            })
+        }
     }
 
 
@@ -210,6 +255,10 @@ export const useUserStore = defineStore('user', () => {
         getprofiledata,
         profiledata,
         follow,
+        getfollowing,
+        following,
+        updateprofile,
+        changePassword
         previewImage,
         imageURL,
         changePic,

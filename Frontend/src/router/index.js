@@ -21,7 +21,7 @@ const router = createRouter({
       component: () => import('../views/ForumView.vue')
     },
     {
-      path: '/profile',
+      path: '/profile/:id',
       name: 'about',
       meta: { login: true },
       component: () => import('../views/ProfileView.vue')

@@ -23,17 +23,19 @@ const commentOwner = async (req, res, next) => {
 }
 
 router.get("/comment/:postId", async function (req, res, next) {
-  // Your code here
-  // const {comm_content, post_id, mem_id} = req.body
-  // console.log(comm_content, post_id, mem_id);
-  try {
-      const [rows, fields] = await pool.query('select * from comment c join member m on(m.mem_id = c.mem_id) where  c.post_id = ?',
-      [req.params.postId])
-      return res.json(rows)
-  } catch (error) {
-      console.log(error);
-  }
-});
+    // Your code here
+    // const {comm_content, post_id, mem_id} = req.body
+    // console.log(comm_content, post_id, mem_id);
+    try {
+        const [rows, fields] = await pool.query('select * from comment c join member m on(m.mem_id = c.mem_id) where  c.post_id = ? order by accept desc , comm_created_at desc',
+        [req.params.postId])
+        return res.json(rows)
+    } catch (error) {
+        console.log(error);
+    }
+  });
+
+ 
 
 router.post("/comment/create", isLoggedIn, async function (req, res, next) {
   // Your code here
@@ -83,28 +85,6 @@ router.put("/comment/edit/:comId", isLoggedIn, commentOwner, async function (req
       [comm_content, req.params.comId]);
     return res.json({
       "message": `Comment ID ${req.params.comId} is updated.`
-    });
-
-  } catch (err) {
-    console.log(err)
-    return next(err);
-  }
-});
-
-
-router.put('/comment/addlike/:comId', async function (req, res, next) {
-  try {
-    const [rows, fields] = await pool.query("UPDATE comment SET comm_like = (SELECT comm_like FROM comment WHERE comm_id = ?)+1 WHERE comm_id = ?",
-      [req.params.comId, req.params.comId]);
-
-    const [rows1, fields1] = await pool.query("SELECT * FROM comment WHERE comm_id = ?",
-      [req.params.comId]);
-
-    const [{ comm_id, comm_like }] = rows1;
-    //  console.log(blog_id, like);
-    return res.json({
-      commId: comm_id,
-      likeNum: comm_like
     });
 
   } catch (err) {

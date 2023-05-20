@@ -30,7 +30,7 @@ const userStore = useUserStore()
 
         <v-btn v-if="JSON.stringify(userStore.user) === '{}'" variant="tonal"  href="/login"  >log in / sign up</v-btn>
         <v-btn v-else href='/'  @click="userStore.logout()" variant="tonal"  >log out</v-btn>
-        <v-btn href="/profile">
+        <v-btn :to="{path:`/profile/${userStore.user.mem_id}`}">
           <v-avatar >
             <v-img  src="https://www.pngitem.com/pimgs/m/279-2799324_transparent-guest-png-become-a-member-svg-icon.png"/>
           </v-avatar>

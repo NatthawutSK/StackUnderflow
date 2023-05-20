@@ -1,5 +1,6 @@
 const express = require('express');
 const pool = require('../config.js')
+const Joi = require('joi')
 const { isLoggedIn } = require('../middleware')
 const path = require("path");
 router = express.Router();
@@ -95,8 +96,19 @@ router.get("/user/me", isLoggedIn, async function (req, res, next) {
     console.log(error);
     next(error)
   }
-
 });
+
+router.get('/following/',isLoggedIn,async(req,res,next)=>{
+  try{
+    const [row,field] = await pool.query(`SELECT m.mem_user_name,m.mem_email,m.mem_id FROM follow 
+    JOIN member m USING(mem_id) join member f
+    on (f.mem_id = followby_id)
+     where followby_id=?`,[req.user.mem_id])
+     res.json({following:row})
+  }catch(error){
+    next(error)
+  }
+})
 
 router.post('/follow',async function(req,res,next) {
     const conn = await pool.getConnection();
@@ -107,23 +119,17 @@ router.post('/follow',async function(req,res,next) {
       console.log(row.length);
       if(row.length === 0){
       const [rows,fields] = await conn.query('INSERT INTO follow(mem_id,followby_id) VALUES(?,?)',[mem_id,followby_id])
-      const [rows2,fields2] = await conn.query(`SELECT m.mem_user_name,m.mem_email,m.mem_id FROM follow 
-      JOIN member m USING(mem_id) join member f
-      on (f.mem_id = followby_id)
-       where followby_id=?`,[followby_id])
-       console.log(rows2);
-      res.json({status:"follow",follow:rows2})
       }
       else{
         console.log('sad');
         const [row,field2] = await conn.query('DELETE FROM follow WHERE mem_id=? and followby_id=?',[mem_id,followby_id])
-        const [rows2,fields2] = await conn.query(`SELECT m.mem_user_name,m.mem_email,m.mem_id FROM follow 
+      }
+      const [rows2,fields2] = await conn.query(`SELECT f.mem_user_name,f.mem_email,f.mem_id FROM follow 
       JOIN member m USING(mem_id) join member f
       on (f.mem_id = followby_id)
-       where followby_id=?`,[followby_id])
+       where m.mem_id=?`,[mem_id])
        console.log(rows2);
-         res.json({status:"unfollow",follow:rows2})
-      }
+         res.json({follow:rows2})
       await conn.commit();
       
     }
@@ -135,23 +141,24 @@ router.post('/follow',async function(req,res,next) {
       conn.release();
     }
 })
-router.get('/getprofile',isLoggedIn,async(req,res,next)=>{
-  const id = req.user.mem_id
+router.get('/getprofile/:id',isLoggedIn,async(req,res,next)=>{
+  const id = req.params.id
   const conn = await pool.getConnection();
   await conn.beginTransaction();
   try{
-    const [row,field] = await conn.query(`SELECT f.mem_user_name,f.mem_email,f.mem_id
+    const [row,fieldd] = await conn.query(`SELECT mem_user_name,mem_email,role,mem_id,mem_fname,mem_lname FROM member where mem_id=?`,[id])
+    const [rows,field] = await conn.query(`SELECT f.mem_user_name,f.mem_email,f.mem_id
     FROM follow
     JOIN member m
     USING(mem_id) 
     join member f
     on (f.mem_id = followby_id)
     where m.mem_id = ?;`,[id])
-    const [row2,field2] = await conn.query(`SELECT mem_user_name,mem_email,mem_id  FROM member JOIN follow USING(mem_id) where followby_id = ?`,[id]);
-    const [row3,field3] = await conn.query(`SELECT count(*) 'question'  FROM post JOIN member USING(mem_id) where mem_id = ?`, [id])
-    console.log(row,row2);
-    // const [row4,field4] = await conn.query(`SELECT count(*) 'answer' FROM comment JOIN member USING(mem_id) where mem_id = ?`, [id])
-    res.json({follower:row,followby:row2,question:row3[0].question})
+    const [rows2,field2] = await conn.query(`SELECT mem_user_name,mem_email,mem_id  FROM member JOIN follow USING(mem_id) where followby_id = ?`,[id]);
+    const [rows3,field3] = await conn.query(`SELECT count(*) 'question'  FROM post JOIN member USING(mem_id) where mem_id = ?`, [id])
+    console.log(rows,rows2);
+    const [rows4,field4] = await conn.query(`SELECT count(*) 'answer' FROM comment JOIN member USING(mem_id) where mem_id = ? and accept = 1`, [id])
+    res.json({user:row[0],follower:rows,followby:rows2,question:rows3[0].question,answer:rows4[0].answer})
   }catch (err) {
     await conn.rollback();
     next(err)
@@ -161,7 +168,42 @@ router.get('/getprofile',isLoggedIn,async(req,res,next)=>{
   }
 })
 
+const passwordValidator = (value, helpers) => {
+  if (value.length < 8) {
+      throw new Joi.ValidationError('Password must contain at least 8 characters')
+  }
+  if (!(value.match(/[a-z]/) && value.match(/[A-Z]/) && value.match(/[0-9]/))) {
+      throw new Joi.ValidationError('Password must be harder')
+  }
+  return value
+}
+const userSchema = Joi.object({
+  fname: Joi.string().required().max(15).min(5),
+  lname:Joi.string().required().max(15).min(5),
+  email: Joi.string().required().email(), 
+  username: Joi.string().required().min(5).max(15)
+}) 
+const passwordSchema = Joi.object({
+  password: Joi.string().required().custom(passwordValidator).min(8),
+  cpassword: Joi.string().required().valid(Joi.ref('password')),
+})
 
-
+router.put('/updateuser',isLoggedIn,async(req,res,next)=>{
+  try {
+    await userSchema.validateAsync(req.body,  { abortEarly: false })
+  } catch (err) {
+    return res.json({status:"error",error:err.message})
+  }
+    const {fname,email,username} = req.body
+  console.log(req.body);
+    const [row,field] = await pool.query('SELECT mem_id,mem_user_name,mem_email from member where mem_email = ? or mem_user_name = ?',[email,username])
+    if(row.length>0){
+        res.json({status:"error",message:"username or email already taken"})
+    }
+    else{
+      const [rows,fields] = await pool.query('UPDATE member SET mem_fname = ?, mem_email = ?, mem_user_name = ? where mem_id = ?',[fname,email,username,req.user.mem_id])
+      res.json({status:"success",message:"Update profile success"})
+    }
+})
 
 exports.router = router;

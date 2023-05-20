@@ -25,9 +25,9 @@ defineProps({
       <div>
         <v-row>
           <v-col cols="11">
-            <div class="text-wrap" style="max-width: 100%" v-if="!checkedit" v-html="comment.comm_content">
-               
-            </div>
+            <v-icon v-if="comment.accept === 1" icon="mdi-check-circle-outline"></v-icon>
+              <div class="text-wrap" style="max-width: 100%" v-if="!checkedit" v-html="comment.comm_content">
+              </div>
             <div class="text-wrap pa-8 pb-16"  v-else>
               
               <!-- <v-text-field  v-model="comment.comm_content"></v-text-field> -->
@@ -79,15 +79,18 @@ defineProps({
     <v-card-actions>
       <v-list-item class="w-100">
         <template v-slot:prepend>
+          <router-link :to="{path:`/profile/${comment.mem_id}`}" class="text-decoration-none">
           <v-avatar
             color="grey-darken-3"
             image="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
           ></v-avatar>
+        </router-link>
         </template>
-
-        <v-list-item-title class="text-h6 my-1">{{
+        <router-link :to="{path:`/profile/${comment.mem_id}`}" class="text-decoration-none">
+        <v-list-item-title class="text-h6 my-1 ml-5">{{
           comment.mem_user_name
         }}</v-list-item-title>
+        </router-link>
 
         <template v-slot:append>
           <div class="justify-self-end">
@@ -102,9 +105,9 @@ defineProps({
         </template>
       </v-list-item>
     </v-card-actions>
-
-    <v-btn v-if="userStore.user.mem_id == forumStore.singlePost.mem_id && comment.mem_id != forumStore.singlePost.mem_id "
-         @click="forumStore.acceptAnswer(forumStore.singlePost.post_id, comment.mem_id)">accept</v-btn>
+    <v-btn v-if="userStore.user.mem_id == forumStore.singlePost.mem_id && comment.mem_id != forumStore.singlePost.mem_id && !!!forumStore.commentPost.find((val)=>{return val.accept==1})"
+         @click="forumStore.acceptAnswer(forumStore.singlePost.post_id, comment.mem_id,comment.comm_id)"
+         >Accept</v-btn>
   </v-card>
 </template>
 <style>

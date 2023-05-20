@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const secret = 'riau'
 const saltRounds = 10;
 const bcrypt = require('bcrypt');
+const { isLoggedIn } = require('../middleware/index.js');
 router = express.Router();
 
 
@@ -70,6 +71,8 @@ router.post('/login', async (req,res,next) =>{
         }else {
             bcrypt.compare(password,rows[0].mem_password, async function(err,isLogin){
                 if(isLogin){
+
+
                     const [rows1, fields1] = await pool.query('SELECT mem_id, mem_fname,mem_email,mem_user_name,role,mem_pic FROM member WHERE mem_user_name = ?',
                     [username])
                     var token = jwt.sign({ user: rows1[0] }, secret);
@@ -87,6 +90,55 @@ router.post('/login', async (req,res,next) =>{
     
 })
 
+const passwordSchema = Joi.object({
+    npassword: Joi.string().required().custom(passwordValidator).min(8),
+    cfpassword: Joi.string().required().valid(Joi.ref('npassword')),
+  })
+router.put('/changepassword',isLoggedIn,async(req,res,next)=>{
+    const {opassword,npassword,cfpassword} = req.body
+    console.log(req.body);
+    try{
+        await passwordSchema.validateAsync({npassword:npassword,cfpassword:cfpassword},  { abortEarly: false })
+    }catch(err){
+        return res.json({status: "error", message: err.message})
+    }
+    const conn = await pool.getConnection();
+    await conn.beginTransaction();
+    try{
+    const [[{password}]] = await conn.query(`SELECT mem_password 'password' FROM member WHERE mem_id = ?`,[req.user.mem_id])
+    bcrypt.compare(opassword,password, async function(err,isRight){
+        if(isRight){
+            bcrypt.hash(npassword, saltRounds, async function(err, hash){
+                try {
+                    console.log(hash);
+                    const [row,field] = await conn.query('UPDATE member SET mem_password = ? WHERE mem_id = ?',[hash,req.user.mem_id])
+                    console.log(password,hash,req.user.mem_id);    
+                    res.status(200).json({status:"success",message:"Change Password Success!"})
+                    await conn.commit();
+                } catch (err) {
+                    console.log(err);
+                    next(err)
+                    
+                }
+                if(err){
+                    console.log(err);
+                }
+            })
+        }
+        else{
+            console.log(err);
+            res.json({status: 'error', message:"Password Wrong"})
+        }
+    })
+}
+catch (err) {
+    await conn.rollback();
+    next(err)
+  } finally {
+    console.log("finally");
+    conn.release();
+  }
+})
 
 
 // router.post('/authen', (req,res) =>{

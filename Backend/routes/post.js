@@ -120,6 +120,20 @@ router.get("/post/:postId", async function (req, res, next) {
         return next(err);
       }
   });
-
+  router.get('/postfollowing',isLoggedIn,async(req,res,next)=>{
+    try{
+      const { page, pageSize } = req.query;
+      const offset = (page - 1) * pageSize;
+      const limit = parseInt(pageSize);
+      sql = 'SELECT * FROM post JOIN follow USING(mem_id) JOIN member USING(mem_id) JOIN tag USING(tag_id) WHERE followby_id = ?'
+      const [row,field] = await pool.query(sql,[req.user.mem_id])
+      sql += ' LIMIT ? OFFSET ?'
+      const [rows,fields] = await pool.query(sql,[req.user.mem_id,limit,offset])
+      console.log(rows);
+      res.json({post:rows, cnt:row.length})
+    }catch(err){
+      next(err)
+    }
+  })
 
   exports.router = router;

@@ -27,6 +27,7 @@ onMounted(forumStore.fetchTag)
 <template>
     <v-main>
     <v-container class="mt-5 pa-10">
+      {{ userStore.following }}
       voter : {{ userStore.user.mem_id }}
       <br>
       vote : {{  forumStore.singlePost.post_vote }} <br>
@@ -34,6 +35,7 @@ onMounted(forumStore.fetchTag)
     gotVoted : {{ forumStore.singlePost.mem_id }}<br>
     postId : {{ forumStore.singlePost.post_id }}
     <!-- {{   forumStore.editTag }} -->
+    {{ forumStore.singlePost }}
     <div>
       <v-card variant="outlined">
         <v-card-title >
@@ -177,15 +179,23 @@ onMounted(forumStore.fetchTag)
           <v-card-actions>
             <v-list-item class="w-100 pa-4">
               <template v-slot:prepend>
+                <router-link :to="{path:`/profile/${forumStore.singlePost.mem_id}`}">
                 <v-avatar
+                class="mr-3"
                   color="grey-darken-3"
                   image="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
                 ></v-avatar>
+              </router-link>
               </template>
-
-              <v-list-item-title class="text-h6 my-1">{{  forumStore.singlePost.mem_user_name  }}</v-list-item-title>
-              <v-chip>{{ forumStore.singlePost.tag_name }}</v-chip>
-
+              
+                  <div>
+                    <router-link :to="{path:`/profile/${forumStore.singlePost.mem_id}`}" class="text-decoration-none">
+                      <v-list-item-title class="text-h6 my-1">{{forumStore.singlePost.mem_user_name}}</v-list-item-title>
+                    </router-link>
+                    <v-chip>{{ forumStore.singlePost.tag_name }}</v-chip>
+                 </div>
+                 
+                 
               <template v-slot:append>
                 <div class="justify-self-end">
                   <v-btn  @click="forumStore.postVoteUp(userStore.user.mem_id, forumStore.singlePost.post_id, forumStore.singlePost.mem_id)"
@@ -229,6 +239,7 @@ onMounted(forumStore.fetchTag)
       </div>
       {{ forumStore.createComment.comm_content }}
       <div class="mt-5">
+        
         <h1>
           Comments({{
             forumStore.computeComm
@@ -247,3 +258,8 @@ onMounted(forumStore.fetchTag)
     </v-container>
   </v-main>
 </template>
+<style>
+    .ql-editor{
+        min-height: 150px;
+    }
+</style>

@@ -6,6 +6,7 @@ import { useRouter } from "vue-router";
 export const useForumStore = defineStore('forum', () => {
     const route = useRouter()
     const post = ref([])
+    const postfollowing = ref([])
     const selectTag = ref({
         tag_id: 1,
         tag_name: "All"
@@ -44,6 +45,17 @@ export const useForumStore = defineStore('forum', () => {
 
 
 
+    const fetchPostFollowing = async() => {
+        const fetchingData = await axios.get('/postfollowing',
+        {
+            params: {
+                page: currentPage2.value,
+                pageSize: pageSize2.value,
+            }
+        })
+        postfollowing.value = fetchingData.data.post;
+        totalPages2.value = fetchingData.data.cnt
+    }
 
     watch(selectTag, (newValue, oldValue) => {
         fetchPost()
@@ -214,6 +226,29 @@ export const useForumStore = defineStore('forum', () => {
     };
 
 
+    // pagination2
+    const totalPages2 = ref(0);
+    const currentPage2 = ref(1);
+    const pageSize2 = ref(3);
+    const prevPage2 = () => {
+        // console.log("prev");
+        if (currentPage2.value > 1) {
+            currentPage2.value--;
+            fetchPostFollowing();
+        }
+    };
+
+    const nextPage2 = () => {
+        // console.log("next");
+        if (currentPage2.value < totalPages2.value) {
+            currentPage2.value++;
+            fetchPostFollowing();
+        }
+    };
+
+
+
+
 
     // voting post
 
@@ -297,18 +332,34 @@ export const useForumStore = defineStore('forum', () => {
     }
 
     //accept Answer Correct
-    const acceptAnswer = async (post_id, answer_id) => {
+    const acceptAnswer = async (post_id, answer_id,comm_id) => {
         // console.log(post_id, answer_id);
         const fetchData = await axios.put('/answer/accept', {
             post_id: post_id,
-            answer_id: answer_id
+            answer_id: answer_id,
+            comm_id:comm_id
         })
         if (fetchData.data.status == "success") {
             const sweet = await Swal.fire({
                 icon: "success",
                 title: fetchData.data.message,
                 confirmButtonText: 'Close'
+              })
+            commentPost.value = commentPost.value.map((val)=>{
+                console.log(val);
+                if(val.comm_id === comm_id){
+                     val.accept = 1
+            }
+                return val
             })
+            console.log(commentPost.value);
+        }else{
+            const sweet = await Swal.fire({
+                icon: "error",
+                title: fetchData.data.message,
+                confirmButtonText: 'Close'
+              })
+
         }
 
 
@@ -318,8 +369,10 @@ export const useForumStore = defineStore('forum', () => {
 
     return {
         fetchPost,
+        fetchPostFollowing,
         fetchSinglePost,
         post,
+        postfollowing,
         selectTag,
         addForum,
         fetchTag,
@@ -346,6 +399,11 @@ export const useForumStore = defineStore('forum', () => {
         commVoteUp,
         commVoteDown,
         acceptAnswer,
+        prevPage2,
+        nextPage2,
+        totalPages2,
+        currentPage2,
+        pageSize2,
         // fetchMoreComment,
         loadMoreComment,
         totalcomment,
