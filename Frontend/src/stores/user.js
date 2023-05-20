@@ -13,7 +13,7 @@ export const useUserStore = defineStore('user', () => {
     const theme = useLocalStorage('theme', 'light')
     // const token = useLocalStorage('token', '')
     const user = useLocalStorage('user',{})
-    const user2 = JSON.parse(document.cookie.split('=')[2] || null);
+    // const user2 = JSON.parse(document.cookie.split('=')[2] || null);
     const regisData = ref({
         fname : "",
         lname : "",
@@ -103,13 +103,13 @@ export const useUserStore = defineStore('user', () => {
         // console.log(info);
         const fetchingData = await axios.post('/login', info)
         // token.value = fetchingData.data.token
-        document.cookie = `token=${fetchingData.data.token}; max-age=21600; path=/;`;
         const sweet = await Swal.fire({
             icon: fetchingData.data.status,
             title: fetchingData.data.message,
             confirmButtonText: 'Close'
-          })
+        })
         if(fetchingData.data.status == "success"){
+            document.cookie = `token=${fetchingData.data.token}; path=/;`;
             authen()
             route.push('/')
         }
@@ -119,13 +119,13 @@ export const useUserStore = defineStore('user', () => {
     const authen = async () =>{
             const fetchingData = await axios.get('/user/me' )
             user.value = fetchingData.data 
-            document.cookie = `user=${JSON.stringify(fetchingData.data)}; max-age=86400000; path=/;`
+            // document.cookie = `user=${JSON.stringify(fetchingData.data)}; path=/;`
     }
 
     const logout = () => {
         user.value = {}
         document.cookie = "token=; max-age=-1; path=/;";
-        document.cookie = "user=; max-age=-1; path=/;";
+        // document.cookie = "user=; max-age=-1; path=/;";
     }
 
     const getprofiledata = async() =>{
@@ -189,7 +189,7 @@ export const useUserStore = defineStore('user', () => {
         })
         // console.log(fetchData.data.mem_pic);
         user.value.mem_pic = fetchData.data.mem_pic.replace(/\\/g, "/");
-        
+        imageURL.value = null
       }
 
 
@@ -206,7 +206,7 @@ export const useUserStore = defineStore('user', () => {
         user,
         v$,
         v2$,
-        user2,
+        // user2,
         getprofiledata,
         profiledata,
         follow,

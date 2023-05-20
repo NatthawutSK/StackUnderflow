@@ -44,6 +44,7 @@ onMounted(userStore.getprofiledata);
               </div>
               <v-btn @click="userStore.changePic(userStore.user.mem_id)" v-if="userStore.imageURL">save</v-btn>
             </div>
+            <!-- {{ userStore.imageURL }} -->
 
 
           </v-card>
