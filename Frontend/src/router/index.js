@@ -37,6 +37,13 @@ const router = createRouter({
       name: 'admin',
       meta: { admin: true },
       component: () => import('../views/AdminView.vue')
+    },
+    //only for test delete later
+    {
+      path: '/test',
+      name: 'test',
+      meta: { login: true },
+      component: () => import('../views/test.vue')
     }
   ]
 })

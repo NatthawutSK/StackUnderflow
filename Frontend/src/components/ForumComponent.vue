@@ -18,6 +18,7 @@ const userStore = useUserStore()
 onMounted(async () => {
   forumStore.singlePost = await forumStore.fetchSinglePost(id)
   forumStore.commentPost = await forumStore.fetchComment(id)
+  forumStore.arrayCom = forumStore.commentPost.slice(0, 2)
 })
 onMounted(forumStore.fetchTag)
 
@@ -241,16 +242,18 @@ onMounted(forumStore.fetchTag)
         
         <h1>
           Comments({{
-            forumStore.commentPost.length
+            forumStore.computeComm
           }})
         </h1>
-        <!-- {{ forumStore.commentPost }} -->
+        {{ forumStore.cntLoad }}
+        {{ forumStore.computeComm }}
         <Comment
-          v-for="comment,index in forumStore.commentPost"
+          v-for="comment,index in forumStore.arrayCom"
           :comment="comment"
           :index="index"
         
         ></Comment>
+        <v-btn v-if="forumStore.computeComm > forumStore.cntLoad" @click="forumStore.loadMoreComment(id)">load more</v-btn>
       </div>
     </v-container>
   </v-main>

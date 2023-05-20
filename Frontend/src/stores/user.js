@@ -13,7 +13,7 @@ export const useUserStore = defineStore('user', () => {
     const theme = useLocalStorage('theme', 'light')
     // const token = useLocalStorage('token', '')
     const user = useLocalStorage('user',{})
-    const user2 = JSON.parse(document.cookie.split('=')[2] || null);
+    // const user2 = JSON.parse(document.cookie.split('=')[2] || null);
     const regisData = ref({
         fname : "",
         lname : "",
@@ -104,13 +104,13 @@ export const useUserStore = defineStore('user', () => {
         // console.log(info);
         const fetchingData = await axios.post('/login', info)
         // token.value = fetchingData.data.token
-        document.cookie = `token=${fetchingData.data.token}; max-age=21600; path=/;`;
         const sweet = await Swal.fire({
             icon: fetchingData.data.status,
             title: fetchingData.data.message,
             confirmButtonText: 'Close'
-          })
+        })
         if(fetchingData.data.status == "success"){
+            document.cookie = `token=${fetchingData.data.token}; path=/;`;
             authen()
             route.push('/')
         }
@@ -120,13 +120,13 @@ export const useUserStore = defineStore('user', () => {
     const authen = async () =>{
             const fetchingData = await axios.get('/user/me' )
             user.value = fetchingData.data 
-            document.cookie = `user=${JSON.stringify(fetchingData.data)}; max-age=21600; path=/;`
+            // document.cookie = `user=${JSON.stringify(fetchingData.data)}; path=/;`
     }
 
     const logout = () => {
         user.value = {}
         document.cookie = "token=; max-age=-1; path=/;";
-        document.cookie = "user=; max-age=-1; path=/;";
+        // document.cookie = "user=; max-age=-1; path=/;";
     }
 
     const getprofiledata = async(id) =>{
@@ -181,6 +181,63 @@ export const useUserStore = defineStore('user', () => {
             })
         }
     }
+
+
+
+
+    // profile image
+
+    const fileImg = ref(null);
+    const imageURL = ref(null);
+      async function previewImage(event) {
+        const file = event.target.files[0];
+        fileImg.value = event.target.files[0];
+        const maxFileSize = 1048576; // 1 MB file size limit
+        if(file.size > maxFileSize){
+            const sweet = await Swal.fire({
+                icon: "error",
+                title: "image size can not more than 1 MB",
+                confirmButtonText: 'Close'
+              })
+              imageURL.value = null;
+
+        } else if (file && file.type.startsWith('image/')) {
+          const reader = new FileReader();
+  
+          reader.onload = () => {
+            imageURL.value = reader.result;
+          };
+  
+          reader.readAsDataURL(file);
+        } else {
+          imageURL.value = null;
+          const sweet = await Swal.fire({
+            icon: "error",
+            title: "Invalid file. Please select an image.",
+            confirmButtonText: 'Close'
+          })
+          
+        }
+      }
+
+      
+      const changePic = async(mem_id) =>{
+        console.log(fileImg.value);
+        const fetchData = await axios.post('/profile/pic',
+        {
+            mem_pic: fileImg.value,
+            mem_id: mem_id
+        },{
+            headers: {
+            'Content-Type': 'multipart/form-data'
+            }
+        })
+        // console.log(fetchData.data.mem_pic);
+        user.value.mem_pic = fetchData.data.mem_pic.replace(/\\/g, "/");
+        imageURL.value = null
+      }
+
+
     return {
         toggleTheme,
         theme,
@@ -194,7 +251,7 @@ export const useUserStore = defineStore('user', () => {
         user,
         v$,
         v2$,
-        user2,
+        // user2,
         getprofiledata,
         profiledata,
         follow,
@@ -202,5 +259,9 @@ export const useUserStore = defineStore('user', () => {
         following,
         updateprofile,
         changePassword
+        previewImage,
+        imageURL,
+        changePic,
+        
     }
 })

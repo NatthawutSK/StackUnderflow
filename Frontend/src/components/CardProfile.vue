@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted,computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useUserStore } from "../stores/user";
 import { useRoute } from "vue-router";
 import { useVuelidate } from '@vuelidate/core'
@@ -21,6 +21,7 @@ const edited = ref({
     lname: userStore.user?.mem_lname,
     username: userStore.user?.mem_user_name,
     email: userStore.user?.mem_email,
+
 });
 const rule = {
         fname:{
@@ -75,6 +76,7 @@ const password = ref({
 const vp$ = useVuelidate(rulePass,password)
 </script>
 <template>
+
     <v-container>
         <v-main>
           {{ userStore.user }}<br>
@@ -84,10 +86,9 @@ const vp$ = useVuelidate(rulePass,password)
                     <v-card class="mx-auto mb-6 d-flex pa-5" rounded="0">
                         <div class="d-flex justify-center">
                             <v-avatar color="grey" size="150" class="ma-6">
-                                <v-img
-                                    cover
-                                    src="https://www.pngitem.com/pimgs/m/279-2799324_transparent-guest-png-become-a-member-svg-icon.png"
-                                ></v-img>
+                                <v-img  cover
+                  :src="userStore.imageURL ? userStore.imageURL : userStore.user.mem_pic ? 'http://localhost:3000/' + userStore.user.mem_pic : 'https://www.pngitem.com/pimgs/m/279-2799324_transparent-guest-png-become-a-member-svg-icon.png'">
+                </v-img>
                             </v-avatar>
                         </div>
                         <div>
@@ -103,6 +104,10 @@ const vp$ = useVuelidate(rulePass,password)
                             <v-card-title>
                                 Role: {{ userStore.profiledata.user?.role }}
                             </v-card-title>
+                            <div>
+                <input type="file" accept="image/png, image/jpeg, image/webp" @change="userStore.previewImage">
+              </div>
+              <v-btn @click="userStore.changePic(userStore.user.mem_id)" v-if="userStore.imageURL">save</v-btn>
                             {{ !!userStore.profiledata.follower?.find(({mem_id})=>{return mem_id == userStore.user.mem_id}) }}
                             <div v-if="id != userStore.user.mem_id">
                               <v-btn v-if="!!!userStore.profiledata.follower?.find(({mem_id})=>{return mem_id == userStore.user.mem_id})" @click="userStore.follow(userStore.profiledata.user.mem_id,userStore.user.mem_id)">Follow</v-btn>
@@ -265,8 +270,82 @@ const vp$ = useVuelidate(rulePass,password)
                                 <v-card-text class="text-h6"> {{userStore.profiledata.answer}}</v-card-text>
                             </v-col>
                         </v-row>
+
                     </v-card>
-                </v-col>
+
+                  </template>
+
+                  <v-card width="300" class="text-h overflow-auto pa-5 ">
+                    <v-card-title>Follower</v-card-title>
+                    <v-row v-for="follower in userStore.profiledata.follower">
+                      <v-col>
+                        <v-card-text>
+                          {{ follower.mem_user_name }}
+                        </v-card-text>
+                      </v-col>
+                      <v-col>
+                        {{ userStore.profiledata.followby }}
+                        {{ !!userStore.profiledata.followby.find(({ mem_id }) => { return mem_id == follower.mem_id }) }}
+                        <v-btn
+                          v-if="!!userStore.profiledata.followby.find(({ mem_id }) => { return mem_id == follower.mem_id })"
+                          @click="userStore.follow(follower.mem_id, userStore.user.mem_id)">Unfollow</v-btn>
+                        <v-btn v-else @click="userStore.follow(follower.mem_id, userStore.user.mem_id)">Follow</v-btn>
+                      </v-col>
+                    </v-row>
+                    <v-card-actions>
+                      <v-btn color="primary" block @click="dialog = false">Close</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-col>
+              <v-col>
+                <v-dialog v-model="dialog2" width="auto">
+                  <template v-slot:activator="{ props }">
+                    <v-card v-bind="props">
+                      <v-card-title class="text-h5">
+                        Following
+                      </v-card-title>
+                      <v-card-text class="text-h6">
+                        {{ userStore.profiledata.followby?.length }}
+                      </v-card-text>
+                    </v-card>
+
+                  </template>
+
+                  <v-card width="300" class="text-h overflow-auto pa-5 ">
+                    <v-card-title>Follower</v-card-title>
+                    <v-row v-for="followby in userStore.profiledata.followby">
+                      <v-col>
+                        <v-card-text>
+                          {{ followby.mem_user_name }}
+                        </v-card-text>
+                      </v-col>
+                      <v-col>
+                        <v-btn @click="userStore.follow(follower.mem_id, useUserStore.user.mem_id)">Unfollow</v-btn>
+                      </v-col>
+                    </v-row>
+                    <v-card-actions>
+                      <v-btn color="primary" block @click="dialog2 = false">Close</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                <v-card-title class="text-h5">
+                  Question
+                </v-card-title>
+                <v-card-text class="text-h6">
+                  {{ userStore.profiledata.question }}
+                </v-card-text>
+              </v-col>
+              <v-col>
+                <v-card-title class="text-h5">
+                  Answer
+                </v-card-title>
+                <v-card-text class="text-h6"> sad </v-card-text>
+              </v-col>
             </v-row>
             <v-form v-if="id==userStore.user.mem_id">
               <v-card>
@@ -336,5 +415,5 @@ const vp$ = useVuelidate(rulePass,password)
             </v-form>
         </v-main>
     </v-container>
+
 </template>
-<script></script>
