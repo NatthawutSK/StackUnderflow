@@ -42,17 +42,7 @@ export const useForumStore = defineStore('forum', () => {
 
 
 
-    const fetchPost = async () => {
-        const fetchingData = await axios.get('', {
-            params: {
-                page: currentPage.value,
-                pageSize: pageSize.value,
-                tag: selectTag.value.tag_name
-            }
-        })
-        post.value = fetchingData.data.post;
-        totalPages.value = fetchingData.data.cnt
-    }
+
 
 
     watch(selectTag, (newValue, oldValue) => {
@@ -96,9 +86,50 @@ export const useForumStore = defineStore('forum', () => {
         // console.log(fetchData.data.message);
     }
 
+    // const fetchComment = async (id) => {
+    //     return (await axios.get(`/comment/${id}`)).data
+    // }
+
+
+    // fetch comment loadMore comment
+    const totalcomment = ref(0);
+    const currentComment = ref(1);
+    const commentSize = ref(1);
+
+
+    // const fetchMoreComment = async (id) => {
+    //     // console.log(currentComment.value, commentSize.value);
+    //     const fetchdata = await axios.get(`/comment/${id}`, {
+    //         params: {
+    //             startAt: currentComment.value,
+    //             commSize: commentSize.value,
+    //         }
+    //     })
+    //     totalcomment.value = fetchdata.data.cnt
+    //     // console.log(fetchdata.data);
+    //     return [fetchdata.data.moreComm, fetchdata.data.cnt]
+    // }
     const fetchComment = async (id) => {
-        return (await axios.get(`/comment/${id}`)).data
+        const fetchdata = await axios.get(`/comment/${id}`)
+        return fetchdata.data
+        // return (await axios.get(`/comment/${id}`)).data
     }
+
+
+
+    // const cntComment = async(id) => {
+    //     const cntComment = await fetchMoreComment(id)
+
+
+    // }
+    const arrayCom = ref([])
+    const cntLoad = ref(2)
+    const loadMoreComment = async () => {
+        cntLoad.value = cntLoad.value + 2
+        arrayCom.value = commentPost.value.slice(0, cntLoad.value)
+        console.log(cntLoad.value);
+    }
+
 
 
 
@@ -120,15 +151,45 @@ export const useForumStore = defineStore('forum', () => {
             mem_id: mem_id
         })
 
-        commentPost.value.push(commentData.data[0])
+        // console.log(commentData.data.newComm);
+        commentPost.value.unshift(commentData.data.newComm)
+        arrayCom.value.unshift(commentData.data.newComm)
+        cntLoad.value++
         createComment.value.comm_content = "<p></p>"
     }
     const delComment = async (comm_id, post_id) => {
         const fetchData = await axios.delete(`/comment/delete/${comm_id}`)
-        alert(fetchData.data.message)
-        commentPost.value = await fetchComment(post_id)
+        // alert(fetchData.data.message)
+        const sweet = await Swal.fire({
+            icon: "success",
+            title: fetchData.data.message,
+            confirmButtonText: 'Close'
+        })
+        arrayCom.value = arrayCom.value.filter((item) => {
+            return comm_id != item.comm_id
+        })
+        commentPost.value = commentPost.value.filter((item) => {
+            return comm_id != item.comm_id
+        })
     }
 
+
+    const computeComm = computed(()=>{
+        return commentPost.value.length
+    })
+
+
+    const fetchPost = async () => {
+        const fetchingData = await axios.get('', {
+            params: {
+                page: currentPage.value,
+                pageSize: pageSize.value,
+                tag: selectTag.value.tag_name
+            }
+        })
+        post.value = fetchingData.data.post;
+        totalPages.value = fetchingData.data.cnt
+    }
 
 
 
@@ -155,21 +216,21 @@ export const useForumStore = defineStore('forum', () => {
 
 
     // voting post
-    
+
     const postVoteUp = async (voter_id, post_id, gotVote_id) => {
         const fetchData = await axios.put('/post/vote/up', {
-            voter_id:voter_id,
-            post_id: post_id, 
+            voter_id: voter_id,
+            post_id: post_id,
             gotVote_id: gotVote_id
         })
-        if(fetchData.data.role == "guess" || fetchData.data.status == "error"){
+        if (fetchData.data.role == "guess" || fetchData.data.status == "error") {
             const sweet = await Swal.fire({
                 icon: "error",
                 title: fetchData.data.message,
                 confirmButtonText: 'Close'
-              })
+            })
         }
-        else if(fetchData.data.status == "success"){
+        else if (fetchData.data.status == "success") {
             singlePost.value.post_vote = fetchData.data.vote
         }
         console.log(fetchData.data);
@@ -177,18 +238,18 @@ export const useForumStore = defineStore('forum', () => {
 
     const postVoteDown = async (voter_id, post_id, gotVote_id) => {
         const fetchData = await axios.put('/post/vote/down', {
-            voter_id:voter_id,
-            post_id: post_id, 
+            voter_id: voter_id,
+            post_id: post_id,
             gotVote_id: gotVote_id
         })
-        if(fetchData.data.role == "guess" || fetchData.data.status == "error"){
+        if (fetchData.data.role == "guess" || fetchData.data.status == "error") {
             const sweet = await Swal.fire({
                 icon: "error",
                 title: fetchData.data.message,
                 confirmButtonText: 'Close'
-              })
+            })
         }
-        else if(fetchData.data.status == "success"){
+        else if (fetchData.data.status == "success") {
             singlePost.value.post_vote = fetchData.data.vote
         }
         console.log(fetchData.data);
@@ -199,18 +260,18 @@ export const useForumStore = defineStore('forum', () => {
     // voting Comment
     const commVoteUp = async (voter_id, comm_id, gotVote_id, index) => {
         const fetchData = await axios.put('/comm/vote/up', {
-            voter_id:voter_id,
-            comm_id: comm_id, 
+            voter_id: voter_id,
+            comm_id: comm_id,
             gotVote_id: gotVote_id
         })
-        if(fetchData.data.role == "guess" || fetchData.data.status == "error"){
+        if (fetchData.data.role == "guess" || fetchData.data.status == "error") {
             const sweet = await Swal.fire({
                 icon: "error",
                 title: fetchData.data.message,
                 confirmButtonText: 'Close'
-              })
+            })
         }
-        else if(fetchData.data.status == "success"){
+        else if (fetchData.data.status == "success") {
             commentPost.value[index].comm_vote = fetchData.data.vote
         }
         console.log(fetchData.data);
@@ -218,18 +279,18 @@ export const useForumStore = defineStore('forum', () => {
 
     const commVoteDown = async (voter_id, comm_id, gotVote_id, index) => {
         const fetchData = await axios.put('/comm/vote/down', {
-            voter_id:voter_id,
-            comm_id: comm_id, 
+            voter_id: voter_id,
+            comm_id: comm_id,
             gotVote_id: gotVote_id
         })
-        if(fetchData.data.role == "guess" || fetchData.data.status == "error"){
+        if (fetchData.data.role == "guess" || fetchData.data.status == "error") {
             const sweet = await Swal.fire({
                 icon: "error",
                 title: fetchData.data.message,
                 confirmButtonText: 'Close'
-              })
+            })
         }
-        else if(fetchData.data.status == "success"){
+        else if (fetchData.data.status == "success") {
             commentPost.value[index].comm_vote = fetchData.data.vote
         }
         console.log(fetchData.data);
@@ -242,15 +303,15 @@ export const useForumStore = defineStore('forum', () => {
             post_id: post_id,
             answer_id: answer_id
         })
-        if(fetchData.data.status == "success"){
+        if (fetchData.data.status == "success") {
             const sweet = await Swal.fire({
                 icon: "success",
                 title: fetchData.data.message,
                 confirmButtonText: 'Close'
-              })
+            })
         }
 
-        
+
     }
 
 
@@ -284,6 +345,14 @@ export const useForumStore = defineStore('forum', () => {
         postVoteDown,
         commVoteUp,
         commVoteDown,
-        acceptAnswer
+        acceptAnswer,
+        // fetchMoreComment,
+        loadMoreComment,
+        totalcomment,
+        currentComment,
+        commentSize,
+        cntLoad,
+        arrayCom,
+        computeComm
     }
 })
