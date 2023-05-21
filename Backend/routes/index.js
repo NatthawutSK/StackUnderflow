@@ -205,8 +205,9 @@ router.put('/updateuser',isLoggedIn,async(req,res,next)=>{
   }
 })
 
-router.get('/thumb',isLoggedIn,async(req,res,next)=>{
-  const {post_id, mem_id} = req.body
+router.get('/thumb/post', async(req,res,next)=>{
+  const {post_id, mem_id} = req.query
+  console.log(post_id, mem_id);
   try{
     const [vote] = await pool.query('select vote_status from vote_post where post_id = ? and mem_id = ? ',[post_id, mem_id])
      return res.json(vote[0])
@@ -215,8 +216,16 @@ router.get('/thumb',isLoggedIn,async(req,res,next)=>{
   }
 })
 
-
-
+router.get('/thumb/comment', async(req,res,next)=>{
+  const {comm_id, mem_id} = req.query
+  // console.log(comm_id, mem_id);
+  try{
+    const [vote] = await pool.query('select vote_status from vote_comment where comm_id = ? and mem_id = ? ',[comm_id, mem_id])
+     return res.json(vote[0])
+  }catch(error){
+    next(error)
+  }
+})
 
 
 exports.router = router;

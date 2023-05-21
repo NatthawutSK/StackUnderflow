@@ -273,6 +273,7 @@ export const useForumStore = defineStore('forum', () => {
         }
         else if (fetchData.data.status == "success") {
             singlePost.value.post_vote = fetchData.data.vote
+            thumb.value = await checkThumb(post_id, voter_id)
         }
         console.log(fetchData.data);
     }
@@ -292,50 +293,13 @@ export const useForumStore = defineStore('forum', () => {
         }
         else if (fetchData.data.status == "success") {
             singlePost.value.post_vote = fetchData.data.vote
+            thumb.value = await checkThumb(post_id, voter_id)
         }
         console.log(fetchData.data);
     }
 
 
-
-    // voting Comment
-    const commVoteUp = async (voter_id, comm_id, gotVote_id, index) => {
-        const fetchData = await axios.put('/comm/vote/up', {
-            voter_id: voter_id,
-            comm_id: comm_id,
-            gotVote_id: gotVote_id
-        })
-        if (fetchData.data.role == "guess" || fetchData.data.status == "error") {
-            const sweet = await Swal.fire({
-                icon: "error",
-                title: fetchData.data.message,
-                confirmButtonText: 'Close'
-            })
-        }
-        else if (fetchData.data.status == "success") {
-            commentPost.value[index].comm_vote = fetchData.data.vote
-        }
-        console.log(fetchData.data);
-    }
-
-    const commVoteDown = async (voter_id, comm_id, gotVote_id, index) => {
-        const fetchData = await axios.put('/comm/vote/down', {
-            voter_id: voter_id,
-            comm_id: comm_id,
-            gotVote_id: gotVote_id
-        })
-        if (fetchData.data.role == "guess" || fetchData.data.status == "error") {
-            const sweet = await Swal.fire({
-                icon: "error",
-                title: fetchData.data.message,
-                confirmButtonText: 'Close'
-            })
-        }
-        else if (fetchData.data.status == "success") {
-            commentPost.value[index].comm_vote = fetchData.data.vote
-        }
-        console.log(fetchData.data);
-    }
+    
 
     //accept Answer Correct
     const acceptAnswer = async (post_id, answer_id,comm_id) => {
@@ -373,12 +337,20 @@ export const useForumStore = defineStore('forum', () => {
 
     const thumb = ref("")
     const checkThumb = async (post_id, mem_id) =>{
-        const fetchData = await axios.get('/thumb',{
-            post_id: post_id,
-            mem_id: mem_id
+        console.log(post_id, mem_id);
+        const fetchData = await axios.get('/thumb/post',{
+            params: {
+                post_id: post_id,
+                mem_id:  mem_id
+            }
         })
-        console.log(fetchData.data);
+        console.log(fetchData.data.vote_status);
+        return fetchData.data.vote_status
     }
+
+
+
+
     
 
 
@@ -411,8 +383,6 @@ export const useForumStore = defineStore('forum', () => {
         pageSize,
         postVoteUp,
         postVoteDown,
-        commVoteUp,
-        commVoteDown,
         acceptAnswer,
         prevPage2,
         nextPage2,
@@ -428,6 +398,7 @@ export const useForumStore = defineStore('forum', () => {
         arrayCom,
         computeComm,
         thumb,
-        checkThumb
+        checkThumb,
+        
     }
 })

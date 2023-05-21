@@ -5,10 +5,8 @@ import Comment from "@/components/Comment.vue";
 import { ref, onMounted, } from "vue";
 import { useForumStore } from "@/stores/forum";
 import { useReportStore } from "@/stores/report";
-import { useReplyStore } from "@/stores/reply";
 const forumStore = useForumStore();
 const reportStore = useReportStore();
-const replyStore = useReplyStore();
 const route = useRoute()
 const {id} = route.params
 const dialog = ref(false);
@@ -20,7 +18,6 @@ onMounted(async () => {
   forumStore.singlePost = await forumStore.fetchSinglePost(id)
   forumStore.commentPost = await forumStore.fetchComment(id)
   forumStore.thumb = await forumStore.checkThumb(id, userStore.user.mem_id)
-  replyStore.reply = await replyStore.fetchReply(id);
   forumStore.arrayCom = forumStore.commentPost.slice(0, 2)
 })
 onMounted(forumStore.fetchTag)
@@ -30,14 +27,14 @@ onMounted(forumStore.fetchTag)
 <template>
     <v-main>
     <v-container class="mt-5 pa-10">
-      
+      {{ forumStore.thumb }}
       <!-- {{ replyStore.reply }} -->
       voter : {{ userStore.user.mem_id }}
       <br>
-      vote : {{  forumStore.singlePost.post_vote }} <br>
+      vote : {{  forumStore.singlePost?.post_vote }} <br>
     <!-- {{ forumStore.commentPost }} -->
-    gotVoted : {{ forumStore.singlePost.mem_id }}<br>
-    postId : {{ forumStore.singlePost.post_id }}
+    gotVoted : {{ forumStore.singlePost?.mem_id }}<br>
+    postId : {{ forumStore.singlePos?.post_id }}
     <!-- {{   forumStore.editTag }} -->
     {{ forumStore.singlePost }}
     <!-- {{ userStore.singlePost?.mem_pic }} -->
@@ -205,11 +202,11 @@ onMounted(forumStore.fetchTag)
                  <template v-slot:append>
                    <div class="d-flex flex-column align-center">
                      <v-btn  @click="forumStore.postVoteUp(userStore.user.mem_id, forumStore.singlePost.post_id, forumStore.singlePost.mem_id)"
-                     ><v-icon class="me-1"  icon="mdi-thumb-up-outline"></v-icon>
+                     ><v-icon class="me-1"  :icon="forumStore.thumb == 'up' ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"></v-icon>
                     </v-btn>
                     <h3>{{forumStore.singlePost.post_vote}}</h3>
                     <v-btn @click="forumStore.postVoteDown(userStore.user.mem_id, forumStore.singlePost.post_id, forumStore.singlePost.mem_id)"
-                    ><v-icon class="me-2"  icon="mdi-thumb-down-outline"></v-icon>
+                    ><v-icon class="me-2"  :icon="forumStore.thumb == 'down' ? 'mdi-thumb-down' : 'mdi-thumb-down-outline'"></v-icon>
                   </v-btn>
                 </div>
               </template>
@@ -258,7 +255,6 @@ onMounted(forumStore.fetchTag)
           v-for="comment,index in forumStore.arrayCom"
           :comment="comment"
           :index="index"
-          :reply="replyStore.reply"
         
         ></Comment>
         <v-btn v-if="forumStore.computeComm > forumStore.cntLoad" @click="forumStore.loadMoreComment(id)">load more</v-btn>
