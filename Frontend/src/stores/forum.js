@@ -169,8 +169,8 @@ export const useForumStore = defineStore('forum', () => {
         })
         if(commentData.data.status != 'error'){
         // console.log(commentData.data.newComm);
-        commentPost.value.unshift(commentData.data.newComm)
-        arrayCom.value.unshift(commentData.data.newComm)
+        commentPost.value.push(commentData.data.newComm)
+        arrayCom.value.push(commentData.data.newComm)
         cntLoad.value++
         createComment.value.comm_content = "<p></p>"
         }

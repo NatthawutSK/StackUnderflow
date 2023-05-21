@@ -31,7 +31,7 @@ onMounted(forumStore.fetchTag)
     <v-main>
     <v-container class="mt-5 pa-10">
       {{ forumStore.thumb }}
-      <!-- {{ replyStore.reply }} -->
+      
       voter : {{ userStore.user.mem_id }}
       <br>
       vote : {{  forumStore.singlePost?.post_vote }} <br>
@@ -109,7 +109,7 @@ onMounted(forumStore.fetchTag)
                               <v-btn
                                 color="blue-darken-1"
                                 variant="text"
-                                @click="dialog = false,  reportStore.addReport(report, id),report=''"
+                                @click="dialog = false,  reportStore.addReport(report, id,forumStore.singlePost.mem_id),report=''"
                               >
                                 Send
                               </v-btn>
@@ -223,7 +223,6 @@ onMounted(forumStore.fetchTag)
           {{useUserStore.user}}
           <v-card-title>Write Comment </v-card-title>
           <v-card-text class="pb-10">
-          
             <QuillEditor
                         content-type="html"
                         v-model:content="forumStore.createComment.comm_content"
@@ -258,7 +257,7 @@ onMounted(forumStore.fetchTag)
           v-for="comment,index in forumStore.arrayCom"
           :comment="comment"
           :index="index"
-          :reply="replyStore.reply"
+         
         ></Comment>
         <v-btn v-if="forumStore.computeComm > forumStore.cntLoad" @click="forumStore.loadMoreComment(id)">load more</v-btn>
       </div>

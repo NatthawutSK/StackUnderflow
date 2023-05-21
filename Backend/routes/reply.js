@@ -5,10 +5,10 @@ router = express.Router()
 
 
 router.get("/reply", async function (req, res, next) {
-    const {post_id} = req.query
+    const {post_id,comm_id} = req.query
       try {
-          const [rows, fields] = await pool.query('select rc.reply_content, m.mem_user_name, rc.reply_create_at, rc.comm_id, rc.mem_id, m.mem_pic from reply_comment rc join member m on (rc.mem_id = m.mem_id) where post_id = ?',
-          [post_id])
+          const [rows, fields] = await pool.query('select rc.reply_content, m.mem_user_name, rc.reply_create_at, rc.comm_id, rc.mem_id, m.mem_pic from reply_comment rc join member m on (rc.mem_id = m.mem_id) where post_id = ? and comm_id = ?',
+          [post_id,comm_id])
           return res.json(rows)
       } catch (error) {
           next(error)
@@ -28,7 +28,7 @@ async function checkBeforeReply(req, res, next){
        
         if((ownerPost[0].mem_id !== req.user.mem_id && ownerCom[0].mem_id !== req.user.mem_id)){
             return res.json({message:'You Must Be Owner Post or Comment', status:"error"})
-        } else if(reput[0].reputation < 50){
+        } else if(reput[0].reputation < 50 && ownerPost[0].mem_id !== req.user.mem_id && ownerCom[0].mem_id !== req.user.mem_id){
             return res.json({message:'You Must Have More Than 50 Reputation', status:"error"})
         }
 

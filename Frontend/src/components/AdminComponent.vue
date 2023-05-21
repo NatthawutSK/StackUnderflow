@@ -59,8 +59,8 @@ onMounted(reportStore.getReport)
                             <v-card-text class="text-h6" v-html="item.post_desc"></v-card-text>
                             <v-card-title>Report Content: {{item.report_content}}</v-card-title>
                             <div class="d-flex justify-end" >
-                                <v-btn class="ma-3" @click="reportStore.updateStatus('Guilty',item.report_id),item.status = 'Guilty'">Guilty</v-btn>
-                                <v-btn class="ma-3" @click="reportStore.updateStatus('Innocent',item.report_id)">Innocent</v-btn>
+                                <v-btn class="ma-3" @click="reportStore.updateStatus('Guilty',item.report_id,item.mem_id),item.status = 'Guilty'">Guilty</v-btn>
+                                <v-btn class="ma-3" @click="reportStore.updateStatus('Innocent',item.report_id,item.mem_id)">Innocent</v-btn>
                             </div>
                             <div v-if="item.status === 'Guilty'" class="d-flex justify-end">
                                 <v-btn @click="reportStore.deletePost(item.post_id)">Delete this Forum</v-btn>

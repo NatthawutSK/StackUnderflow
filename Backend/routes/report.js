@@ -22,10 +22,10 @@ router.get("/report", async(req,res,next)=>{
     }
 })
 router.post("/report",async(req,res)=>{
-    const {content, postId} = req.body
+    const {content, postId,mem_id} = req.body
     console.log(content, postId);
     try{
-       const [rows,field] = await pool.query('INSERT INTO report(report_content,post_id) VALUES(?,?)',[content,postId])
+       const [rows,field] = await pool.query('INSERT INTO report(report_content,post_id,mem_id) VALUES(?,?,?)',[content,postId,mem_id])
        return res.json({status:"success"})
     }catch(err){
         console.log(err);
@@ -45,7 +45,7 @@ router.put("/report",isLoggedIn,isAdmin,async(req,res)=>{
 })
 router.get('/reportuser',async(req,res)=>{
     try{
-        const [rows,field] = await pool.query(`SELECT mem_id,mem_user_name,mem_email,COUNT(report_id) 'Post_Reported' FROM member JOIN post USING(mem_id) JOIN report USING(post_id) WHERE role != 'admin' GROUP BY mem_id order by 'Post_Reported'`)
+        const [rows,field] = await pool.query(`SELECT mem_id,mem_user_name,mem_email,COUNT(report_id) 'Post_Reported' FROM report JOIN member USING(mem_id)  WHERE role != 'admin' and status != 'Innocent' GROUP BY report.mem_id order by 'Post_Reported'`)
         console.log(rows);
         res.json(rows)
     }catch(e){

@@ -14,9 +14,10 @@ export const useReplyStore = defineStore('reply', () => {
       reply_content: "",
   })
 
+  const replyOne = ref({})
 
   const addReply = async(content, post_id, mem_id, comm_id) => {
-    // console.log(content, post_id, mem_id, comm_id);
+
     const fetchingData = await axios.post('/create/reply', {
       reply_content: content,
       mem_id: mem_id,
@@ -30,17 +31,18 @@ export const useReplyStore = defineStore('reply', () => {
         confirmButtonText: 'Close'
       })
     }
-    reply.value.push(fetchingData.data)
     createReply.value.reply_content = "<p></p>"
     console.log(fetchingData.data);
-    }
+    return  fetchingData.data
+  }
+  
   
 
-
-    const fetchReply = async (post_id) =>{
+    const fetchReply = async (post_id,comm_id) =>{
         const fetchingData = await axios.get('/reply', {
             params: {
               post_id: post_id,
+              comm_id:comm_id 
             }
           })
           console.log(fetchingData.data);
@@ -52,6 +54,6 @@ export const useReplyStore = defineStore('reply', () => {
         fetchReply,
         reply,
         createReply,
-        addReply
+        addReply,
     }
 })

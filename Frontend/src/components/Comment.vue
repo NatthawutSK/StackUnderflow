@@ -17,7 +17,6 @@ const checkedit = ref(false)
 const props = defineProps({
   comment: Object,
   index: Number,
-  reply: Array
 });
 
 const showReply = ref(false)
@@ -87,8 +86,7 @@ const commVoteDown = async (voter_id, comm_id, gotVote_id, index) => {
 </script>
 
 <template>
-  {{ forumStore.thumbComm }} 55555555555
-  <!-- {{ replyStore.reply }} -->
+  {{ comment.comm_id }}
   <!-- {{ forumStore.singlePost }} -->
   <v-card variant="outlined" class="pa-2 my-4">
     <v-card-title primary-title>
@@ -168,10 +166,10 @@ const commVoteDown = async (voter_id, comm_id, gotVote_id, index) => {
     <v-btn
       v-if="userStore.user.mem_id == forumStore.singlePost.mem_id && comment.mem_id != forumStore.singlePost.mem_id && !!!forumStore.commentPost.find((val) => { return val.accept == 1 })"
       @click="forumStore.acceptAnswer(forumStore.singlePost.post_id, comment.mem_id, comment.comm_id)">Accept</v-btn>
-    <v-btn @click="showReply = !showReply">{{ showReply ? "Close Reply" : "Reply" }}</v-btn>
+    <!-- <v-btn @click="showReply = !showReply">{{ showReply ? "Close Reply" : "Reply" }}</v-btn> -->
   </v-card>
 
-  <div v-if="showReply">
+  <!-- <div v-if="showReply">
     <v-card-title>Write Reply </v-card-title>
     <v-card-text class="mr-10 ">
 
@@ -189,12 +187,11 @@ const commVoteDown = async (voter_id, comm_id, gotVote_id, index) => {
       <v-btn
         @click="replyStore.addReply(replyStore.createReply.reply_content, id, userStore.user.mem_id, comment.comm_id)"
         color="warning">reply</v-btn>
-    </div>
-  </div>
+    </div> -->
+  <!-- </div> -->
   <!-- {{ reply }} -->
 
-
-  <Reply :reply="reply" :commId="comment.comm_id" />
+  <Reply :commId="comment.comm_id" />
 </template>
 <style>
 .ql-syntax {
