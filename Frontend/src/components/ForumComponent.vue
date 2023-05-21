@@ -5,8 +5,10 @@ import Comment from "@/components/Comment.vue";
 import { ref, onMounted, } from "vue";
 import { useForumStore } from "@/stores/forum";
 import { useReportStore } from "@/stores/report";
+import { useReplyStore } from "@/stores/reply";
 const forumStore = useForumStore();
 const reportStore = useReportStore();
+const replyStore = useReplyStore();
 const route = useRoute()
 const {id} = route.params
 const dialog = ref(false);
@@ -14,10 +16,10 @@ const isDel = ref(false)
 const report = ref([]);
 const checkedit = ref(false)
 const userStore = useUserStore()
-// onMounted(userStore.authen)
 onMounted(async () => {
   forumStore.singlePost = await forumStore.fetchSinglePost(id)
   forumStore.commentPost = await forumStore.fetchComment(id)
+  replyStore.reply = await replyStore.fetchReply(id);
   forumStore.arrayCom = forumStore.commentPost.slice(0, 2)
 })
 onMounted(forumStore.fetchTag)
@@ -28,7 +30,7 @@ const menu = ref(false)
 <template>
     <v-main>
     <v-container class="mt-5 pa-10">
-      {{ userStore.following }}
+      {{ replyStore.reply }}
       voter : {{ userStore.user.mem_id }}
       <br>
       vote : {{  forumStore.singlePost.post_vote }} <br>
@@ -255,6 +257,7 @@ const menu = ref(false)
           v-for="comment,index in forumStore.arrayCom"
           :comment="comment"
           :index="index"
+          :reply="replyStore.reply"
         
         ></Comment>
         <v-btn v-if="forumStore.computeComm > forumStore.cntLoad" @click="forumStore.loadMoreComment(id)">load more</v-btn>

@@ -2,6 +2,7 @@
 import { useRoute } from "vue-router";
 import { useUserStore } from "../stores/user";
 import { useForumStore } from "../stores/forum";
+import { useReplyStore } from "../stores/reply";
 import { ref, onMounted } from "vue";
 import Reply from "./reply.vue";
 // const { logingUser } = useUserStore();
@@ -9,17 +10,19 @@ const route = useRoute()
 const {id} = route.params
 const forumStore = useForumStore();
 const userStore = useUserStore()
+const replyStore = useReplyStore()
 const checkedit = ref(false)
 defineProps({
   comment: Object,
-  index: Number
+  index: Number,
+  reply:Array
 });
 
 
 </script>
 
 <template>
-  {{ index }}
+  <!-- {{ replyStore.reply }} -->
   <!-- {{ forumStore.singlePost }} -->
   <v-card variant="outlined" class="pa-2 my-4">
     <v-card-title primary-title>
@@ -111,8 +114,9 @@ defineProps({
       >Accept</v-btn>
     </v-card>
 
-    
-    <Reply/>
+
+    <Reply  :reply="reply"
+            :commId="comment.comm_id"/>
 
 
 </template>

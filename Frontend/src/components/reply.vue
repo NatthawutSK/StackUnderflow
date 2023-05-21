@@ -13,14 +13,15 @@ const userStore = useUserStore()
 
 
 defineProps({
-  
+  reply: Array,
+  commId: Number
 });
-
-
 </script>
 
 <template>
-  <h1>test reply</h1>
+  <div v-for="item in reply">
+    <h1 v-if="commId == item.comm_id">test reply : {{ item.reply_content }}  {{ commId }} </h1>
+  </div>
 </template>
 <style>
 

@@ -30,7 +30,7 @@ onMounted(forumStore.fetchPostFollowing)
     <!-- {{ formattedDate }} -->
     <!-- {{ forumStore.post[0].post_created_at }} -->
     <v-container>
-      <v-btn  @click="step=1">All Post</v-btn>      <v-btn @click="step=2">Following</v-btn>
+      <v-btn  @click="step=1">All Post</v-btn>      <v-btn v-if="JSON.stringify(userStore.user) !== '{}'"  @click="step=2">Following</v-btn>
 
       <v-window v-model="step">
         <v-window-item :value="1">

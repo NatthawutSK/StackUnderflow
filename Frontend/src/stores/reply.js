@@ -6,7 +6,7 @@ import Swal from 'sweetalert2'
 import axios from '@/plugins/axios';
 import { useRouter } from "vue-router";
 
-export const useUserStore = defineStore('user', () => {
+export const useReplyStore = defineStore('reply', () => {
 
     const reply = ref([])
 
@@ -15,9 +15,14 @@ export const useUserStore = defineStore('user', () => {
 
 
 
-    const fetchReply = async () =>{
-        const fetchingData = await axios.get('/reply')
-        reply.value = fetchingData
+    const fetchReply = async (post_id) =>{
+        const fetchingData = await axios.get('/reply', {
+            params: {
+              post_id: post_id
+            }
+          })
+          console.log(fetchingData.data);
+        return  fetchingData.data
     }
 
 

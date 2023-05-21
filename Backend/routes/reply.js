@@ -5,10 +5,10 @@ router = express.Router()
 
 
 router.get("/reply", async function (req, res, next) {
-    const {comm_id, post_id} = req.body
+    const {post_id} = req.query
       try {
-          const [rows, fields] = await pool.query('select * from reply_comment where comm_id = ? and post_id = ?',
-          [comm_id, post_id])
+          const [rows, fields] = await pool.query('select * from reply_comment where post_id = ?',
+          [post_id])
           return res.json(rows)
       } catch (error) {
           next(error)
