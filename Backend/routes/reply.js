@@ -46,16 +46,23 @@ async function checkBeforeReply(req, res, next){
 router.post("/create/reply", isLoggedIn, checkBeforeReply, async function (req, res, next) {
     
       const {comm_id, post_id, reply_content, mem_id} = req.body
+      const conn = await pool.getConnection();
+      await conn.beginTransaction();
       console.log(comm_id, post_id, reply_content);
       try {
-          const [rows, fields] = await pool.query('INSERT INTO reply_comment(comm_id, post_id, reply_content, mem_id) VALUES (?,?,?,?)',
+          const [rows, fields] = await conn.query('INSERT INTO reply_comment(comm_id, post_id, reply_content, mem_id) VALUES (?,?,?,?)',
           [comm_id, post_id, reply_content, mem_id])
-          const [data] = await pool.query('select rc.reply_content, m.mem_user_name, rc.reply_create_at, rc.comm_id, rc.mem_id, m.mem_pic from reply_comment rc join member m on (rc.mem_id = m.mem_id) where reply_id = ?',
+          const [data] = await conn.query('select rc.reply_content, m.mem_user_name, rc.reply_create_at, rc.comm_id, rc.mem_id, m.mem_pic from reply_comment rc join member m on (rc.mem_id = m.mem_id) where reply_id = ?',
           [rows.insertId])
         //   console.log(rows.insertId);
-          return res.json(data[0])
-      } catch (error) {
-          next(error)
+          res.json(data[0])
+          conn.commit()
+      } catch (err) {
+        await conn.rollback();
+        next(err)
+      } finally {
+        console.log("finally");
+        conn.release();
       }
 
 

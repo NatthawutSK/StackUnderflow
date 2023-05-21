@@ -23,16 +23,24 @@ export const useReplyStore = defineStore('reply', () => {
       post_id: post_id,
       comm_id: comm_id
     })
+    if(fetchingData.data.status === 'error'){
+      const sweet = await Swal.fire({
+        icon: "error",
+        title: fetchingData.data.message,
+        confirmButtonText: 'Close'
+      })
+    }
     reply.value.push(fetchingData.data)
     createReply.value.reply_content = "<p></p>"
     console.log(fetchingData.data);
-  }
+    }
+  
 
 
     const fetchReply = async (post_id) =>{
         const fetchingData = await axios.get('/reply', {
             params: {
-              post_id: post_id
+              post_id: post_id,
             }
           })
           console.log(fetchingData.data);

@@ -1,12 +1,14 @@
 <script setup>
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/user";
+import { useReplyStore } from "@/stores/reply";
 import Comment from "@/components/Comment.vue";
 import { ref, onMounted, } from "vue";
 import { useForumStore } from "@/stores/forum";
 import { useReportStore } from "@/stores/report";
 const forumStore = useForumStore();
 const reportStore = useReportStore();
+const replyStore = useReplyStore();
 const route = useRoute()
 const {id} = route.params
 const dialog = ref(false);
@@ -18,6 +20,7 @@ onMounted(async () => {
   forumStore.singlePost = await forumStore.fetchSinglePost(id)
   forumStore.commentPost = await forumStore.fetchComment(id)
   forumStore.thumb = await forumStore.checkThumb(id, userStore.user.mem_id)
+  replyStore.reply = await replyStore.fetchReply(id);
   forumStore.arrayCom = forumStore.commentPost.slice(0, 2)
 })
 onMounted(forumStore.fetchTag)
@@ -255,7 +258,7 @@ onMounted(forumStore.fetchTag)
           v-for="comment,index in forumStore.arrayCom"
           :comment="comment"
           :index="index"
-        
+          :reply="replyStore.reply"
         ></Comment>
         <v-btn v-if="forumStore.computeComm > forumStore.cntLoad" @click="forumStore.loadMoreComment(id)">load more</v-btn>
       </div>
