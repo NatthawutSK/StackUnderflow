@@ -205,4 +205,18 @@ router.put('/updateuser',isLoggedIn,async(req,res,next)=>{
   }
 })
 
+router.get('/thumb',isLoggedIn,async(req,res,next)=>{
+  const {post_id, mem_id} = req.body
+  try{
+    const [vote] = await pool.query('select vote_status from vote_post where post_id = ? and mem_id = ? ',[post_id, mem_id])
+     return res.json(vote[0])
+  }catch(error){
+    next(error)
+  }
+})
+
+
+
+
+
 exports.router = router;

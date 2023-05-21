@@ -1,7 +1,7 @@
 const express = require('express');
 const pool = require('../config.js')
 const { isLoggedIn } = require('../middleware/index.js')
-
+const Joi = require('joi')
 router = express.Router();
 
 const commentOwner = async (req, res, next) => {
@@ -18,9 +18,16 @@ const commentOwner = async (req, res, next) => {
   } else {
     next()
   }
-
-
 }
+
+const commentSchema = Joi.object({
+  comm_content:Joi.string().required().min(20).messages({
+    'string.base': `Comment should be a type of 'text'`,
+    'string.empty': `Comment cannot be an empty field`,
+    'string.min': `Comment should have a minimum length of {#limit}`,
+    'any.required': `Comment is a required field`
+  })
+})
 
 router.get("/comment/:postId", async function (req, res, next) {
     // Your code here
@@ -39,7 +46,12 @@ router.get("/comment/:postId", async function (req, res, next) {
 
 router.post("/comment/create", isLoggedIn, async function (req, res, next) {
   // Your code here
-
+  try {
+    await commentSchema.validateAsync({comm_content:req.body.comm_content},  { abortEarly: false })
+  } catch (err) {
+    console.log(err);
+    return res.json({status:"error",message:err.message})
+  }
   const { comm_content, post_id, mem_id } = req.body
   console.log(comm_content, post_id, mem_id);
   try {
@@ -54,7 +66,9 @@ router.post("/comment/create", isLoggedIn, async function (req, res, next) {
 
     return res.json({
       newComm:rows1[0],
-      cnt:cnt
+      cnt:cnt,
+      status:"success",
+      message:"success"
     })
   } catch (error) {
     console.log(error);

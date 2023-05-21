@@ -162,12 +162,18 @@ export const useForumStore = defineStore('forum', () => {
             post_id: post_id,
             mem_id: mem_id
         })
-
+        const sweet = await Swal.fire({
+            icon: commentData.data.status,
+            title: commentData.data.message,
+            confirmButtonText: 'Close'
+        })
+        if(commentData.data.status != 'error'){
         // console.log(commentData.data.newComm);
         commentPost.value.unshift(commentData.data.newComm)
         arrayCom.value.unshift(commentData.data.newComm)
         cntLoad.value++
         createComment.value.comm_content = "<p></p>"
+        }
     }
     const delComment = async (comm_id, post_id) => {
         const fetchData = await axios.delete(`/comment/delete/${comm_id}`)
@@ -365,6 +371,15 @@ export const useForumStore = defineStore('forum', () => {
 
     }
 
+    const thumb = ref("")
+    const checkThumb = async (post_id, mem_id) =>{
+        const fetchData = await axios.get('/thumb',{
+            post_id: post_id,
+            mem_id: mem_id
+        })
+        console.log(fetchData.data);
+    }
+    
 
 
     return {
@@ -411,6 +426,8 @@ export const useForumStore = defineStore('forum', () => {
         commentSize,
         cntLoad,
         arrayCom,
-        computeComm
+        computeComm,
+        thumb,
+        checkThumb
     }
 })

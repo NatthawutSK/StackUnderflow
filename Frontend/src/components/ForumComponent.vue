@@ -19,18 +19,19 @@ const userStore = useUserStore()
 onMounted(async () => {
   forumStore.singlePost = await forumStore.fetchSinglePost(id)
   forumStore.commentPost = await forumStore.fetchComment(id)
+  forumStore.thumb = await forumStore.checkThumb(id, userStore.user.mem_id)
   replyStore.reply = await replyStore.fetchReply(id);
   forumStore.arrayCom = forumStore.commentPost.slice(0, 2)
 })
 onMounted(forumStore.fetchTag)
 
-const menu = ref(false)
 </script>
 
 <template>
     <v-main>
     <v-container class="mt-5 pa-10">
-      {{ replyStore.reply }}
+      
+      <!-- {{ replyStore.reply }} -->
       voter : {{ userStore.user.mem_id }}
       <br>
       vote : {{  forumStore.singlePost.post_vote }} <br>
@@ -202,13 +203,13 @@ const menu = ref(false)
                  
                  
                  <template v-slot:append>
-                   <div class="justify-self-end">
+                   <div class="d-flex flex-column align-center">
                      <v-btn  @click="forumStore.postVoteUp(userStore.user.mem_id, forumStore.singlePost.post_id, forumStore.singlePost.mem_id)"
-                     ><v-icon class="me-1" icon="mdi-arrow-up-drop-circle"></v-icon>
+                     ><v-icon class="me-1"  icon="mdi-thumb-up-outline"></v-icon>
                     </v-btn>
                     <h3>{{forumStore.singlePost.post_vote}}</h3>
                     <v-btn @click="forumStore.postVoteDown(userStore.user.mem_id, forumStore.singlePost.post_id, forumStore.singlePost.mem_id)"
-                    ><v-icon class="me-1" icon="mdi-arrow-down-drop-circle"></v-icon>
+                    ><v-icon class="me-2"  icon="mdi-thumb-down-outline"></v-icon>
                   </v-btn>
                 </div>
               </template>

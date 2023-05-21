@@ -35,7 +35,7 @@ const router = createRouter({
     {
       path: '/admin',
       name: 'admin',
-      meta: { admin: true },
+      meta: { admin: true },// just for check user มาจากไหน รับมาอะ ใน front อะอเค
       component: () => import('../views/AdminView.vue')
     },
     //only for test delete later

@@ -18,6 +18,7 @@ defineProps({
   reply:Array
 });
 
+const showReply = ref(false)
 
 </script>
 
@@ -96,13 +97,13 @@ defineProps({
         }}</v-list-item-title>
         </router-link>
         <template v-slot:append>
-          <div class="justify-self-end">
+          <div class="d-flex flex-column align-center">
                   <v-btn  @click="forumStore.commVoteUp(userStore.user.mem_id, comment.comm_id, forumStore.singlePost.mem_id, index)"
-                    ><v-icon class="me-1" icon="mdi-arrow-up-drop-circle"></v-icon>
-                  </v-btn>
+                    ><v-icon class="me-1"  icon="mdi-thumb-up-outline"></v-icon>
+                    </v-btn>
                   <h3>{{comment.comm_vote}}</h3>
                   <v-btn @click="forumStore.commVoteDown(userStore.user.mem_id, comment.comm_id, forumStore.singlePost.mem_id, index)"
-                    ><v-icon class="me-1" icon="mdi-arrow-down-drop-circle"></v-icon>
+                    ><v-icon class="me-2"  icon="mdi-thumb-down-outline"></v-icon>
                   </v-btn>
                 </div>
               </template>
@@ -112,7 +113,33 @@ defineProps({
     <v-btn v-if="userStore.user.mem_id == forumStore.singlePost.mem_id && comment.mem_id != forumStore.singlePost.mem_id && !!!forumStore.commentPost.find((val)=>{return val.accept==1})"
       @click="forumStore.acceptAnswer(forumStore.singlePost.post_id, comment.mem_id,comment.comm_id)"
       >Accept</v-btn>
+      <v-btn @click="showReply = !showReply">{{showReply ? "Close Reply" : "Reply"}}</v-btn>
     </v-card>
+
+          <div v-if="showReply">
+          <v-card-title>Write Reply </v-card-title>
+          <v-card-text class="mr-10 ">
+          
+            <QuillEditor
+                        content-type="html"
+                        v-model:content="replyStore.createReply.reply_content"
+                        :toolbar="[
+                          { header: [1, 2, false] },
+                            'bold',
+                            'italic',
+                            'underline',
+                            'code-block',
+                            { color: [] },
+                            { background: [] },
+                        ]"
+                        theme="snow"
+                    />
+          </v-card-text>
+          <div class="d-flex justify-end">
+            <v-btn  @click="replyStore.addReply(replyStore.createReply.reply_content, id, userStore.user.mem_id, comment.comm_id)" color="warning">reply</v-btn>
+          </div>
+        </div>
+        <!-- {{ reply }} -->
 
 
     <Reply  :reply="reply"
