@@ -30,17 +30,7 @@ onMounted(forumStore.fetchTag)
 <template>
     <v-main>
     <v-container class="mt-5 pa-10">
-      {{ forumStore.thumb }}
       
-      voter : {{ userStore.user.mem_id }}
-      <br>
-      vote : {{  forumStore.singlePost?.post_vote }} <br>
-    <!-- {{ forumStore.commentPost }} -->
-    gotVoted : {{ forumStore.singlePost?.mem_id }}<br>
-    postId : {{ forumStore.singlePos?.post_id }}
-    <!-- {{   forumStore.editTag }} -->
-    {{ forumStore.singlePost }}
-    <!-- {{ userStore.singlePost?.mem_pic }} -->
     <div>
       <v-card variant="outlined">
         <v-card-title >
@@ -164,7 +154,6 @@ onMounted(forumStore.fetchTag)
             v-model="forumStore.singlePost.tag_id"
             :value="forumStore.singlePost.tag_name"
           ></v-select>
-          {{ forumStore.singlePost }}
                 </v-col>
               </v-row>
               <v-row class="text-end">
@@ -243,7 +232,7 @@ onMounted(forumStore.fetchTag)
           </div>
         </v-card>
       </div>
-      {{ forumStore.createComment.comm_content }}
+      
       <div class="mt-5">
         
         <h1>
@@ -251,8 +240,6 @@ onMounted(forumStore.fetchTag)
             forumStore.computeComm
           }})
         </h1>
-        {{ forumStore.cntLoad }}
-        {{ forumStore.computeComm }}
         <Comment
           v-for="comment,index in forumStore.arrayCom"
           :comment="comment"

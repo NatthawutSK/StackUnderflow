@@ -123,20 +123,7 @@ router.put("/comm/vote/up", isLoggedIn, checkRepVoteUp, async function (req, res
       const rep = rows0[0].reputation + 10
       const [rows4, fields4] = await pool.query('update member set reputation = ? where mem_id = ?', [rep, gotVote_id])
       return res.json({ status: "success", vote:commVote[0].comm_vote })
-    // const [rows, fields] = await pool.query('SELECT * FROM vote_comment where mem_id = ? and comm_id = ?', [voter_id, comm_id])
-    // if (rows.length == 0) {
-    //   const [rows1, fields1] = await pool.query('insert into vote_comment(mem_id, comm_id) values(?,?)', [voter_id, comm_id])
-    //   const [rows3, fields3] = await pool.query('select comm_vote from comment where comm_id = ?', [comm_id])
-    //   let cnt = rows3[0].comm_vote += 1
-    //   const [rows2, fields2] = await pool.query('update comment set comm_vote = ? where comm_id = ?', [cnt, comm_id])
-
-    //   const [rows0, fields0] = await pool.query('SELECT reputation FROM member where mem_id = ? ', [gotVote_id])
-    //   const rep = rows0[0].reputation + 10
-    //   const [rows4, fields4] = await pool.query('update member set reputation = ? where mem_id = ?', [rep, gotVote_id])
-    //   return res.json({ status: "success", vote:rows3[0].comm_vote })
-    // } else {
-    //   return res.json({ status: "error" })
-    // }
+   
 
   } catch (error) {
     console.log(error);

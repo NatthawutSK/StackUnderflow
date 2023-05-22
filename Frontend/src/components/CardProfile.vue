@@ -82,9 +82,7 @@ const vp$ = useVuelidate(rulePass, password);
 <template>
   <v-container>
     <v-main>
-      user: {{ userStore.user }}<br />
-      other : {{ userStore.profiledata.user }}
-      {{ userStore.user.mem_pic == null }}
+      
       <v-row>
         <v-col >
           <v-card class="mx-auto mb-6 d-flex pa-5" rounded="0">

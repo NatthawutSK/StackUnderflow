@@ -50,7 +50,7 @@ const forumSchema = Joi.object({
 
 router = express.Router();
 // router.use(isLoggedIn)
-router.post("/post/create", async function (req, res, next) {
+router.post("/post/create", isLoggedIn, async function (req, res, next) {
   try {
     await forumSchema.validateAsync(req.body,  { abortEarly: false })
   } catch (err) {

@@ -46,7 +46,6 @@ const v$ = useVuelidate(rule,forum)
     <v-main>
         <v-form>
             <v-card>
-                {{ userStore.user }}
                 <v-card-title class="text-h4 ma-3 mb-5 px-5">
                     Create Forum
                 </v-card-title>
@@ -106,13 +105,7 @@ const v$ = useVuelidate(rule,forum)
                         aria-required="true"
                     ></v-select>
                 </v-card-item>
-                <!-- {{ forumStore.allTag }} -->
-                {{v$.$invalid}}
-                {{ forum.post_title }}<br />
-                {{ forum.post_desc }}<br />
-                {{ forum.mem_id }}<br />
-                {{ forum.tag_id }}
-                <div></div>
+                
                 <!-- :href="v$.$invalid? '#':'/'" -->
                 <div class="d-flex justify-center">
                     <v-btn

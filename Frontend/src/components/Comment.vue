@@ -86,8 +86,7 @@ const commVoteDown = async (voter_id, comm_id, gotVote_id, index) => {
 </script>
 
 <template>
-  {{ comment.comm_id }}
-  <!-- {{ forumStore.singlePost }} -->
+  
   <v-card variant="outlined" class="pa-2 my-4">
     <v-card-title primary-title>
       <div>
