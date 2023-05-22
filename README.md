@@ -1,5 +1,8 @@
-## StackUnderflow
+### StackUnderflow
+
 ## how to run
-* npm i in frontend and backend
+
+* import SQL File 
+* npm i
 * npm run dev
-* import SQL File in DBMS
+
