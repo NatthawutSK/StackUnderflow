@@ -1,22 +1,19 @@
-guess
-can do
+## guess
+# can do
 - read home view
 - read forum view
-
-cant do
+# cant do
 create post
 create comment
 can see profile view
 
-
-member 
-can
+## member 
+# can
 create post
 create comment
 can have profile
-cant 
+# cant 
 about ADMIN
 
-admin
-can do anything 
-same like ajarn but use middleware verify
+## admin
+can do everything
